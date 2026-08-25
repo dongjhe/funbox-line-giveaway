@@ -97,6 +97,11 @@ export class AppComponent {
     this.selectedProducts = new Set<string>();
   }
 
+  clearClickedGiveaways(): void {
+    localStorage.removeItem(this.clickedStorageKey);
+    this.clickedGiveaways = new Set<string>();
+  }
+
   filteredItems(giveaway: {
     items: { name: string; url: string }[];
   }): { name: string; url: string }[] {

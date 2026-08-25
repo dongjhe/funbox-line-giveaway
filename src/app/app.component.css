@@ -6,8 +6,27 @@
   padding: 29px 20px 72px;
 }
 .hero {
+  position: relative;
   text-align: center;
   color: #1f4f80;
+}
+.clear-clicked {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 9px 13px;
+  border: 1px solid #d7b7ad;
+  border-radius: 8px;
+  background: #fff;
+  color: #a0432e;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+}
+.clear-clicked:hover {
+  background: #a0432e;
+  color: #fff;
 }
 .brand-button {
   border: 0;
@@ -253,6 +272,12 @@
 @media (max-width: 640px) {
   .page-shell {
     padding: 22px 12px 48px;
+  }
+  .clear-clicked {
+    top: -2px;
+    right: 0;
+    padding: 7px 9px;
+    font-size: 12px;
   }
   .hero h1 {
     font-size: 30px;
