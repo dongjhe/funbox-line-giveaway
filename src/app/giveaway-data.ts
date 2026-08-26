@@ -14,7 +14,7 @@ export interface Region {
   name: string;
 }
 
-export const REGIONS: Region[] = [{ name: '全部' }, { name: '新北市' }];
+export const REGIONS: Region[] = [{ name: '全部' }, { name: '新北市' }, { name: '台中市' }];
 
 export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   新北市: [
@@ -35,6 +35,20 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BX-00 暴風天馬3-70RA', url: 'https://lin.ee/OwuyNOA' },
         { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/ya9DXYg' },
         { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/TYzKKyV' },
+      ],
+    },
+  ],
+  台中市: [
+    {
+      store: 'Funbox 台中港三井店',
+      startTime: '2026年08月28日（五）11:00 ~ 08月29日（六）20:30',
+      items: [
+        { name: 'BX-25 戰鬥陀螺X專業收納包', url: 'https://lin.ee/n3TPmTn' },
+        { name: 'BX-51 旋風發射器 黑綠', url: 'https://lin.ee/UICzg33' },
+        { name: 'BX-57 3V3對戰收納盒 黑', url: 'https://lin.ee/S1dOPWk' },
+        { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/QjhI9MP' },
+        { name: 'UX-19 子彈獅鷲H', url: 'https://lin.ee/OtVbNFm' },
+        { name: 'UX-11 衝擊龍神 豪華組', url: 'https://lin.ee/pmfKR4L' },
       ],
     },
   ],
