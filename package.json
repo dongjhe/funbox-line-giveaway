@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "ng": "ng",
+    "ng": "ng serve",
     "start": "ng serve",
     "build": "ng build",
     "build:pages": "ng build --base-href /funbox-line-giveaway/",
+    "test:linevoom": "node scripts/test-linevoom.js",
     "format": "prettier --write \"src/**/*.{ts,html,css}\" \"*.{json,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,css}\" \"*.{json,md}\"",
     "prepare": "husky"
@@ -29,6 +30,7 @@
     "@angular/cli": "^18.2.0",
     "@angular/compiler-cli": "^18.2.0",
     "husky": "^9.1.7",
+    "playwright": "^1.55.0",
     "prettier": "^3.9.6",
     "typescript": "~5.5.2"
   }
