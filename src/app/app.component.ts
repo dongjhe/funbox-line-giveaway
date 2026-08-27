@@ -63,13 +63,13 @@ export class AppComponent {
 
   get visibleGiveawayCount(): number {
     return this.visibleRegions
-      .flatMap((region) => this.giveaways[region])
+      .flatMap((region) => this.giveaways[region] ?? [])
       .reduce((total, giveaway) => total + this.filteredItems(giveaway).length, 0);
   }
 
   get selectedGiveaways(): SelectedGiveaway[] {
     return this.visibleRegions.flatMap((region) =>
-      this.giveaways[region].flatMap((giveaway) =>
+      (this.giveaways[region] ?? []).flatMap((giveaway) =>
         this.filteredItems(giveaway).map((item) => ({ region, store: giveaway.store, item })),
       ),
     );
@@ -111,7 +111,11 @@ export class AppComponent {
   }
 
   hasVisibleGiveaways(region: string): boolean {
-    return this.giveaways[region].some((giveaway) => this.filteredItems(giveaway).length > 0);
+    const stores = this.giveaways[region] ?? [];
+    if (this.selectedProducts.size === 0) {
+      return stores.length > 0;
+    }
+    return stores.some((giveaway) => this.filteredItems(giveaway).length > 0);
   }
 
   isGiveawayClicked(url: string): boolean {
