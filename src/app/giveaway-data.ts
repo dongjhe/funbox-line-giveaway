@@ -14,7 +14,16 @@ export interface Region {
   name: string;
 }
 
-export const REGIONS: Region[] = [{ name: '全部' }, { name: '台北市' }, { name: '新北市' }, { name: '桃園市' }, { name: '新竹市' }, { name: '台中市' }, { name: '嘉義市' }, { name: '高雄市' }];
+export const REGIONS: Region[] = [
+  { name: '全部' },
+  { name: '台北市' },
+  { name: '新北市' },
+  { name: '桃園市' },
+  { name: '新竹市' },
+  { name: '台中市' },
+  { name: '嘉義市' },
+  { name: '高雄市' },
+];
 
 export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   台北市: [
@@ -85,6 +94,29 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BX-18 發射器', url: 'https://lin.ee/WeVBkyE' },
       ],
     },
+    {
+      store: 'Funbox天母三越店',
+      storeUrl: 'https://linevoom.line.me/user/_dXYFKzVX-ldfgeUOor_McfFTE_yJP7d54nPjxpQ',
+      items: [
+        { name: 'UX-20 榮耀女武神', url: 'https://lin.ee/wBvFN2J' },
+        { name: 'BX-32 寬型極限衝擊戰鬥盤', url: 'https://lin.ee/VwXtHSw' },
+        { name: 'BX-00 暴風天馬', url: 'https://lin.ee/qt4wA06' },
+        { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/7pFR6OL' },
+        { name: 'BX-40 發射器', url: 'https://lin.ee/nlNO7zU' },
+        { name: 'BX-51旋風發射器 黑綠', url: 'https://lin.ee/PIePz1a' },
+        { name: 'BX-50 天堂日輪隨機強化組', url: 'https://lin.ee/uaBy3wh' },
+        { name: 'CX-18 腕龍鞭打隨機強化組', url: 'https://lin.ee/OnkeSxw' },
+        { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/yAnYvar' },
+        { name: 'BX-35 隨機強化組 Vol.', url: 'https://lin.ee/sjANMnS' },
+        { name: 'BX-33 皓戰猛虎', url: 'https://lin.ee/yDuMJqF' },
+        { name: 'BX-26 獨角刺心', url: 'https://lin.ee/O6A5Qu4' },
+        { name: 'BX-18 X旋風發射器', url: 'https://lin.ee/x9ejtfu' },
+        { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/uiraH5M' },
+        { name: 'BX-57 3on3 戰術陀螺收納盒', url: 'https://lin.ee/7wo6hoR' },
+        { name: 'BX-25 戰鬥陀螺專業收納包', url: 'https://lin.ee/t5DzC6W' },
+        { name: 'BX-10極限衝擊戰鬥盤', url: 'https://lin.ee/tn0jSx7' },
+      ],
+    },
   ],
   新北市: [
     {
@@ -111,14 +143,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       storeUrl: 'https://linevoom.line.me/user/_dWQGqQnQTk4Tc7wJjzrBXKS145vBC93TlHkNG5E',
       startTime: '2026年08月28日（五）11:00',
       items: [
-        { name: 'BX-57 3V3 對戰收納盒 黑色版（不含陀螺）', url: 'https://lin.ee/NZhMQ4x' },
+        { name: 'BX-57 3V3 對戰收納盒 黑色版 （不含陀螺）', url: 'https://lin.ee/NZhMQ4x' },
         { name: 'BX-25 專業收納包（不含陀螺）', url: 'https://lin.ee/UMZIIXH' },
         { name: 'BX-10 極限衝擊戰鬥盤', url: 'https://lin.ee/r5My0c3' },
-        { name: 'BX-45 武士魂斬 6-70M', url: 'https://lin.ee/sOWP5E27' },
+        { name: 'BX-45武士魂斬 6-70M', url: 'https://lin.ee/sOWP5E27' },
         { name: 'BX-51 蒼旋風發射器/黑綠', url: 'https://lin.ee/PBP4vgc' },
-        { name: 'BXG系列 孩之寶聯名款', url: 'https://lin.ee/xAK6Al9' },
         { name: 'BX-40 發射器 左迴旋 酒紅', url: 'https://lin.ee/T003MNz' },
-        { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/oL6Aqh7' },
+        { name: 'BXG-01烈焰飛鳳S', url: 'https://lin.ee/oL6Aqh7' },
         { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/nIkFU1w' },
       ],
     },
@@ -151,15 +182,14 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       storeUrl: 'https://linevoom.line.me/user/_dSg6slLn5Zg47l9CPlGC-LezlX4EP3fmltKvQRs',
       startTime: '2026年08月28日（五）11:00 ~ 08月29日（六）21:00',
       items: [
-        { name: 'BX-18 X旋風發射器', url: 'https://lin.ee/o1RgS8q' },
+        { name: 'BX-18 X旋風發射器.', url: 'https://lin.ee/o1RgS8q' },
         { name: 'BX-33 皓戰猛虎', url: 'https://lin.ee/tnp36hW' },
         { name: 'BX-00 暴風天馬', url: 'https://lin.ee/nGikFntS' },
-        { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/ufiWrfX' },
-        { name: 'UX-11 衝擊龍神 9-60LR 豪華組', url: 'https://lin.ee/TEak2ba' },
-        { name: 'BX-45 武士魂斬', url: 'https://lin.ee/tkvs2R4' },
+        { name: 'UX-02惡魔戰錘', url: 'https://lin.ee/ufiWrfX' },
+        { name: 'UX-11衝擊龍神 9-60LR 豪華組', url: 'https://lin.ee/TEak2ba' },
+        { name: 'BX-45武士魂斬', url: 'https://lin.ee/tkvs2R4' },
         { name: 'BX-25 專業收納包', url: 'https://lin.ee/o2UyqHH' },
         { name: 'BX-10 極限衝擊戰鬥盤', url: 'https://lin.ee/96NCPQM' },
-        { name: 'BX-57 3V3對戰收納盒黑', url: 'https://lin.ee/UzR2ljE' },
       ],
     },
     {
@@ -198,6 +228,42 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-19 子彈獅鷲H', url: 'https://lin.ee/RxZbvrr' },
       ],
     },
+    {
+      store: 'Funbox 新竹巨城店',
+      storeUrl: 'https://linevoom.line.me/user/_dSYAGjN3DhBtiB8tU2pa3kl5yoRdBG7ucZNUZvo',
+      items: [
+        { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/WMJ8Xbn' },
+        { name: 'UX-19 子彈獅鷲', url: 'https://lin.ee/V7GfArn' },
+        { name: 'UX-20 榮耀戰神', url: 'https://lin.ee/oHI0F8Sp' },
+        { name: 'UX-11 衝擊龍神豪華組', url: 'https://lin.ee/OADNMIt' },
+        { name: 'UX-03 魔導神杖', url: 'https://lin.ee/6PPtMOz' },
+        { name: 'BX-26 獨角刺心', url: 'https://lin.ee/REHysxlR' },
+        { name: 'BX-33 皓戰猛虎', url: 'https://lin.ee/6e9eDsU' },
+        { name: 'BXG-01 烈焰飛鳳', url: 'https://lin.ee/8wrW5VM' },
+        { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/xNCvOS0' },
+        { name: 'BX-00 暴風天馬', url: 'https://lin.ee/9REMjbn' },
+        { name: 'BX-40 左迴旋 發射器(酒紅)', url: 'https://lin.ee/uGIkvky' },
+        { name: 'BX-51 旋風發射器 黑綠', url: 'https://lin.ee/wCtgN3i' },
+        { name: 'BX-18 X旋風發射器', url: 'https://lin.ee/9ycCvqx' },
+        { name: 'BX-35 隨機強化組 第四彈 $295 限購*', url: 'https://lin.ee/ZJ0rDgY' },
+        { name: 'BX-50 隨機強化包 第十一彈 $350 限購*', url: 'https://lin.ee/9b7AxWe' },
+        { name: 'CX-18 隨機強化包 腕龍鞭打 $350 限購*', url: 'https://lin.ee/zTGAh6A' },
+      ],
+    },
+    {
+      store: 'Funbox-新竹遠東店',
+      storeUrl: 'https://linevoom.line.me/user/_dYjgWm0vwMyoPEcmLUOBhOQ55A0WaB7EuLfW5Mw',
+      items: [
+        { name: 'BX-10 極限衝擊戰鬥盤-', url: 'https://lin.ee/XgQ7Frk' },
+        { name: 'BX-25 戰鬥陀螺X專業收納包-', url: 'https://lin.ee/VHCI3nV' },
+        { name: 'BX-57 3V3對戰收納盒 黑-', url: 'https://lin.ee/RusLNjiQ' },
+        { name: 'BX-51 旋風發射器 黑綠-', url: 'https://lin.ee/vXHogcq' },
+        { name: 'CX-18 腕龍鞭打 隨機強化組-', url: 'https://lin.ee/Wy5ANhK' },
+        { name: 'UX-19 子彈獅鷲H-', url: 'https://lin.ee/PDuEWPU' },
+        { name: 'UX-02 惡魔戰錘-', url: 'https://lin.ee/z8SP0Fc' },
+        { name: 'BX-40 發射器(酒紅)-', url: 'https://lin.ee/oFWfevv' },
+      ],
+    },
   ],
   台中市: [
     {
@@ -211,6 +277,8 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/QjhI9MP' },
         { name: 'UX-19 子彈獅鷲H', url: 'https://lin.ee/OtVbNFm' },
         { name: 'UX-11 衝擊龍神 豪華組', url: 'https://lin.ee/pmfKR4L' },
+        { name: 'BX-10 極限衝擊戰鬥盤', url: 'https://lin.ee/zGvMqnX' },
+        { name: 'BX-40 發射器(酒紅)', url: 'https://lin.ee/8V9g0ju' },
       ],
     },
   ],

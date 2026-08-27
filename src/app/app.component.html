@@ -103,15 +103,11 @@
                 抽獎
               </a>
             </div>
-            <p class="empty-state" *ngIf="giveaway.items.length === 0">
-              抽獎商品連結尚未公布
-            </p>
+            <p class="empty-state" *ngIf="giveaway.items.length === 0">抽獎商品連結尚未公布</p>
           </article>
         </ng-container>
       </ng-container>
-      <p class="empty-state" *ngIf="visibleRegions.length === 0">
-        目前沒有店家資料。
-      </p>
+      <p class="empty-state" *ngIf="visibleRegions.length === 0">目前沒有店家資料。</p>
     </ng-template>
   </section>
 </main>
