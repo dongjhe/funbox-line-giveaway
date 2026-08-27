@@ -52,15 +52,28 @@ export class AppComponent {
   }
 
   get productOptions(): string[] {
-    return [
-      ...new Set(
-        Object.values(this.giveaways)
-          .flatMap((storeGiveaways) => storeGiveaways)
-          .flatMap((storeGiveaway) => storeGiveaway.items.map((item) => this.productCode(item.name))),
-      ),
-    ]
-      .filter(Boolean)
-      .sort((a, b) => a.localeCompare(b, 'en', { numeric: true, sensitivity: 'base' }));
+    const products = new Map<string, string>();
+
+    Object.values(this.giveaways)
+      .flatMap((storeGiveaways) => storeGiveaways)
+      .flatMap((storeGiveaway) => storeGiveaway.items)
+      .forEach((item) => {
+        const code = this.productCode(item.name);
+        if (!products.has(code)) {
+          products.set(code, item.name);
+        }
+      });
+
+    return [...products.entries()]
+      .sort(([codeA], [codeB]) =>
+        codeA.localeCompare(codeB, 'en', { numeric: true, sensitivity: 'base' }),
+      )
+      .map(([code, name]) => {
+        const normalizedName = name.trim();
+        return normalizedName.toUpperCase().startsWith(code.toUpperCase())
+          ? normalizedName
+          : `${code} ${normalizedName}`;
+      });
   }
 
   get visibleGiveawayCount(): number {
@@ -86,13 +99,18 @@ export class AppComponent {
   }
 
   toggleProduct(product: string, checked: boolean): void {
+    const code = this.productCode(product);
     const products = new Set(this.selectedProducts);
     if (checked) {
-      products.add(product);
+      products.add(code);
     } else {
-      products.delete(product);
+      products.delete(code);
     }
     this.selectedProducts = products;
+  }
+
+  isProductSelected(product: string): boolean {
+    return this.selectedProducts.has(this.productCode(product));
   }
 
   clearSelectedProducts(): void {
