@@ -65,10 +65,22 @@ function syncNewStore(source, master, latestItems) {
   const regionHeader = `  ${master.region}: [`;
   const start = source.indexOf(regionHeader);
   if (start < 0) throw new Error(`giveaway-data.ts 尚未建立地區：${master.region}`);
-  const nextRegion = source.indexOf('\n  ', start + regionHeader.length);
-  const regionEnd = nextRegion >= 0 ? nextRegion : source.lastIndexOf('\n};');
-  const close = source.lastIndexOf('  ],', regionEnd);
-  if (close < start) throw new Error(`找不到地區結尾：${master.region}`);
+
+  // 只把真正的下一個「地區標題」視為邊界，避免 store/items 內的兩格縮排被誤判。
+  const afterHeader = start + regionHeader.length;
+  const rest = source.slice(afterHeader);
+  const nextRegionMatch = rest.match(/^  [^\s][^:\n]*: \[$/m);
+  const regionEnd = nextRegionMatch
+    ? afterHeader + nextRegionMatch.index
+    : source.lastIndexOf('\n};');
+
+  if (regionEnd < afterHeader) throw new Error(`找不到地區範圍：${master.region}`);
+
+  const regionBlock = source.slice(start, regionEnd);
+  const closeOffset = regionBlock.lastIndexOf('\n  ],');
+  if (closeOffset < 0) throw new Error(`找不到地區結尾：${master.region}`);
+  const close = start + closeOffset + 1;
+
   const block = `    {\n      store: '${escapeTs(master.name)}',\n      storeUrl: '${escapeTs(master.url)}',\n      items: [\n${formatItems(latestItems)}\n      ],\n    },\n`;
   return source.slice(0, close) + block + source.slice(close);
 }
