@@ -20,12 +20,12 @@ export const REGIONS: Region[] = [
   { name: '新北市' },
   { name: '桃園市' },
   { name: '新竹市' },
+  { name: '新竹縣' },
+  { name: '宜蘭縣' },
   { name: '台中市' },
   { name: '嘉義市' },
-  { name: '高雄市' },
-  { name: '宜蘭縣' },
-  { name: '新竹縣' },
   { name: '台南市' },
+  { name: '高雄市' },
 ];
 
 export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
@@ -334,24 +334,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox 新竹巨城店',
       storeUrl: 'https://linevoom.line.me/user/_dSYAGjN3DhBtiB8tU2pa3kl5yoRdBG7ucZNUZvo',
-      items: [
-        { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/WMJ8Xbn' },
-        { name: 'UX-19 子彈獅鷲', url: 'https://lin.ee/V7GfArn' },
-        { name: 'UX-20 榮耀戰神', url: 'https://lin.ee/oHI0F8Sp' },
-        { name: 'UX-11 衝擊龍神豪華組', url: 'https://lin.ee/OADNMIt' },
-        { name: 'UX-03 魔導神杖', url: 'https://lin.ee/6PPtMOz' },
-        { name: 'BX-26 獨角刺心', url: 'https://lin.ee/REHysxlR' },
-        { name: 'BX-33 皓戰猛虎', url: 'https://lin.ee/6e9eDsU' },
-        { name: 'BXG-01 烈焰飛鳳', url: 'https://lin.ee/8wrW5VM' },
-        { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/xNCvOS0' },
-        { name: 'BX-00 暴風天馬', url: 'https://lin.ee/9REMjbn' },
-        { name: 'BX-40 左迴旋 發射器(酒紅)', url: 'https://lin.ee/uGIkvky' },
-        { name: 'BX-51 旋風發射器 黑綠', url: 'https://lin.ee/wCtgN3i' },
-        { name: 'BX-18 X旋風發射器', url: 'https://lin.ee/9ycCvqx' },
-        { name: 'BX-35 隨機強化組 第四彈 $295 限購*', url: 'https://lin.ee/ZJ0rDgY' },
-        { name: 'BX-50 隨機強化包 第十一彈 $350 限購*', url: 'https://lin.ee/9b7AxWe' },
-        { name: 'CX-18 隨機強化包 腕龍鞭打 $350 限購*', url: 'https://lin.ee/zTGAh6A' },
-      ],
+      items: [],
     },
     {
       store: 'Funbox-新竹遠東店',
