@@ -56,9 +56,11 @@ export class AppComponent {
       ...new Set(
         Object.values(this.giveaways)
           .flatMap((storeGiveaways) => storeGiveaways)
-          .flatMap((storeGiveaway) => storeGiveaway.items.map((item) => item.name)),
+          .flatMap((storeGiveaway) => storeGiveaway.items.map((item) => this.productCode(item.name))),
       ),
-    ].sort((a, b) => a.localeCompare(b, 'en', { numeric: true, sensitivity: 'base' }));
+    ]
+      .filter(Boolean)
+      .sort((a, b) => a.localeCompare(b, 'en', { numeric: true, sensitivity: 'base' }));
   }
 
   get visibleGiveawayCount(): number {
@@ -107,7 +109,7 @@ export class AppComponent {
   }): { name: string; url: string }[] {
     return this.selectedProducts.size === 0
       ? giveaway.items
-      : giveaway.items.filter((item) => this.selectedProducts.has(item.name));
+      : giveaway.items.filter((item) => this.selectedProducts.has(this.productCode(item.name)));
   }
 
   hasVisibleGiveaways(region: string): boolean {
@@ -125,6 +127,11 @@ export class AppComponent {
   markGiveawayClicked(url: string): void {
     this.clickedGiveaways.add(url);
     localStorage.setItem(this.clickedStorageKey, JSON.stringify([...this.clickedGiveaways]));
+  }
+
+  private productCode(name: string): string {
+    const match = name.toUpperCase().match(/\b(?:BXG|BX|CX|UX)-?\d+\b/);
+    return match ? match[0].replace(/^(BXG|BX|CX|UX)(\d)/, '$1-$2') : name.trim();
   }
 
   private loadClickedGiveaways(): void {
