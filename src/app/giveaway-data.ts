@@ -23,6 +23,9 @@ export const REGIONS: Region[] = [
   { name: '台中市' },
   { name: '嘉義市' },
   { name: '高雄市' },
+  { name: '宜蘭縣' },
+  { name: '新竹縣' },
+  { name: '台南市' },
 ];
 
 export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
