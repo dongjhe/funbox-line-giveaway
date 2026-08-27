@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GIVEAWAYS, REGIONS, GiveawayItem } from './giveaway-data';
 
@@ -27,6 +27,15 @@ export class AppComponent {
 
   constructor() {
     this.loadClickedGiveaways();
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeProductFilterOnOutsideClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+    if (!target?.closest('.product-filter')) {
+      const productFilter = document.querySelector('.product-filter') as HTMLDetailsElement | null;
+      if (productFilter) productFilter.open = false;
+    }
   }
 
   get totalGiveawayCount(): number {
