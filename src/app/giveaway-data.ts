@@ -14,7 +14,7 @@ export interface Region {
   name: string;
 }
 
-export const REGIONS: Region[] = [{ name: '全部' }, { name: '台北市' }, { name: '新北市' }, { name: '台中市' }, { name: '嘉義市' }, { name: '高雄市' }];
+export const REGIONS: Region[] = [{ name: '全部' }, { name: '台北市' }, { name: '新北市' }, { name: '新竹市' }, { name: '台中市' }, { name: '嘉義市' }, { name: '高雄市' }];
 
 export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   台北市: [
@@ -166,6 +166,23 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox&Sanrio板橋大遠百',
       storeUrl: 'https://linevoom.line.me/user/_dblyPGfsKpebVOKvBaP8gs72hysvg-G0EVYLyv4',
       items: [],
+    },
+  ],
+  新竹市: [
+    {
+      store: 'Funbox-新竹遠東店',
+      storeUrl: 'https://linevoom.line.me/user/_dYdtj10kF6eWUWfcb0xr0dYExX6yYVDk1EksNTU',
+      startTime: '2026年08月28日（五）11:00 ~ 08月29日（六）21:00',
+      items: [
+        { name: 'BX-10 極限衝擊戰鬥盤', url: 'https://lin.ee/XgQ7Frk' },
+        { name: 'BX-25 戰鬥陀螺X專業收納包', url: 'https://lin.ee/VHCI3nV' },
+        { name: 'BX-57 3V3對戰收納盒 黑', url: 'https://lin.ee/RusLNjiQ' },
+        { name: 'BX-51 旋風發射器 黑綠', url: 'https://lin.ee/vXHogcq' },
+        { name: 'CX-18 腕龍鞭打 隨機強化組', url: 'https://lin.ee/Wy5ANhK' },
+        { name: 'UX-19 子彈獅鷲H', url: 'https://lin.ee/PDuEWPU' },
+        { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/z8SP0Fc' },
+        { name: 'BX-40 發射器(酒紅)', url: 'https://lin.ee/oFWfevv' },
+      ],
     },
   ],
   台中市: [
