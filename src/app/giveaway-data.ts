@@ -95,6 +95,22 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BX-25 戰鬥陀螺x專業收納包', url: 'https://lin.ee/YY093fd' },
       ],
     },
+    {
+      store: 'Funbox-中和環球',
+      storeUrl: 'https://www.facebook.com/profile.php?id=61575325211390',
+      startTime: '2026年08月28日（五）11:00 ~ 08月29日（六）21:00',
+      items: [
+        { name: 'BX-18 X旋風發射器', url: 'https://lin.ee/o1RgS8q' },
+        { name: 'BX-33 皓戰猛虎', url: 'https://lin.ee/tnp36hW' },
+        { name: 'BX-00 暴風天馬', url: 'https://lin.ee/nGikFntS' },
+        { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/ufiWrfX' },
+        { name: 'UX-11 衝擊龍神 9-60LR 豪華組', url: 'https://lin.ee/TEak2ba' },
+        { name: 'BX-45 武士魂斬', url: 'https://lin.ee/tkvs2R4' },
+        { name: 'BX-25 專業收納包', url: 'https://lin.ee/o2UyqHH' },
+        { name: 'BX-10 極限衝擊戰鬥盤', url: 'https://lin.ee/96NCPQM' },
+        { name: 'BX-57 3V3對戰收納盒黑', url: 'https://lin.ee/UzR2ljE' },
+      ],
+    },
   ],
   台中市: [
     {
