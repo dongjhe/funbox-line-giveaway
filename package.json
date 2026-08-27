@@ -8,6 +8,7 @@
     "build": "ng build",
     "build:pages": "ng build --base-href /funbox-line-giveaway/",
     "test:linevoom": "node scripts/test-linevoom.js",
+    "sync:linevoom": "node scripts/test-linevoom.js --sync",
     "format": "prettier --write \"src/**/*.{ts,html,css}\" \"*.{json,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,css}\" \"*.{json,md}\"",
     "prepare": "husky"
