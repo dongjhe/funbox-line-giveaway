@@ -143,39 +143,36 @@ async function expandVisiblePosts(page) {
 }
 
 async function getLatestGiveaway(page) {
-  // 先把頁面切成「單篇貼文」。舊版直接掃所有 div，父層 div 可能同時包含多篇貼文，
-  // 造成最新貼文沒有 lin.ee 時，仍把下方舊貼文的商品誤認成最新抽籤。
+  // LINE VOOM 的 DOM 父層會同時包住多篇貼文，因此不要再用 div/article 猜單篇貼文。
+  // 改用頁面實際顯示文字中的「Public + 發文時間」作為硬邊界，確保每段只屬於一篇貼文。
   const posts = await page.evaluate(() => {
-    const timePattern = /(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})/;
-    const all = [...document.querySelectorAll('article, [role="article"], div')];
-    const candidates = all.filter((el) => {
-      const text = el.innerText || '';
-      if (!text.includes('Public') || !timePattern.test(text) || text.length >= 15000) return false;
-      // 只保留最小貼文容器：如果子元素本身已經是一篇完整貼文，就不要父層。
-      return ![...el.children].some((child) => {
-        const childText = child.innerText || '';
-        return childText.includes('Public') && timePattern.test(childText);
-      });
-    });
-    return candidates.map((el) => el.innerText || '');
+    const lines = (document.body.innerText || '').replace(/\r/g, '').split('\n').map((line) => line.trim()).filter(Boolean);
+    const timePattern = /^(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})$/;
+    const result = [];
+    let start = 0;
+
+    for (let i = 0; i < lines.length - 1; i += 1) {
+      if (lines[i] !== 'Public' || !timePattern.test(lines[i + 1])) continue;
+      const segment = lines.slice(start, i + 2);
+      result.push({ text: segment.join('\n'), timeLabel: lines[i + 1] });
+      start = i + 2;
+    }
+    return result;
   });
 
   const now = new Date();
   const parsedPosts = [];
-  for (const text of [...new Set(posts)]) {
-    const timeMatch = text.match(/(?:^|\n)(\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})(?:\n|$)/);
-    if (!timeMatch) continue;
-    const publishedAt = parseRelativeTime(timeMatch[1], now);
+  for (const post of posts) {
+    const publishedAt = parseRelativeTime(post.timeLabel, now);
     if (!publishedAt || publishedAt < CUTOFF) continue;
-    parsedPosts.push({ text, timeLabel: timeMatch[1], publishedAt, textLength: text.length });
+    parsedPosts.push({ ...post, publishedAt, textLength: post.text.length });
   }
 
   parsedPosts.sort((a, b) => b.publishedAt - a.publishedAt || a.textLength - b.textLength);
   if (!parsedPosts.length) return null;
 
-  // 重要：只看「最新一篇與陀螺抽選有關的貼文」。
-  // 如果最新相關貼文只是公告「之後公布」或導向 Facebook，沒有 lin.ee 商品，
-  // 就回傳 pending，絕對不能往下撿舊抽獎商品。
+  // 最新一篇「陀螺抽籤相關」貼文就是權威來源。
+  // 即使沒有 lin.ee，也直接 PENDING，不允許再往更舊的貼文撿商品。
   const latestRelevant = parsedPosts.find(({ text }) => GIVEAWAY_KEYWORDS.some((keyword) => text.includes(keyword)));
   if (!latestRelevant) return null;
 
