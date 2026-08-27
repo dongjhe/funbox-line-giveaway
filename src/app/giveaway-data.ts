@@ -14,7 +14,7 @@ export interface Region {
   name: string;
 }
 
-export const REGIONS: Region[] = [{ name: '全部' }, { name: '台北市' }, { name: '新北市' }, { name: '台中市' }];
+export const REGIONS: Region[] = [{ name: '全部' }, { name: '台北市' }, { name: '新北市' }, { name: '台中市' }, { name: '嘉義市' }, { name: '高雄市' }];
 
 export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   台北市: [
@@ -34,6 +34,11 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/suYW8By' },
         { name: 'CX-18 腕龍鞭打 隨機強化組', url: 'https://lin.ee/XoUgnBE' },
       ],
+    },
+    {
+      store: 'Funbox-LaLaport南港',
+      storeUrl: 'https://www.facebook.com/profile.php?id=61591146280101',
+      items: [],
     },
   ],
   新北市: [
@@ -111,6 +116,11 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BX-57 3V3對戰收納盒黑', url: 'https://lin.ee/UzR2ljE' },
       ],
     },
+    {
+      store: 'Funbox&Sanrio板橋大遠百',
+      storeUrl: 'https://www.facebook.com/profile.php?id=61584956488867',
+      items: [],
+    },
   ],
   台中市: [
     {
@@ -124,6 +134,20 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-19 子彈獅鷲H', url: 'https://lin.ee/OtVbNFm' },
         { name: 'UX-11 衝擊龍神 豪華組', url: 'https://lin.ee/pmfKR4L' },
       ],
+    },
+  ],
+  嘉義市: [
+    {
+      store: 'Funbox-嘉義遠東',
+      storeUrl: 'https://www.facebook.com/profile.php?id=61592768918548',
+      items: [],
+    },
+  ],
+  高雄市: [
+    {
+      store: '義大世界購物廣場 fun box 義大2館',
+      storeUrl: 'https://www.facebook.com/profile.php?id=100057653970900',
+      items: [],
     },
   ],
 };
