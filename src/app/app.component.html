@@ -76,7 +76,7 @@
           <article
             class="store-card"
             *ngFor="let giveaway of giveaways[region]"
-            [class.filtered-out]="filteredItems(giveaway).length === 0"
+            [class.filtered-out]="selectedProducts.size > 0 && filteredItems(giveaway).length === 0"
           >
             <h3>
               <a
@@ -103,11 +103,14 @@
                 抽獎
               </a>
             </div>
+            <p class="empty-state" *ngIf="giveaway.items.length === 0">
+              抽獎商品連結尚未公布
+            </p>
           </article>
         </ng-container>
       </ng-container>
-      <p class="empty-state" *ngIf="visibleRegions.length === 0 || visibleGiveawayCount === 0">
-        目前沒有符合條件的抽獎活動。
+      <p class="empty-state" *ngIf="visibleRegions.length === 0">
+        目前沒有店家資料。
       </p>
     </ng-template>
   </section>
