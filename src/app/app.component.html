@@ -1,29 +1,32 @@
 <main class="page-shell">
   <header class="hero">
-    <button class="brand-button" type="button" (click)="selectRegion('全部', productFilter)">
-      陀螺抽選（{{ totalGiveawayCount }}）
-    </button>
+    <button class="brand-button" type="button" (click)="resetAllFilters(productFilter, regionFilter)">陀螺抽選（{{ totalGiveawayCount }}）</button>
     <button class="clear-clicked" type="button" (click)="clearClickedGiveaways()">清除點擊紀錄</button>
   </header>
 
-  <nav class="region-filter" aria-label="選擇地區">
-    <button *ngFor="let region of regions" type="button" [class.active]="selectedRegion === region.name" (click)="selectRegion(region.name, productFilter)">
-      {{ region.name }} ({{ regionStoreCount(region.name) }})
-    </button>
-  </nav>
+  <div class="filter-controls">
+    <details #regionFilter class="select-filter region-select-filter">
+      <summary>選擇縣市{{ selectedRegions.size ? '（已選 ' + selectedRegions.size + ' 個）' : '' }}</summary>
+      <div class="filter-options region-options">
+        <label *ngFor="let region of regionOptions" [class.option-selected]="isRegionSelected(region)">
+          <input type="checkbox" [checked]="isRegionSelected(region)" (change)="toggleRegion(region, $any($event.target).checked)" />
+          <span>{{ region }}（{{ regionStoreCount(region) }}）</span>
+        </label>
+      </div>
+    </details>
 
-  <div class="product-controls">
-    <details #productFilter class="product-filter">
+    <details #productFilter class="select-filter product-filter">
       <summary>選擇商品{{ selectedProducts.size ? '（已選 ' + selectedProducts.size + ' 項）' : '' }}</summary>
-      <div class="product-options">
-        <label *ngFor="let product of orderedProductOptions" [class.product-selected]="isProductSelected(product)">
+      <div class="filter-options product-options">
+        <label *ngFor="let product of orderedProductOptions" [class.option-selected]="isProductSelected(product)">
           <input type="checkbox" [checked]="isProductSelected(product)" (change)="toggleProduct(product, $any($event.target).checked)" />
           <span class="selection-number" *ngIf="productSelectionNumber(product) as number">{{ number }}</span>
           <span>{{ product }}</span>
         </label>
       </div>
     </details>
-    <button class="clear-products" type="button" *ngIf="selectedProducts.size > 0" (click)="clearSelectedProducts()">清除選擇</button>
+
+    <button class="clear-products" type="button" *ngIf="selectedRegions.size > 0 || selectedProducts.size > 0" (click)="resetAllFilters(productFilter, regionFilter)">清除選擇</button>
   </div>
 
   <section class="giveaway-list" aria-live="polite">
@@ -43,7 +46,7 @@
       <ng-container *ngFor="let region of visibleRegions">
         <ng-container *ngIf="hasVisibleGiveaways(region)">
           <h2>{{ region }}</h2>
-          <article class="store-card" *ngFor="let giveaway of giveaways[region]" [class.filtered-out]="selectedProducts.size > 0 && filteredItems(giveaway).length === 0">
+          <article class="store-card" *ngFor="let giveaway of giveaways[region]">
             <h3><a *ngIf="giveaway.storeUrl" [href]="giveaway.storeUrl" target="_blank" rel="noopener">{{ giveaway.store }}</a><ng-container *ngIf="!giveaway.storeUrl">{{ giveaway.store }}</ng-container></h3>
             <p class="start-time" *ngIf="giveaway.startTime">抽選開始時間：{{ giveaway.startTime }}</p>
             <div class="item-row" *ngFor="let item of filteredItems(giveaway)">
@@ -54,7 +57,6 @@
           </article>
         </ng-container>
       </ng-container>
-      <p class="empty-state" *ngIf="visibleRegions.length === 0">目前沒有店家資料。</p>
     </ng-template>
   </section>
 </main>
