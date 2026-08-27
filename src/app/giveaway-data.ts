@@ -14,9 +14,28 @@ export interface Region {
   name: string;
 }
 
-export const REGIONS: Region[] = [{ name: '全部' }, { name: '新北市' }, { name: '台中市' }];
+export const REGIONS: Region[] = [{ name: '全部' }, { name: '台北市' }, { name: '新北市' }, { name: '台中市' }];
 
 export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
+  台北市: [
+    {
+      store: 'Funbox-忠孝SOGO店',
+      storeUrl: 'https://www.facebook.com/funboxsogo',
+      startTime: '2026年08月28日（五）11:00 ~ 08月29日（六）21:00',
+      items: [
+        { name: 'BX-57 3V3對戰收納盒 黑', url: 'https://lin.ee/xe0367ja' },
+        { name: 'BX-25 戰鬥陀螺X專業收納包', url: 'https://lin.ee/xxqkyvC' },
+        { name: 'BX-45 武士魂斬', url: 'https://lin.ee/TmhBnu9' },
+        { name: 'BX-10 極限衝擊戰鬥盤', url: 'https://lin.ee/9xvdY8S' },
+        { name: 'BX-37 雙重極限衝擊戰鬥盤 豪華組', url: 'https://lin.ee/yP3r8Lq' },
+        { name: 'UX-19 子彈獅鷲H', url: 'https://lin.ee/tratm8F' },
+        { name: 'BX-51 旋風發射器 黑綠', url: 'https://lin.ee/zrGLkVA' },
+        { name: 'BX-40 發射器(酒紅)', url: 'https://lin.ee/QrlSYOm' },
+        { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/suYW8By' },
+        { name: 'CX-18 腕龍鞭打 隨機強化組', url: 'https://lin.ee/XoUgnBE' },
+      ],
+    },
+  ],
   新北市: [
     {
       store: 'Funbox樹林秀泰店',
