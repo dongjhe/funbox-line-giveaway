@@ -45,7 +45,7 @@ function parseRelativeTime(text, now = new Date()) {
 
   match = value.match(/^(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/);
   if (match) {
-    return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]), Number(match[4]), Number(match[5]));
+    return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]) - 0, Number(match[4]), Number(match[5]));
   }
 
   return null;
@@ -84,33 +84,35 @@ function parseItems(text) {
 
   console.log(`\n🔎 Testing: ${STORE.name}`);
   console.log(`🌐 ${STORE.url}`);
-  console.log(`⏱️ Cutoff: 2026/08/27 00:00 Asia/Taipei\n`);
+  console.log('⏱️ Cutoff: 2026/08/27 00:00 Asia/Taipei\n');
 
   await page.goto(STORE.url, { waitUntil: 'domcontentloaded', timeout: 60000 });
   await page.waitForTimeout(5000);
 
-  // Only a small scroll is needed. We want recent posts, not the whole history.
-  await page.mouse.wheel(0, 500);
-  await page.waitForTimeout(1200);
+  // Expand only the first/latest visible post. LINE VOOM truncates long posts behind 「顯示更多」.
+  const moreButtons = page.getByText('顯示更多', { exact: false });
+  const moreCount = await moreButtons.count();
+  if (moreCount > 0) {
+    try {
+      await moreButtons.first().click({ timeout: 5000 });
+      await page.waitForTimeout(1000);
+      console.log('🔓 已展開最新貼文的「顯示更多」');
+    } catch (error) {
+      console.log('⚠️ 找到「顯示更多」，但無法點擊，繼續嘗試解析目前內容。');
+    }
+  }
 
   const posts = await page.evaluate(() => {
-    const candidates = [...document.querySelectorAll('article, [role="article"]')];
-
-    // LINE VOOM currently does not always expose semantic article nodes.
-    // Fall back to blocks containing the repeated post footer marker "Public".
-    if (!candidates.length) {
-      const all = [...document.querySelectorAll('div')];
-      const blocks = all.filter((el) => {
-        const text = el.innerText || '';
-        return text.includes('Public') && /lin\.ee\//.test(text) && text.length < 10000;
-      });
-      return blocks.map((el) => el.innerText).filter(Boolean);
-    }
-
-    return candidates.map((el) => el.innerText || '').filter(Boolean);
+    const timePattern = /(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})/;
+    const all = [...document.querySelectorAll('article, [role="article"], div')];
+    const blocks = all.filter((el) => {
+      const text = el.innerText || '';
+      return text.includes('Public') && timePattern.test(text) && /lin\.ee\//.test(text) && text.length < 12000;
+    });
+    return blocks.map((el) => el.innerText).filter(Boolean);
   });
 
-  // Deduplicate nested DOM blocks, preferring shorter/more specific post blocks.
+  // Nested LINE VOOM containers can contain the same post. Prefer the smallest complete block.
   const uniquePosts = [...new Set(posts)].sort((a, b) => a.length - b.length);
   const now = new Date();
   let matched = null;
@@ -129,7 +131,7 @@ function parseItems(text) {
     const items = parseItems(text);
     if (!items.length) continue;
 
-    matched = { text, timeLabel: timeMatch[1], publishedAt, items };
+    matched = { timeLabel: timeMatch[1], publishedAt, items };
     break;
   }
 
