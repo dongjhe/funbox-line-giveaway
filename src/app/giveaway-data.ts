@@ -14,7 +14,7 @@ export interface Region {
   name: string;
 }
 
-export const REGIONS: Region[] = [{ name: '全部' }, { name: '台北市' }, { name: '新北市' }, { name: '新竹市' }, { name: '台中市' }, { name: '嘉義市' }, { name: '高雄市' }];
+export const REGIONS: Region[] = [{ name: '全部' }, { name: '台北市' }, { name: '新北市' }, { name: '桃園市' }, { name: '新竹市' }, { name: '台中市' }, { name: '嘉義市' }, { name: '高雄市' }];
 
 export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   台北市: [
@@ -166,6 +166,21 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox&Sanrio板橋大遠百',
       storeUrl: 'https://linevoom.line.me/user/_dblyPGfsKpebVOKvBaP8gs72hysvg-G0EVYLyv4',
       items: [],
+    },
+  ],
+  桃園市: [
+    {
+      store: 'Funbox-桃園站前三越',
+      storeUrl: 'https://linevoom.line.me/user/_dQTwDiZdgoMiaxHmu-STwWJF69wlpmOwL0IjMoY',
+      startTime: '2026年08月28日（五）11:00 ~ 08月29日（六）21:00',
+      items: [
+        { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/PMfRxsS' },
+        { name: 'BX-18 X旋風發射器', url: 'https://lin.ee/UJOyslk' },
+        { name: 'BX-26 獨角刺心', url: 'https://lin.ee/Oya4wBN' },
+        { name: 'BX-33 皓戰猛虎', url: 'https://lin.ee/XQtg8KH' },
+        { name: 'BX-35 隨機強化組Vol.04', url: 'https://lin.ee/WHbtrMP' },
+        { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/W7a5GSM' },
+      ],
     },
   ],
   新竹市: [
