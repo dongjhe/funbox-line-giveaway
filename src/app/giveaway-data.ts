@@ -37,7 +37,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox-LaLaport南港',
-      storeUrl: 'https://www.facebook.com/profile.php?id=61591146280101',
+      storeUrl: 'https://linevoom.line.me/user/_dVgaAWKsM1ofi6bVa7iJV1_zOspCOrdSv0vgXKw',
       items: [],
     },
     {
@@ -88,6 +88,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox 新店誠品店',
+      storeUrl: 'https://linevoom.line.me/user/_dWQGqQnQTk4Tc7wJjzrBXKS145vBC93TlHkNG5E',
       startTime: '2026年08月28日（五）11:00',
       items: [
         { name: 'BX-57 3V3 對戰收納盒 黑色版（不含陀螺）', url: 'https://lin.ee/NZhMQ4x' },
@@ -127,7 +128,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox-中和環球',
-      storeUrl: 'https://www.facebook.com/profile.php?id=61575325211390',
+      storeUrl: 'https://linevoom.line.me/user/_dSg6slLn5Zg47l9CPlGC-LezlX4EP3fmltKvQRs',
       startTime: '2026年08月28日（五）11:00 ~ 08月29日（六）21:00',
       items: [
         { name: 'BX-18 X旋風發射器', url: 'https://lin.ee/o1RgS8q' },
@@ -143,13 +144,14 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox&Sanrio板橋大遠百',
-      storeUrl: 'https://www.facebook.com/profile.php?id=61584956488867',
+      storeUrl: 'https://linevoom.line.me/user/_dblyPGfsKpebVOKvBaP8gs72hysvg-G0EVYLyv4',
       items: [],
     },
   ],
   台中市: [
     {
       store: 'Funbox 台中港三井店',
+      storeUrl: 'https://linevoom.line.me/user/_dXDniXt3Xu0U5lkXYliBBHGQRD2FtCUnVVbXPhY',
       startTime: '2026年08月28日（五）11:00 ~ 08月29日（六）20:30',
       items: [
         { name: 'BX-25 戰鬥陀螺X專業收納包', url: 'https://lin.ee/n3TPmTn' },
