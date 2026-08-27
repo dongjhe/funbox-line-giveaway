@@ -3,27 +3,52 @@
     <button class="brand-button" type="button" (click)="selectRegion('全部', productFilter)">
       陀螺抽選（{{ totalGiveawayCount }}）
     </button>
-    <button class="clear-clicked" type="button" (click)="clearClickedGiveaways()">清除點擊紀錄</button>
+    <button class="clear-clicked" type="button" (click)="clearClickedGiveaways()">
+      清除點擊紀錄
+    </button>
   </header>
 
   <nav class="region-filter" aria-label="選擇地區">
-    <button *ngFor="let region of regions" type="button" [class.active]="selectedRegion === region.name" (click)="selectRegion(region.name, productFilter)">
+    <button
+      *ngFor="let region of regions"
+      type="button"
+      [class.active]="selectedRegion === region.name"
+      (click)="selectRegion(region.name, productFilter)"
+    >
       {{ region.name }} ({{ regionStoreCount(region.name) }})
     </button>
   </nav>
 
   <div class="product-controls">
     <details #productFilter class="product-filter">
-      <summary>選擇商品{{ selectedProducts.size ? '（已選 ' + selectedProducts.size + ' 項）' : '' }}</summary>
+      <summary>
+        選擇商品{{ selectedProducts.size ? '（已選 ' + selectedProducts.size + ' 項）' : '' }}
+      </summary>
       <div class="product-options">
-        <label *ngFor="let product of orderedProductOptions" [class.product-selected]="isProductSelected(product)">
-          <input type="checkbox" [checked]="isProductSelected(product)" (change)="toggleProduct(product, $any($event.target).checked)" />
-          <span class="selection-number" *ngIf="productSelectionNumber(product) as number">{{ number }}</span>
+        <label
+          *ngFor="let product of orderedProductOptions"
+          [class.product-selected]="isProductSelected(product)"
+        >
+          <input
+            type="checkbox"
+            [checked]="isProductSelected(product)"
+            (change)="toggleProduct(product, $any($event.target).checked)"
+          />
+          <span class="selection-number" *ngIf="productSelectionNumber(product) as number">{{
+            number
+          }}</span>
           <span>{{ product }}</span>
         </label>
       </div>
     </details>
-    <button class="clear-products" type="button" *ngIf="selectedProducts.size > 0" (click)="clearSelectedProducts()">清除選擇</button>
+    <button
+      class="clear-products"
+      type="button"
+      *ngIf="selectedProducts.size > 0"
+      (click)="clearSelectedProducts()"
+    >
+      清除選擇
+    </button>
   </div>
 
   <section class="giveaway-list" aria-live="polite">
@@ -31,9 +56,22 @@
       <h2>已選商品（依勾選順序）</h2>
       <article class="selected-card" *ngIf="selectedGiveaways.length > 0">
         <div class="selected-row" *ngFor="let result of selectedGiveaways">
-          <div class="result-location"><strong>{{ result.region }}</strong><span>{{ result.store }}</span></div>
-          <span class="result-name"><b class="result-order">{{ productSelectionNumber(result.item.name) }}</b>{{ result.item.name }}</span>
-          <a [class.clicked]="isGiveawayClicked(result.item.url)" [href]="result.item.url" target="_blank" rel="noopener" (click)="markGiveawayClicked(result.item.url)">抽獎</a>
+          <div class="result-location">
+            <strong>{{ result.region }}</strong
+            ><span>{{ result.store }}</span>
+          </div>
+          <span class="result-name"
+            ><b class="result-order">{{ productSelectionNumber(result.item.name) }}</b
+            >{{ result.item.name }}</span
+          >
+          <a
+            [class.clicked]="isGiveawayClicked(result.item.url)"
+            [href]="result.item.url"
+            target="_blank"
+            rel="noopener"
+            (click)="markGiveawayClicked(result.item.url)"
+            >抽獎</a
+          >
         </div>
       </article>
       <p class="empty-state" *ngIf="selectedGiveaways.length === 0">目前沒有符合條件的抽獎活動。</p>
@@ -43,12 +81,33 @@
       <ng-container *ngFor="let region of visibleRegions">
         <ng-container *ngIf="hasVisibleGiveaways(region)">
           <h2>{{ region }}</h2>
-          <article class="store-card" *ngFor="let giveaway of giveaways[region]" [class.filtered-out]="selectedProducts.size > 0 && filteredItems(giveaway).length === 0">
-            <h3><a *ngIf="giveaway.storeUrl" [href]="giveaway.storeUrl" target="_blank" rel="noopener">{{ giveaway.store }}</a><ng-container *ngIf="!giveaway.storeUrl">{{ giveaway.store }}</ng-container></h3>
-            <p class="start-time" *ngIf="giveaway.startTime">抽選開始時間：{{ giveaway.startTime }}</p>
+          <article
+            class="store-card"
+            *ngFor="let giveaway of giveaways[region]"
+            [class.filtered-out]="selectedProducts.size > 0 && filteredItems(giveaway).length === 0"
+          >
+            <h3>
+              <a
+                *ngIf="giveaway.storeUrl"
+                [href]="giveaway.storeUrl"
+                target="_blank"
+                rel="noopener"
+                >{{ giveaway.store }}</a
+              ><ng-container *ngIf="!giveaway.storeUrl">{{ giveaway.store }}</ng-container>
+            </h3>
+            <p class="start-time" *ngIf="giveaway.startTime">
+              抽選開始時間：{{ giveaway.startTime }}
+            </p>
             <div class="item-row" *ngFor="let item of filteredItems(giveaway)">
               <span>{{ item.name }}</span>
-              <a [class.clicked]="isGiveawayClicked(item.url)" [href]="item.url" target="_blank" rel="noopener" (click)="markGiveawayClicked(item.url)">抽獎</a>
+              <a
+                [class.clicked]="isGiveawayClicked(item.url)"
+                [href]="item.url"
+                target="_blank"
+                rel="noopener"
+                (click)="markGiveawayClicked(item.url)"
+                >抽獎</a
+              >
             </div>
             <p class="empty-state" *ngIf="giveaway.items.length === 0">抽獎商品連結尚未公布</p>
           </article>
