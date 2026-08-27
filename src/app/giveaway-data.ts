@@ -56,6 +56,21 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/TYzKKyV' },
       ],
     },
+    {
+      store: 'Funbox 新店誠品店',
+      startTime: '2026年08月28日（五）11:00',
+      items: [
+        { name: 'BX-57 3V3 對戰收納盒 黑色版（不含陀螺）', url: 'https://lin.ee/NZhMQ4x' },
+        { name: 'BX-25 專業收納包（不含陀螺）', url: 'https://lin.ee/UMZIIXH' },
+        { name: 'BX-10 極限衝擊戰鬥盤', url: 'https://lin.ee/r5My0c3' },
+        { name: 'BX-45 武士魂斬 6-70M', url: 'https://lin.ee/sOWP5E27' },
+        { name: 'BX-51 蒼旋風發射器/黑綠', url: 'https://lin.ee/PBP4vgc' },
+        { name: 'BXG系列 孩之寶聯名款', url: 'https://lin.ee/xAK6Al9' },
+        { name: 'BX-40 發射器 左迴旋 酒紅', url: 'https://lin.ee/T003MNz' },
+        { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/oL6Aqh7' },
+        { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/nIkFU1w' },
+      ],
+    },
   ],
   台中市: [
     {
