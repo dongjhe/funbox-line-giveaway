@@ -1,54 +1,49 @@
 const { chromium } = require('playwright');
+const fs = require('fs');
+const path = require('path');
 
-const STORE = {
-  name: 'Funbox-新竹遠雄店',
-  url: 'https://linevoom.line.me/user/_dYdtj10kF6eWUWfcb0xr0dYExX6yYVDk1EksNTU',
-};
+const CUTOFF = new Date('2026-08-25T00:00:00+08:00');
+const GIVEAWAY_KEYWORDS = ['陀螺', '抽選', '抽籤', '購買券', '購買資格', '抽獎連結', '抽選連結'];
+const DATA_FILE = path.resolve(__dirname, '../src/app/giveaway-data.ts');
 
-const CUTOFF = new Date('2026-08-27T00:00:00+08:00');
-const GIVEAWAY_KEYWORDS = ['陀螺', '抽選', '抽籤', '購買券', '購買資格'];
+function parseGiveawayData(source) {
+  const stores = [];
+  const regionRegex = /^\s{2}([^\s][^:]*): \[$/gm;
+  const regions = [...source.matchAll(regionRegex)];
 
-function parseRelativeTime(text, now = new Date()) {
-  const value = (text || '').trim();
-  const result = new Date(now);
+  for (let r = 0; r < regions.length; r += 1) {
+    const region = regions[r][1].trim();
+    const start = regions[r].index + regions[r][0].length;
+    const end = r + 1 < regions.length ? regions[r + 1].index : source.lastIndexOf('};');
+    const block = source.slice(start, end);
+    const storeRegex = /\{\s*store:\s*'([^']+)'[\s\S]*?storeUrl:\s*'([^']+)'[\s\S]*?items:\s*\[([\s\S]*?)\]\s*,?\s*\}/g;
 
-  let match = value.match(/^(\d+)分鐘前$/);
-  if (match) {
-    result.setMinutes(result.getMinutes() - Number(match[1]));
-    return result;
+    for (const match of block.matchAll(storeRegex)) {
+      const [, name, url, itemsText] = match;
+      if (!url.includes('linevoom.line.me/user/')) continue;
+
+      const items = [...itemsText.matchAll(/\{\s*name:\s*'([^']+)',\s*url:\s*'(https:\/\/lin\.ee\/[^']+)'\s*\}/g)]
+        .map((m) => ({ name: m[1], url: m[2] }));
+
+      stores.push({ region, name, url, items });
+    }
   }
 
-  match = value.match(/^(\d+)小時前$/);
-  if (match) {
-    result.setHours(result.getHours() - Number(match[1]));
-    return result;
-  }
+  return stores;
+}
 
-  match = value.match(/^昨天\s*(\d{1,2}):(\d{2})$/);
-  if (match) {
-    result.setDate(result.getDate() - 1);
-    result.setHours(Number(match[1]), Number(match[2]), 0, 0);
-    return result;
-  }
+function productCode(name) {
+  return (name.match(/\b(BXG|BX|UX|CX)-?\d+\b/i)?.[0] || '')
+    .toUpperCase()
+    .replace(/^(BXG|BX|UX|CX)(\d+)/, '$1-$2');
+}
 
-  match = value.match(/^前天\s*(\d{1,2}):(\d{2})$/);
-  if (match) {
-    result.setDate(result.getDate() - 2);
-    result.setHours(Number(match[1]), Number(match[2]), 0, 0);
-    return result;
-  }
-
-  match = value.match(/^(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/);
-  if (match) {
-    return new Date(now.getFullYear(), Number(match[1]) - 1, Number(match[2]), Number(match[3]), Number(match[4]));
-  }
-
-  match = value.match(/^(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/);
-  if (match) {
-    return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]) - 0, Number(match[4]), Number(match[5]));
-  }
-
-  return null;
+function cleanName(name) {
+  return name
+    .replace(/^\d+[.、]\s*/, '')
+    .replace(/\s*-?\s*\$?\d+(?:,\d{3})*元?\s*$/i, '')
+    .replace(/\s+-\s*$/, '')
+    .trim();
 }
 
 function parseItems(text) {
@@ -57,106 +52,194 @@ function parseItems(text) {
 
   for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i];
-    const inline = line.match(/^((?:BXG|BX|UX|CX)-?\d+[^\n]*?)\s*-?\s*(https:\/\/lin\.ee\/[A-Za-z0-9_-]+)/i);
+    const inline = line.match(/^(\d+[.、]\s*)?((?:BXG|BX|UX|CX)-?\d+[^\n]*?)\s*-?\s*(https:\/\/lin\.ee\/[A-Za-z0-9_-]+)/i);
     if (inline) {
-      items.push({ name: inline[1].replace(/\s*-?\s*\$?\d+元?\s*$/, '').trim(), url: inline[2] });
+      items.push({ name: cleanName(inline[2]), url: inline[3] });
       continue;
     }
 
-    if (/^(?:BXG|BX|UX|CX)-?\d+/i.test(line)) {
-      const next = lines[i + 1] || '';
-      const link = next.match(/https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i);
-      if (link) {
-        const name = line.replace(/\s*-?\s*\$?\d+元?\s*$/, '').trim();
-        items.push({ name, url: link[0] });
-        i += 1;
+    if (/^(\d+[.、]\s*)?(?:BXG|BX|UX|CX)-?\d+/i.test(line)) {
+      for (let j = i + 1; j <= Math.min(i + 2, lines.length - 1); j += 1) {
+        const link = lines[j].match(/https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i);
+        if (link) {
+          items.push({ name: cleanName(line), url: link[0] });
+          i = j;
+          break;
+        }
       }
     }
   }
 
-  return items;
+  const deduped = new Map();
+  for (const item of items) deduped.set(`${productCode(item.name)}|${item.url}`, item);
+  return [...deduped.values()];
+}
+
+function parseRelativeTime(text, now = new Date()) {
+  const value = (text || '').trim();
+  const result = new Date(now);
+  let m;
+
+  if ((m = value.match(/^(\d+)分鐘前$/))) {
+    result.setMinutes(result.getMinutes() - Number(m[1]));
+    return result;
+  }
+  if ((m = value.match(/^(\d+)小時前$/))) {
+    result.setHours(result.getHours() - Number(m[1]));
+    return result;
+  }
+  if ((m = value.match(/^昨天\s*(\d{1,2}):(\d{2})$/))) {
+    result.setDate(result.getDate() - 1);
+    result.setHours(Number(m[1]), Number(m[2]), 0, 0);
+    return result;
+  }
+  if ((m = value.match(/^前天\s*(\d{1,2}):(\d{2})$/))) {
+    result.setDate(result.getDate() - 2);
+    result.setHours(Number(m[1]), Number(m[2]), 0, 0);
+    return result;
+  }
+  if ((m = value.match(/^(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/))) {
+    return new Date(now.getFullYear(), Number(m[1]) - 1, Number(m[2]), Number(m[3]), Number(m[4]));
+  }
+  if ((m = value.match(/^(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/))) {
+    return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]), Number(m[4]), Number(m[5]));
+  }
+  return null;
+}
+
+async function expandVisiblePosts(page) {
+  const buttons = page.getByText('顯示更多', { exact: false });
+  const count = await buttons.count();
+  for (let i = 0; i < Math.min(count, 5); i += 1) {
+    try {
+      if (await buttons.nth(i).isVisible()) {
+        await buttons.nth(i).click({ timeout: 2000 });
+        await page.waitForTimeout(250);
+      }
+    } catch (_) {}
+  }
+}
+
+async function getLatestGiveaway(page) {
+  const posts = await page.evaluate(() => {
+    const timePattern = /(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})/;
+    return [...document.querySelectorAll('article, [role="article"], div')]
+      .map((el) => el.innerText || '')
+      .filter((text) => text.includes('Public') && timePattern.test(text) && /lin\.ee\//.test(text) && text.length < 15000);
+  });
+
+  const now = new Date();
+  const candidates = [];
+  for (const text of [...new Set(posts)]) {
+    if (!GIVEAWAY_KEYWORDS.some((keyword) => text.includes(keyword))) continue;
+    const timeMatch = text.match(/(?:^|\n)(\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})(?:\n|$)/);
+    if (!timeMatch) continue;
+    const publishedAt = parseRelativeTime(timeMatch[1], now);
+    if (!publishedAt || publishedAt < CUTOFF) continue;
+    const items = parseItems(text);
+    if (!items.length) continue;
+    candidates.push({ timeLabel: timeMatch[1], publishedAt, items, textLength: text.length });
+  }
+
+  candidates.sort((a, b) => b.publishedAt - a.publishedAt || a.textLength - b.textLength);
+  return candidates[0] || null;
+}
+
+function compareItems(dataItems, voomItems) {
+  const dataByCode = new Map();
+  const voomByCode = new Map();
+  for (const item of dataItems) {
+    const code = productCode(item.name);
+    if (code) dataByCode.set(code, item);
+  }
+  for (const item of voomItems) {
+    const code = productCode(item.name);
+    if (code) voomByCode.set(code, item);
+  }
+
+  const differences = [];
+  for (const [code, voom] of voomByCode) {
+    const data = dataByCode.get(code);
+    if (!data) differences.push({ type: 'MISSING_IN_DATA', code, voom });
+    else if (data.url !== voom.url) differences.push({ type: 'URL_CHANGED', code, data, voom });
+  }
+  for (const [code, data] of dataByCode) {
+    if (!voomByCode.has(code)) differences.push({ type: 'NOT_IN_LATEST_POST', code, data });
+  }
+  return differences;
 }
 
 (async () => {
+  const source = fs.readFileSync(DATA_FILE, 'utf8');
+  const stores = parseGiveawayData(source);
+  console.log(`\n🧪 LINE VOOM 全店稽核`);
+  console.log(`⏱️ 只檢查 2026/08/25 00:00 Asia/Taipei 之後文章`);
+  console.log(`🏪 LINE VOOM 店家數：${stores.length}\n`);
+
   const browser = await chromium.launch({ headless: false });
   const context = await browser.newContext({ locale: 'zh-TW', timezoneId: 'Asia/Taipei' });
   const page = await context.newPage();
+  const summary = { match: 0, different: 0, skipped: 0, error: 0 };
 
-  console.log(`\n🔎 Testing: ${STORE.name}`);
-  console.log(`🌐 ${STORE.url}`);
-  console.log('⏱️ Cutoff: 2026/08/27 00:00 Asia/Taipei\n');
-
-  await page.goto(STORE.url, { waitUntil: 'domcontentloaded', timeout: 60000 });
-  await page.waitForTimeout(5000);
-
-  // Expand only the first/latest visible post. LINE VOOM truncates long posts behind 「顯示更多」.
-  const moreButtons = page.getByText('顯示更多', { exact: false });
-  const moreCount = await moreButtons.count();
-  if (moreCount > 0) {
+  for (let index = 0; index < stores.length; index += 1) {
+    const store = stores[index];
+    console.log(`\n[${index + 1}/${stores.length}] 🔎 ${store.region} / ${store.name}`);
     try {
-      await moreButtons.first().click({ timeout: 5000 });
-      await page.waitForTimeout(1000);
-      console.log('🔓 已展開最新貼文的「顯示更多」');
+      await page.goto(store.url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      await page.waitForTimeout(2500);
+      await expandVisiblePosts(page);
+      const latest = await getLatestGiveaway(page);
+
+      if (!latest) {
+        console.log('⏭️ SKIP - 8/25 後找不到含商品連結的陀螺抽籤文章');
+        summary.skipped += 1;
+        continue;
+      }
+
+      const title = await page.title();
+      console.log(`📄 ${title}`);
+      console.log(`🕐 ${latest.timeLabel}`);
+      console.log(`📦 VOOM ${latest.items.length} / DATA ${store.items.length}`);
+
+      const differences = compareItems(store.items, latest.items);
+      if (!differences.length) {
+        console.log('✅ MATCH');
+        summary.match += 1;
+        continue;
+      }
+
+      console.log('⚠️ DIFFERENT');
+      for (const diff of differences) {
+        if (diff.type === 'URL_CHANGED') {
+          console.log(`  🔄 ${diff.code} ${diff.voom.name}`);
+          console.log(`     DATA: ${diff.data.url}`);
+          console.log(`     VOOM: ${diff.voom.url}`);
+        } else if (diff.type === 'MISSING_IN_DATA') {
+          console.log(`  ➕ ${diff.code} ${diff.voom.name}`);
+          console.log(`     VOOM: ${diff.voom.url}`);
+        } else {
+          console.log(`  ➖ ${diff.code} ${diff.data.name}`);
+          console.log(`     DATA only: ${diff.data.url}`);
+        }
+      }
+      summary.different += 1;
     } catch (error) {
-      console.log('⚠️ 找到「顯示更多」，但無法點擊，繼續嘗試解析目前內容。');
+      console.log(`❌ ERROR: ${error.message}`);
+      summary.error += 1;
     }
   }
 
-  const posts = await page.evaluate(() => {
-    const timePattern = /(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})/;
-    const all = [...document.querySelectorAll('article, [role="article"], div')];
-    const blocks = all.filter((el) => {
-      const text = el.innerText || '';
-      return text.includes('Public') && timePattern.test(text) && /lin\.ee\//.test(text) && text.length < 12000;
-    });
-    return blocks.map((el) => el.innerText).filter(Boolean);
-  });
+  console.log('\n================ AUDIT SUMMARY ================');
+  console.log(`✅ MATCH:     ${summary.match}`);
+  console.log(`⚠️ DIFFERENT: ${summary.different}`);
+  console.log(`⏭️ SKIP:      ${summary.skipped}`);
+  console.log(`❌ ERROR:     ${summary.error}`);
+  console.log('================================================\n');
+  console.log('ℹ️ Audit 模式不會修改 giveaway-data.ts。');
 
-  // Nested LINE VOOM containers can contain the same post. Prefer the smallest complete block.
-  const uniquePosts = [...new Set(posts)].sort((a, b) => a.length - b.length);
-  const now = new Date();
-  let matched = null;
-
-  for (const text of uniquePosts) {
-    const hasKeyword = GIVEAWAY_KEYWORDS.some((keyword) => text.includes(keyword));
-    const hasLineLink = /https:\/\/lin\.ee\//i.test(text);
-    if (!hasKeyword || !hasLineLink) continue;
-
-    const timeMatch = text.match(/(?:^|\n)(\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})(?:\n|$)/);
-    if (!timeMatch) continue;
-
-    const publishedAt = parseRelativeTime(timeMatch[1], now);
-    if (!publishedAt || publishedAt < CUTOFF) continue;
-
-    const items = parseItems(text);
-    if (!items.length) continue;
-
-    matched = { timeLabel: timeMatch[1], publishedAt, items };
-    break;
-  }
-
-  console.log(`PAGE TITLE: ${await page.title()}`);
-
-  if (!matched) {
-    console.log('\n⏭️ SKIP - 找不到 2026/08/27 00:00 之後符合條件的陀螺抽籤貼文。');
-  } else {
-    console.log(`\n🎯 最新符合貼文：${matched.timeLabel}`);
-    console.log(`🕐 解析時間：${matched.publishedAt.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' })}`);
-    console.log(`📦 商品數：${matched.items.length}\n`);
-
-    matched.items.forEach((item, index) => {
-      console.log(`${index + 1}. ${item.name}`);
-      console.log(`   → ${item.url}`);
-    });
-
-    console.log('\n✅ ACCEPT');
-  }
-
-  console.log('\n瀏覽器先保持開啟 15 秒，方便人工確認畫面。');
-  await page.waitForTimeout(15000);
   await browser.close();
 })().catch((error) => {
-  console.error('\n❌ LINE VOOM test failed');
+  console.error('\n❌ LINE VOOM audit failed');
   console.error(error);
   process.exitCode = 1;
 });
