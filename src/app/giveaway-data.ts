@@ -67,6 +67,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: '來玩聚-北車地下街',
+      storeUrl: 'https://linevoom.line.me/user/_dXjo38IGuVk3obdbWWB8DVc86lCei15_6UkRuW8',
       startTime: '2026年08月28日（五）12:00 ~ 08月29日（六）20:30',
       items: [
         { name: 'BX-40 發射器(酒紅)左迴', url: 'https://lin.ee/zTfTvpD' },
