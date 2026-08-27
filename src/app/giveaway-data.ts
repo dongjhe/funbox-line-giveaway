@@ -65,6 +65,25 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BX-57 3V3對戰收納盒 黑', url: 'https://lin.ee/NWIqavM' },
       ],
     },
+    {
+      store: '來玩聚-北車地下街',
+      startTime: '2026年08月28日（五）12:00 ~ 08月29日（六）20:30',
+      items: [
+        { name: 'BX-40 發射器(酒紅)左迴', url: 'https://lin.ee/zTfTvpD' },
+        { name: 'BX-51 黑綠旋風拉線發射器', url: 'https://lin.ee/zBGbaSa' },
+        { name: 'BX-35 隨機強化組Vol.4', url: 'https://lin.ee/NmI5pyX' },
+        { name: 'CX-18 腕龍鞭打', url: 'https://lin.ee/5iP45eb' },
+        { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/X1Ypoek' },
+        { name: 'UX-20 榮耀戰神', url: 'https://lin.ee/OXTR7l3' },
+        { name: 'BX-00 暴風天馬', url: 'https://lin.ee/S8yfj1o' },
+        { name: 'BX-25 戰鬥陀螺X專業收納包', url: 'https://lin.ee/ZOZ34q6' },
+        { name: 'BX-57 3V3對戰收納盒 黑', url: 'https://lin.ee/ZHURiDd' },
+        { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/t9Fn7iw' },
+        { name: 'BX-33 皓戰猛虎', url: 'https://lin.ee/tNvOVbj' },
+        { name: 'BX-26 獨角刺心', url: 'https://lin.ee/yio9ZGk' },
+        { name: 'BX-18 發射器', url: 'https://lin.ee/WeVBkyE' },
+      ],
+    },
   ],
   新北市: [
     {
