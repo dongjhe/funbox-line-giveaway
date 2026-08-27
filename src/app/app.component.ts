@@ -23,6 +23,7 @@ export class AppComponent {
 
   selectedRegion = '全部';
   selectedProducts = new Set<string>();
+  selectedProductOrder: string[] = [];
 
   constructor() {
     this.loadClickedGiveaways();
@@ -38,42 +39,45 @@ export class AppComponent {
     if (region === '全部') {
       return Object.values(this.giveaways).reduce((total, stores) => total + stores.length, 0);
     }
-
     return this.giveaways[region]?.length ?? 0;
   }
 
   get visibleRegions(): string[] {
     return this.selectedRegion === '全部'
-      ? this.regions
-          .slice(1)
-          .map((region) => region.name)
-          .filter((region) => this.giveaways[region])
+      ? this.regions.slice(1).map((region) => region.name).filter((region) => this.giveaways[region])
       : [this.selectedRegion];
   }
 
   get productOptions(): string[] {
     const products = new Map<string, string>();
-
     Object.values(this.giveaways)
       .flatMap((storeGiveaways) => storeGiveaways)
       .flatMap((storeGiveaway) => storeGiveaway.items)
       .forEach((item) => {
         const code = this.productCode(item.name);
-        if (!products.has(code)) {
-          products.set(code, item.name);
-        }
+        if (!products.has(code)) products.set(code, item.name);
       });
 
     return [...products.entries()]
-      .sort(([codeA], [codeB]) =>
-        codeA.localeCompare(codeB, 'en', { numeric: true, sensitivity: 'base' }),
-      )
+      .sort(([codeA], [codeB]) => codeA.localeCompare(codeB, 'en', { numeric: true, sensitivity: 'base' }))
       .map(([code, name]) => {
         const normalizedName = name.trim();
-        return normalizedName.toUpperCase().startsWith(code.toUpperCase())
-          ? normalizedName
-          : `${code} ${normalizedName}`;
+        return normalizedName.toUpperCase().startsWith(code.toUpperCase()) ? normalizedName : `${code} ${normalizedName}`;
       });
+  }
+
+  get orderedProductOptions(): string[] {
+    const order = new Map(this.selectedProductOrder.map((code, index) => [code, index]));
+    return [...this.productOptions].sort((a, b) => {
+      const codeA = this.productCode(a);
+      const codeB = this.productCode(b);
+      const indexA = order.get(codeA);
+      const indexB = order.get(codeB);
+      if (indexA !== undefined && indexB !== undefined) return indexA - indexB;
+      if (indexA !== undefined) return -1;
+      if (indexB !== undefined) return 1;
+      return 0;
+    });
   }
 
   get visibleGiveawayCount(): number {
@@ -83,19 +87,19 @@ export class AppComponent {
   }
 
   get selectedGiveaways(): SelectedGiveaway[] {
-    return this.visibleRegions.flatMap((region) =>
+    const results = this.visibleRegions.flatMap((region) =>
       (this.giveaways[region] ?? []).flatMap((giveaway) =>
         this.filteredItems(giveaway).map((item) => ({ region, store: giveaway.store, item })),
       ),
     );
+    const order = new Map(this.selectedProductOrder.map((code, index) => [code, index]));
+    return results.sort((a, b) => (order.get(this.productCode(a.item.name)) ?? 9999) - (order.get(this.productCode(b.item.name)) ?? 9999));
   }
 
   selectRegion(region: string, productFilter?: HTMLDetailsElement): void {
     this.selectedRegion = region;
     this.clearSelectedProducts();
-    if (productFilter) {
-      productFilter.open = false;
-    }
+    if (productFilter) productFilter.open = false;
   }
 
   toggleProduct(product: string, checked: boolean): void {
@@ -103,10 +107,17 @@ export class AppComponent {
     const products = new Set(this.selectedProducts);
     if (checked) {
       products.add(code);
+      if (!this.selectedProductOrder.includes(code)) this.selectedProductOrder = [...this.selectedProductOrder, code];
     } else {
       products.delete(code);
+      this.selectedProductOrder = this.selectedProductOrder.filter((selectedCode) => selectedCode !== code);
     }
     this.selectedProducts = products;
+  }
+
+  productSelectionNumber(product: string): number | null {
+    const index = this.selectedProductOrder.indexOf(this.productCode(product));
+    return index >= 0 ? index + 1 : null;
   }
 
   isProductSelected(product: string): boolean {
@@ -115,6 +126,7 @@ export class AppComponent {
 
   clearSelectedProducts(): void {
     this.selectedProducts = new Set<string>();
+    this.selectedProductOrder = [];
   }
 
   clearClickedGiveaways(): void {
@@ -122,25 +134,21 @@ export class AppComponent {
     this.clickedGiveaways = new Set<string>();
   }
 
-  filteredItems(giveaway: {
-    items: { name: string; url: string }[];
-  }): { name: string; url: string }[] {
-    return this.selectedProducts.size === 0
-      ? giveaway.items
-      : giveaway.items.filter((item) => this.selectedProducts.has(this.productCode(item.name)));
+  filteredItems(giveaway: { items: { name: string; url: string }[] }): { name: string; url: string }[] {
+    if (this.selectedProducts.size === 0) return giveaway.items;
+    const order = new Map(this.selectedProductOrder.map((code, index) => [code, index]));
+    return giveaway.items
+      .filter((item) => this.selectedProducts.has(this.productCode(item.name)))
+      .sort((a, b) => (order.get(this.productCode(a.name)) ?? 9999) - (order.get(this.productCode(b.name)) ?? 9999));
   }
 
   hasVisibleGiveaways(region: string): boolean {
     const stores = this.giveaways[region] ?? [];
-    if (this.selectedProducts.size === 0) {
-      return stores.length > 0;
-    }
+    if (this.selectedProducts.size === 0) return stores.length > 0;
     return stores.some((giveaway) => this.filteredItems(giveaway).length > 0);
   }
 
-  isGiveawayClicked(url: string): boolean {
-    return this.clickedGiveaways.has(url);
-  }
+  isGiveawayClicked(url: string): boolean { return this.clickedGiveaways.has(url); }
 
   markGiveawayClicked(url: string): void {
     this.clickedGiveaways.add(url);
@@ -154,18 +162,10 @@ export class AppComponent {
 
   private loadClickedGiveaways(): void {
     const savedGiveaways = localStorage.getItem(this.clickedStorageKey);
-
-    if (!savedGiveaways) {
-      return;
-    }
-
+    if (!savedGiveaways) return;
     try {
       const urls: unknown = JSON.parse(savedGiveaways);
-      if (Array.isArray(urls)) {
-        this.clickedGiveaways = new Set(
-          urls.filter((url): url is string => typeof url === 'string'),
-        );
-      }
+      if (Array.isArray(urls)) this.clickedGiveaways = new Set(urls.filter((url): url is string => typeof url === 'string'));
     } catch {
       localStorage.removeItem(this.clickedStorageKey);
     }
