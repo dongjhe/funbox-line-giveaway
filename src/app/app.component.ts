@@ -58,7 +58,7 @@ export class AppComponent {
           .flatMap((storeGiveaways) => storeGiveaways)
           .flatMap((storeGiveaway) => storeGiveaway.items.map((item) => item.name)),
       ),
-    ];
+    ].sort((a, b) => a.localeCompare(b, 'en', { numeric: true, sensitivity: 'base' }));
   }
 
   get visibleGiveawayCount(): number {
