@@ -149,22 +149,14 @@ async function expandCouponLinks(page) {
         const info = await control.evaluate((el) => {
           const target = el.closest('button, [role="button"], details > summary, a') || el;
           const anchor = target.closest('a');
-          return {
-            text: (target.textContent || '').trim(),
-            href: anchor ? (anchor.getAttribute('href') || '') : '',
-            tag: target.tagName,
-          };
+          return { text: (target.textContent || '').trim(), href: anchor ? (anchor.getAttribute('href') || '') : '', tag: target.tagName };
         });
-        // Never click a real lin.ee link: that would navigate away from VOOM.
         if (/^https?:\/\/lin\.ee\//i.test(info.href)) continue;
         const key = `${info.text}|${i}`;
         if (clickedTexts.has(key)) continue;
         await control.scrollIntoViewIfNeeded().catch(() => {});
         await control.click({ timeout: 2000 }).catch(async () => {
-          await control.evaluate((el) => {
-            const target = el.closest('button, [role="button"], details > summary') || el;
-            target.click();
-          });
+          await control.evaluate((el) => { const target = el.closest('button, [role="button"], details > summary') || el; target.click(); });
         });
         clickedTexts.add(key);
         await page.waitForTimeout(500);
@@ -174,6 +166,36 @@ async function expandCouponLinks(page) {
     if (!clicked) break;
   }
   if (expanded) console.log(`🎟️ 已展開 ${expanded} 個「優惠券/抽獎/抽選連結」區塊`);
+}
+
+async function parseItemsFromPostDom(page) {
+  const candidates = await page.evaluate(() => {
+    const viewers = [...document.querySelectorAll('.text_viewer.page_feed')];
+    return viewers.map((viewer) => {
+      const text = (viewer.innerText || viewer.textContent || '').trim();
+      const links = [...viewer.querySelectorAll('a[href^="https://lin.ee/"]')];
+      const items = links.map((link) => {
+        let name = '';
+        let node = link.nextSibling;
+        while (node) {
+          if (node.nodeType === Node.TEXT_NODE) name += node.textContent || '';
+          else if (node.nodeName === 'BR') break;
+          else name += node.textContent || '';
+          node = node.nextSibling;
+        }
+        return { name: name.replace(/\s+/g, ' ').trim(), url: link.href };
+      }).filter((item) => /\b(?:BXG|BX|UX|CX)-?\d+\b/i.test(item.name));
+      return { text, items };
+    }).filter((x) => x.items.length > 0 && /陀螺|抽選|抽籤|購買券|購買資格|抽選連結|抽獎連結/.test(x.text));
+  });
+  if (!candidates.length) return [];
+  candidates.sort((a, b) => b.items.length - a.items.length);
+  const deduped = new Map();
+  for (const item of candidates[0].items) {
+    const cleaned = { name: cleanName(item.name), url: item.url };
+    deduped.set(`${productCode(cleaned.name) || cleaned.name}|${cleaned.url}`, cleaned);
+  }
+  return [...deduped.values()];
 }
 
 async function getLatestGiveaway(page) {
@@ -199,7 +221,11 @@ async function getLatestGiveaway(page) {
   if (!parsedPosts.length) return null;
   const latestRelevant = parsedPosts.find(({ text }) => GIVEAWAY_KEYWORDS.some((keyword) => text.includes(keyword)));
   if (!latestRelevant) return null;
-  const items = parseItems(latestRelevant.text);
+  let items = parseItems(latestRelevant.text);
+  if (!items.length) {
+    items = await parseItemsFromPostDom(page);
+    if (items.length) console.log(`🧩 DOM fallback 解析到 ${items.length} 個商品連結`);
+  }
   if (!items.length) return { ...latestRelevant, items: [], pending: true, hasLineLinks: /https:\/\/lin\.ee\//i.test(latestRelevant.text) };
   return { ...latestRelevant, items, pending: false };
 }
@@ -238,9 +264,6 @@ function compareItems(dataItems, voomItems) {
       await page.goto(master.url, { waitUntil: 'domcontentloaded', timeout: 60000 });
       await page.waitForTimeout(2500);
       await expandVisiblePosts(page);
-      // Some stores (notably 汐止遠雄) hide the actual lin.ee list behind a second
-      // disclosure labelled 優惠券連結. Expand those disclosures without following
-      // real lin.ee anchors, then re-expand any newly revealed 顯示更多 controls.
       await expandCouponLinks(page);
       await expandVisiblePosts(page);
       const title = (await page.title()).replace(/\s*\|\s*LINE VOOM.*$/i, '').trim();
