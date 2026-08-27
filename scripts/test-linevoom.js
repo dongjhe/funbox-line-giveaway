@@ -1,55 +1,56 @@
 const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
+const VOOM_STORES = require('./linevoom-stores');
 
 const CUTOFF = new Date('2026-08-25T00:00:00+08:00');
 const GIVEAWAY_KEYWORDS = ['陀螺', '抽選', '抽籤', '購買券', '購買資格', '抽獎連結', '抽選連結'];
 const DATA_FILE = path.resolve(__dirname, '../src/app/giveaway-data.ts');
 
+function normalizeName(value = '') {
+  return value.toLowerCase().replace(/funbox|toys|sanrio/g, '').replace(/[\s&\-－_()（）]/g, '');
+}
+
 function parseGiveawayData(source) {
   const stores = [];
   const regionRegex = /^\s{2}([^\s][^:]*): \[$/gm;
   const regions = [...source.matchAll(regionRegex)];
-
   for (let r = 0; r < regions.length; r += 1) {
-    const region = regions[r][1].trim();
+    const region = regions[r][1].trim().replace(/^\],\s*/, '');
     const start = regions[r].index + regions[r][0].length;
     const end = r + 1 < regions.length ? regions[r + 1].index : source.lastIndexOf('};');
     const block = source.slice(start, end);
-    const storeRegex = /\{\s*store:\s*'([^']+)'[\s\S]*?storeUrl:\s*'([^']+)'[\s\S]*?items:\s*\[([\s\S]*?)\]\s*,?\s*\}/g;
-
+    const storeRegex = /\{\s*store:\s*'([^']+)'[\s\S]*?storeUrl:\s*'([^']*)'[\s\S]*?items:\s*\[([\s\S]*?)\]\s*,?\s*\}/g;
     for (const match of block.matchAll(storeRegex)) {
       const [, name, url, itemsText] = match;
-      if (!url.includes('linevoom.line.me/user/')) continue;
-
       const items = [...itemsText.matchAll(/\{\s*name:\s*'([^']+)',\s*url:\s*'(https:\/\/lin\.ee\/[^']+)'\s*\}/g)]
         .map((m) => ({ name: m[1], url: m[2] }));
-
       stores.push({ region, name, url, items });
     }
   }
-
   return stores;
 }
 
+function findDataStore(master, dataStores) {
+  const masterUrl = master.url.replace(/[?#].*$/, '');
+  let found = dataStores.find((s) => (s.url || '').replace(/[?#].*$/, '') === masterUrl);
+  if (found) return found;
+  const key = normalizeName(master.name);
+  found = dataStores.find((s) => normalizeName(s.name) === key);
+  return found || null;
+}
+
 function productCode(name) {
-  return (name.match(/\b(BXG|BX|UX|CX)-?\d+\b/i)?.[0] || '')
-    .toUpperCase()
-    .replace(/^(BXG|BX|UX|CX)(\d+)/, '$1-$2');
+  return (name.match(/\b(BXG|BX|UX|CX)-?\d+\b/i)?.[0] || '').toUpperCase().replace(/^(BXG|BX|UX|CX)(\d+)/, '$1-$2');
 }
 
 function cleanName(name) {
-  return name
-    .replace(/^\d+[.、]\s*/, '')
-    .replace(/\s*-?\s*\$?\d+(?:,\d{3})*元?\s*$/i, '')
-    .replace(/\s+-\s*$/, '')
-    .trim();
+  return name.replace(/^\d+[.、]\s*/, '').replace(/\s*-?\s*\$?\d+(?:,\d{3})*元?\s*$/i, '').replace(/\s+-\s*$/, '').trim();
 }
 
 function parseItems(text) {
   const lines = text.split('\n').map((line) => line.trim()).filter(Boolean);
   const items = [];
-
   for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i];
     const inline = line.match(/^(\d+[.、]\s*)?((?:BXG|BX|UX|CX)-?\d+[^\n]*?)\s*-?\s*(https:\/\/lin\.ee\/[A-Za-z0-9_-]+)/i);
@@ -57,9 +58,8 @@ function parseItems(text) {
       items.push({ name: cleanName(inline[2]), url: inline[3] });
       continue;
     }
-
     if (/^(\d+[.、]\s*)?(?:BXG|BX|UX|CX)-?\d+/i.test(line)) {
-      for (let j = i + 1; j <= Math.min(i + 2, lines.length - 1); j += 1) {
+      for (let j = i + 1; j <= Math.min(i + 3, lines.length - 1); j += 1) {
         const link = lines[j].match(/https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i);
         if (link) {
           items.push({ name: cleanName(line), url: link[0] });
@@ -69,9 +69,8 @@ function parseItems(text) {
       }
     }
   }
-
   const deduped = new Map();
-  for (const item of items) deduped.set(`${productCode(item.name)}|${item.url}`, item);
+  for (const item of items) deduped.set(`${productCode(item.name) || item.name}|${item.url}`, item);
   return [...deduped.values()];
 }
 
@@ -79,31 +78,12 @@ function parseRelativeTime(text, now = new Date()) {
   const value = (text || '').trim();
   const result = new Date(now);
   let m;
-
-  if ((m = value.match(/^(\d+)分鐘前$/))) {
-    result.setMinutes(result.getMinutes() - Number(m[1]));
-    return result;
-  }
-  if ((m = value.match(/^(\d+)小時前$/))) {
-    result.setHours(result.getHours() - Number(m[1]));
-    return result;
-  }
-  if ((m = value.match(/^昨天\s*(\d{1,2}):(\d{2})$/))) {
-    result.setDate(result.getDate() - 1);
-    result.setHours(Number(m[1]), Number(m[2]), 0, 0);
-    return result;
-  }
-  if ((m = value.match(/^前天\s*(\d{1,2}):(\d{2})$/))) {
-    result.setDate(result.getDate() - 2);
-    result.setHours(Number(m[1]), Number(m[2]), 0, 0);
-    return result;
-  }
-  if ((m = value.match(/^(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/))) {
-    return new Date(now.getFullYear(), Number(m[1]) - 1, Number(m[2]), Number(m[3]), Number(m[4]));
-  }
-  if ((m = value.match(/^(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/))) {
-    return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]), Number(m[4]), Number(m[5]));
-  }
+  if ((m = value.match(/^(\d+)分鐘前$/))) { result.setMinutes(result.getMinutes() - Number(m[1])); return result; }
+  if ((m = value.match(/^(\d+)小時前$/))) { result.setHours(result.getHours() - Number(m[1])); return result; }
+  if ((m = value.match(/^昨天\s*(\d{1,2}):(\d{2})$/))) { result.setDate(result.getDate() - 1); result.setHours(+m[1], +m[2], 0, 0); return result; }
+  if ((m = value.match(/^前天\s*(\d{1,2}):(\d{2})$/))) { result.setDate(result.getDate() - 2); result.setHours(+m[1], +m[2], 0, 0); return result; }
+  if ((m = value.match(/^(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/))) return new Date(now.getFullYear(), +m[1] - 1, +m[2], +m[3], +m[4]);
+  if ((m = value.match(/^(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/))) return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]);
   return null;
 }
 
@@ -111,23 +91,16 @@ async function expandVisiblePosts(page) {
   const buttons = page.getByText('顯示更多', { exact: false });
   const count = await buttons.count();
   for (let i = 0; i < Math.min(count, 5); i += 1) {
-    try {
-      if (await buttons.nth(i).isVisible()) {
-        await buttons.nth(i).click({ timeout: 2000 });
-        await page.waitForTimeout(250);
-      }
-    } catch (_) {}
+    try { if (await buttons.nth(i).isVisible()) { await buttons.nth(i).click({ timeout: 2000 }); await page.waitForTimeout(250); } } catch (_) {}
   }
 }
 
 async function getLatestGiveaway(page) {
   const posts = await page.evaluate(() => {
     const timePattern = /(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})/;
-    return [...document.querySelectorAll('article, [role="article"], div')]
-      .map((el) => el.innerText || '')
+    return [...document.querySelectorAll('article, [role="article"], div')].map((el) => el.innerText || '')
       .filter((text) => text.includes('Public') && timePattern.test(text) && /lin\.ee\//.test(text) && text.length < 15000);
   });
-
   const now = new Date();
   const candidates = [];
   for (const text of [...new Set(posts)]) {
@@ -137,109 +110,99 @@ async function getLatestGiveaway(page) {
     const publishedAt = parseRelativeTime(timeMatch[1], now);
     if (!publishedAt || publishedAt < CUTOFF) continue;
     const items = parseItems(text);
-    if (!items.length) continue;
-    candidates.push({ timeLabel: timeMatch[1], publishedAt, items, textLength: text.length });
+    if (items.length) candidates.push({ timeLabel: timeMatch[1], publishedAt, items, textLength: text.length });
   }
-
   candidates.sort((a, b) => b.publishedAt - a.publishedAt || a.textLength - b.textLength);
   return candidates[0] || null;
 }
 
 function compareItems(dataItems, voomItems) {
-  const dataByCode = new Map();
-  const voomByCode = new Map();
-  for (const item of dataItems) {
-    const code = productCode(item.name);
-    if (code) dataByCode.set(code, item);
-  }
-  for (const item of voomItems) {
-    const code = productCode(item.name);
-    if (code) voomByCode.set(code, item);
-  }
-
+  const dataByCode = new Map(dataItems.map((x) => [productCode(x.name) || x.name, x]));
+  const voomByCode = new Map(voomItems.map((x) => [productCode(x.name) || x.name, x]));
   const differences = [];
   for (const [code, voom] of voomByCode) {
     const data = dataByCode.get(code);
     if (!data) differences.push({ type: 'MISSING_IN_DATA', code, voom });
     else if (data.url !== voom.url) differences.push({ type: 'URL_CHANGED', code, data, voom });
   }
-  for (const [code, data] of dataByCode) {
-    if (!voomByCode.has(code)) differences.push({ type: 'NOT_IN_LATEST_POST', code, data });
-  }
+  for (const [code, data] of dataByCode) if (!voomByCode.has(code)) differences.push({ type: 'NOT_IN_LATEST_POST', code, data });
   return differences;
 }
 
 (async () => {
-  const source = fs.readFileSync(DATA_FILE, 'utf8');
-  const stores = parseGiveawayData(source);
-  console.log(`\n🧪 LINE VOOM 全店稽核`);
-  console.log(`⏱️ 只檢查 2026/08/25 00:00 Asia/Taipei 之後文章`);
-  console.log(`🏪 LINE VOOM 店家數：${stores.length}\n`);
+  const dataStores = parseGiveawayData(fs.readFileSync(DATA_FILE, 'utf8'));
+  console.log('\n🧪 LINE VOOM 完整店家母清單稽核');
+  console.log('⏱️ 只檢查 2026/08/25 00:00 Asia/Taipei 之後文章');
+  console.log(`🏪 LINE VOOM 母清單：${VOOM_STORES.length} 間\n`);
 
   const browser = await chromium.launch({ headless: false });
   const context = await browser.newContext({ locale: 'zh-TW', timezoneId: 'Asia/Taipei' });
   const page = await context.newPage();
-  const summary = { match: 0, different: 0, skipped: 0, error: 0 };
+  const summary = { match: 0, different: 0, skipped: 0, mismatch: 0, newStore: 0, error: 0 };
 
-  for (let index = 0; index < stores.length; index += 1) {
-    const store = stores[index];
-    console.log(`\n[${index + 1}/${stores.length}] 🔎 ${store.region} / ${store.name}`);
+  for (let index = 0; index < VOOM_STORES.length; index += 1) {
+    const master = VOOM_STORES[index];
+    const dataStore = findDataStore(master, dataStores);
+    console.log(`\n[${index + 1}/${VOOM_STORES.length}] 🔎 ${master.region} / ${master.name}`);
     try {
-      await page.goto(store.url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      await page.goto(master.url, { waitUntil: 'domcontentloaded', timeout: 60000 });
       await page.waitForTimeout(2500);
       await expandVisiblePosts(page);
-      const latest = await getLatestGiveaway(page);
+      const title = (await page.title()).replace(/\s*\|\s*LINE VOOM.*$/i, '').trim();
+      console.log(`📄 ${title}`);
 
+      if (normalizeName(title) && normalizeName(master.name) && !normalizeName(title).includes(normalizeName(master.name)) && !normalizeName(master.name).includes(normalizeName(title))) {
+        console.log(`🚨 STORE MISMATCH - 母清單=${master.name} / PAGE=${title}`);
+        summary.mismatch += 1;
+        continue;
+      }
+
+      const latest = await getLatestGiveaway(page);
       if (!latest) {
         console.log('⏭️ SKIP - 8/25 後找不到含商品連結的陀螺抽籤文章');
         summary.skipped += 1;
         continue;
       }
 
-      const title = await page.title();
-      console.log(`📄 ${title}`);
       console.log(`🕐 ${latest.timeLabel}`);
-      console.log(`📦 VOOM ${latest.items.length} / DATA ${store.items.length}`);
-
-      const differences = compareItems(store.items, latest.items);
-      if (!differences.length) {
-        console.log('✅ MATCH');
-        summary.match += 1;
+      if (!dataStore) {
+        console.log(`🆕 NEW STORE - giveaway-data.ts 尚未建立，VOOM 商品 ${latest.items.length} 個`);
+        for (const item of latest.items) console.log(`  ➕ ${productCode(item.name)} ${item.name}\n     ${item.url}`);
+        summary.newStore += 1;
         continue;
+      }
+
+      console.log(`📦 VOOM ${latest.items.length} / DATA ${dataStore.items.length}`);
+      const differences = compareItems(dataStore.items, latest.items);
+      if (!differences.length && latest.items.length === dataStore.items.length) {
+        console.log('✅ MATCH'); summary.match += 1; continue;
       }
 
       console.log('⚠️ DIFFERENT');
       for (const diff of differences) {
         if (diff.type === 'URL_CHANGED') {
-          console.log(`  🔄 ${diff.code} ${diff.voom.name}`);
-          console.log(`     DATA: ${diff.data.url}`);
-          console.log(`     VOOM: ${diff.voom.url}`);
+          console.log(`  🔄 ${diff.code} ${diff.voom.name}\n     DATA: ${diff.data.url}\n     VOOM: ${diff.voom.url}`);
         } else if (diff.type === 'MISSING_IN_DATA') {
-          console.log(`  ➕ ${diff.code} ${diff.voom.name}`);
-          console.log(`     VOOM: ${diff.voom.url}`);
+          console.log(`  ➕ ${diff.code} ${diff.voom.name}\n     VOOM: ${diff.voom.url}`);
         } else {
-          console.log(`  ➖ ${diff.code} ${diff.data.name}`);
-          console.log(`     DATA only: ${diff.data.url}`);
+          console.log(`  ➖ ${diff.code} ${diff.data.name}\n     DATA only: ${diff.data.url}`);
         }
       }
+      if (!differences.length) console.log('  ⚠️ 商品數不同，但代號比對未找到差異；請人工檢查名稱/重複代號。');
       summary.different += 1;
     } catch (error) {
-      console.log(`❌ ERROR: ${error.message}`);
-      summary.error += 1;
+      console.log(`❌ ERROR: ${error.message}`); summary.error += 1;
     }
   }
 
   console.log('\n================ AUDIT SUMMARY ================');
-  console.log(`✅ MATCH:     ${summary.match}`);
-  console.log(`⚠️ DIFFERENT: ${summary.different}`);
-  console.log(`⏭️ SKIP:      ${summary.skipped}`);
-  console.log(`❌ ERROR:     ${summary.error}`);
-  console.log('================================================\n');
-  console.log('ℹ️ Audit 模式不會修改 giveaway-data.ts。');
-
+  console.log(`✅ MATCH:          ${summary.match}`);
+  console.log(`⚠️ DIFFERENT:      ${summary.different}`);
+  console.log(`🆕 NEW STORE:      ${summary.newStore}`);
+  console.log(`🚨 STORE MISMATCH: ${summary.mismatch}`);
+  console.log(`⏭️ SKIP:           ${summary.skipped}`);
+  console.log(`❌ ERROR:          ${summary.error}`);
+  console.log('================================================');
+  console.log('ℹ️ Audit 模式不會修改 giveaway-data.ts。\n');
   await browser.close();
-})().catch((error) => {
-  console.error('\n❌ LINE VOOM audit failed');
-  console.error(error);
-  process.exitCode = 1;
-});
+})().catch((error) => { console.error('\n❌ LINE VOOM audit failed'); console.error(error); process.exitCode = 1; });
