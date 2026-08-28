@@ -486,6 +486,16 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-20【榮耀武神LF】：', url: 'https://lin.ee/ppsPrIS4' },
       ],
     },
+    {
+      store: 'Funbox 台中lalaport',
+      storeUrl: 'https://linevoom.line.me/user/_dWbmVBOBVpcGPA3UWP953LsGWVx32VkrDcGrqRQ',
+      items: [
+        {
+          name: 'UX-20 榮耀武神LF 購買資格 *使用優惠券限店員操作* | Funbox 台中lalaport | 官方帳號優惠券',
+          url: 'https://lin.ee/zMWwj3Q',
+        },
+      ],
+    },
   ],
   嘉義市: [
     {
