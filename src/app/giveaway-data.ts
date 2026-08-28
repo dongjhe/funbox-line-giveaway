@@ -55,13 +55,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BX-40 發射器(酒紅)', url: 'https://lin.ee/QrlSYOm' },
         { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/suYW8By' },
         { name: 'CX-18 腕龍鞭打 隨機強化組', url: 'https://lin.ee/XoUgnBE' },
-        { name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/QsQzRTL' },
+        { name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/QsQzRTL' },
       ],
     },
     {
       store: 'Funbox-南港潤泰',
       startTime: '2026/08/28~2026/08/29',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/zGviPVx' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/zGviPVx' }],
     },
     {
       store: 'Funbox-LaLaport南港',
@@ -163,7 +163,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox-信義A8店(陀螺販售)',
       storeUrl: 'https://linevoom.line.me/user/_dfItqTWWpJgcZPNYg_b3_xlBeXDhlwTDTicnfSU',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/q97O5u7' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/q97O5u7' }],
     },
     {
       store: 'Funbox 遠百信義A13',
@@ -390,7 +390,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox-桃園站前三越',
       storeUrl: 'https://linevoom.line.me/user/_dQTwDiZdgoMiaxHmu-STwWJF69wlpmOwL0IjMoY',
       startTime: '2026年08月28日（五）11:00 ~ 08月29日（六）21:00',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/Q5emiZW' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/Q5emiZW' }],
     },
     {
       store: 'Funbox Toy-桃園環球A8店',
@@ -544,7 +544,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-19 子彈獅鷲H-', url: 'https://lin.ee/PDuEWPU' },
         { name: 'UX-02 惡魔戰錘-', url: 'https://lin.ee/z8SP0Fc' },
         { name: 'BX-40 發射器(酒紅)-', url: 'https://lin.ee/oFWfevv' },
-        { name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/9cp66iv' },
+        { name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/9cp66iv' },
       ],
     },
   ],
@@ -562,7 +562,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-11 衝擊龍神 豪華組', url: 'https://lin.ee/pmfKR4L' },
         { name: 'BX-10 極限衝擊戰鬥盤', url: 'https://lin.ee/zGvMqnX' },
         { name: 'BX-40 發射器(酒紅)', url: 'https://lin.ee/8V9g0ju' },
-        { name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/6Z90yyL' },
+        { name: 'UX-21 惡魔冥界改造組（8/29 10:30才開始）', url: 'https://lin.ee/6Z90yyL' },
       ],
     },
     {
@@ -775,7 +775,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox 嘉義三越店',
       startTime: '2026/08/28~2026/08/29',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/yWPMJND' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/yWPMJND' }],
     },
   ],
   高雄市: [
@@ -787,34 +787,38 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox-夢時代店',
       storeUrl: 'https://linevoom.line.me/user/_dVHpcOhwVrBQ3ZY1xQBHuGMcluZ-yMcOSsSnRfU',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/8XmzPmr' }],
+      items: [
+        { name: 'UX-21 惡魔冥界改造組 895元（8/29 10:30才開始）', url: 'https://lin.ee/8XmzPmr' },
+      ],
     },
     {
       store: 'Funbox 高雄大立店',
       startTime: '2026/08/28~2026/08/29',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/WRr2UiX' }],
+      items: [
+        { name: 'UX-21 惡魔冥界改造組895元（8/29 11:00才開始）', url: 'https://lin.ee/WRr2UiX' },
+      ],
     },
     {
       store: 'Funbox高雄sogo店',
       startTime: '2026/08/28~2026/08/29',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/O5iJ3Vk' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/O5iJ3Vk' }],
     },
     {
       store: 'funbox大魯閣新光',
       startTime: '2026/08/28~2026/08/29',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/Sq4x9dT' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 10:30才開始）', url: 'https://lin.ee/Sq4x9dT' }],
     },
     {
       store: 'funbox高雄漢神店',
       startTime: '2026/08/28 11:00~2026/08/29 21:00',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/tC9NrYY' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/tC9NrYY' }],
     },
   ],
   宜蘭縣: [
     {
       store: 'Funbox 宜蘭新月店',
       storeUrl: 'https://linevoom.line.me/user/_dTS4fzrnBtUOuG-T_J22hfcZSdxunoOsypVfgRg',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/RJDBg0h' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/RJDBg0h' }],
     },
   ],
   新竹縣: [
@@ -838,7 +842,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BX-25 戰鬥陀螺X專業收納包', url: 'https://lin.ee/xeZBWXX' },
         { name: 'BX-10 極限衝擊戰鬥盤', url: 'https://lin.ee/Z9pnKPO' },
         { name: 'BX-45 武士魂斬', url: 'https://lin.ee/TLoW8e6' },
-        { name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/nhfKgsb' },
+        { name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/nhfKgsb' },
       ],
     },
     {
@@ -894,7 +898,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'funbox-台南新天地',
       startTime: '2026/08/28~2026/08/29',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/uP2vgL3' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/uP2vgL3' }],
     },
   ],
   苗栗縣: [
@@ -912,31 +916,33 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: '來玩聚-彰化店',
       startTime: '2026/08/28~2026/08/29',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/YWrYdQS' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 10:00才開始）', url: 'https://lin.ee/YWrYdQS' }],
     },
     {
       store: '來玩聚-員林店',
       startTime: '2026/08/28~2026/08/29',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/uhqJxde' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 10:00才開始）', url: 'https://lin.ee/uhqJxde' }],
     },
   ],
   雲林縣: [
     {
       store: '來玩聚斗六店',
       startTime: '2026/08/28~2026/08/29',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/pL9P2eR' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 10:00才開始）', url: 'https://lin.ee/pL9P2eR' }],
     },
   ],
   屏東縣: [
     {
       store: 'funbox屏東太平洋',
       startTime: '2026/08/28~2026/08/29',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/5qj2AqU' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/5qj2AqU' }],
     },
     {
       store: 'Funbox 屏東環球店',
       startTime: '2026/08/28~2026/08/29',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/ZWtNhpn' }],
+      items: [
+        { name: 'UX-21 惡魔冥界改造組 $895（8/29 11:00才開始）', url: 'https://lin.ee/ZWtNhpn' },
+      ],
     },
   ],
   花蓮縣: [
@@ -945,7 +951,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       startTime: '2026/08/28~2026/08/29',
       items: [
         {
-          name: 'UX-21 惡魔冥界改造組',
+          name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）',
           url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M1425CMVWXC99AC8ZFBYGJDQ?q=timeline_post',
         },
       ],
@@ -955,7 +961,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox 台東秀泰店',
       startTime: '2026/08/28~2026/08/29',
-      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/T8gcAp5' }],
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/T8gcAp5' }],
     },
   ],
 };
