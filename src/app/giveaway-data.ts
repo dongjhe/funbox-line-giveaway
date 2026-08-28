@@ -585,7 +585,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
           name: 'BX-50【天堂日輪 隨機強化組】：',
           url: 'https://lin.ee/VeUYbMY',
         },
-        { name: 'UX-20【榮耀武神LF】1111：', url: 'https://lin.ee/zMWwj3Q' },
+        { name: 'UX-20【榮耀武神LF】：', url: 'https://lin.ee/zMWwj3Q' },
       ],
     },
   ],
