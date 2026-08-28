@@ -733,6 +733,24 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         },
       ],
     },
+    {
+      store: 'Funbox 文心秀泰店',
+      storeUrl: 'https://linevoom.line.me/user/_dVbUMDyduUeLgyWJWRb0k8o55Sa-xzXFMnCJxpE',
+      items: [
+        { name: 'BX-26 獨角刺心', url: 'https://lin.ee/zpHV14P' },
+        { name: 'BX-33 皓戰猛虎', url: 'https://lin.ee/ow30B8I' },
+        { name: 'BX-40 發射器(酒紅)', url: 'https://lin.ee/7jhYc9J' },
+        { name: 'BX-00 暴風天馬3-70RA', url: 'https://lin.ee/YCkSnxT' },
+        { name: 'UX-20 榮耀武神LF', url: 'https://lin.ee/xKtpC92' },
+        { name: 'BX-35 隨機強化組Vol.04', url: 'https://lin.ee/wQmF3i9e' },
+        { name: 'BX-25 戰鬥陀螺X專業收納包', url: 'https://lin.ee/9bQd93j' },
+        { name: 'BX-57 3V3對戰收納盒 黑', url: 'https://lin.ee/PQIxWUM' },
+        { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/pVcRYFJ' },
+        { name: 'BX-18 X旋風發射器', url: 'https://lin.ee/pTo7Drq' },
+        { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/R8vn6brE' },
+        { name: 'BX-10 極限衝擊戰鬥盤', url: 'https://lin.ee/rEZFKfG' },
+      ],
+    },
   ],
   嘉義市: [
     {
