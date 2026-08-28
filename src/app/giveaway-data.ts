@@ -728,7 +728,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/QjhI9MP' },
         { name: 'UX-11 衝擊龍神 豪華組', url: 'https://lin.ee/pmfKR4L' },
         { name: 'UX-19 子彈獅鷲H', url: 'https://lin.ee/OtVbNFm' },
-        { name: 'UX-21 惡魔冥界改造組（8/29 10:30才開始）', url: 'https://lin.ee/6Z90yyL' },
+        { name: 'UX-21 惡魔冥界改造組（8/29 10:30才開始）', url: ' https://lin.ee/SCEhlbK' },
       ],
     },
     {
