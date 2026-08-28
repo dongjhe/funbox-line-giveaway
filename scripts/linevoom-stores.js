@@ -1,7 +1,7 @@
 module.exports = [
   // ['台中市', 'FUNBOX 台中遠百店', 'https://linevoom.line.me/user/_ddG1EBaa4iGasgQdKDdnXo50Y24dW74VXnJuAro'],
   // ['台中市', 'Funbox 台中港三井', 'https://linevoom.line.me/user/_dXDniXt3Xu0U5lkXYliBBHGQRD2FtCUnVVbXPhY'],
-  ['台中市', 'Funbox 台中lalaport', 'https://linevoom.line.me/user/_dWbmVBOBVpcGPA3UWP953LsGWVx32VkrDcGrqRQ'],
+  // ['台中市', 'Funbox 台中lalaport', 'https://linevoom.line.me/user/_dWbmVBOBVpcGPA3UWP953LsGWVx32VkrDcGrqRQ'],
   ['苗栗縣', 'Funbox Toys-苗栗尚順店', 'https://linevoom.line.me/user/_dVHyXrJlEjwLilMjmYrRy8BYKPofyQgAgsWd8Xk'],
   ['桃園市', 'Funbox-桃園遠東店', 'https://linevoom.line.me/user/_dZCpDMgUi2_f6JEnQze2nP22nJV-G1o8rHLmpFE'],
   // ['宜蘭縣', 'Funbox 宜蘭新月店', 'https://linevoom.line.me/user/_dTS4fzrnBtUOuG-T_J22hfcZSdxunoOsypVfgRg'],
@@ -36,4 +36,5 @@ module.exports = [
   // ['新北市', 'Funbox新店誠品店', 'https://linevoom.line.me/user/_dWQGqQnQTk4Tc7wJjzrBXKS145vBC93TlHkNG5E'],
   ['新北市', 'FUNBOX 比漾廣場店', 'https://linevoom.line.me/user/_dQbxr4jKpXDT3BtXULflBCgU9GujoUvNaAUOOZo'],
   // ['台北市', '來玩聚-北車地下街', 'https://linevoom.line.me/user/_dXjo38IGuVk3obdbWWB8DVc86lCei15_6UkRuW8'],
+  ['桃園市', 'Funbox toys - 桃園台茂店', 'https://linevoom.line.me/user/_dZrp8IBATlHOFZaobLCYRrXE5m7abD4dD2ItWm8']
 ].map(([region, name, url]) => ({ region, name, url }));
