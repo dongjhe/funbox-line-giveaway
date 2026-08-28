@@ -36,5 +36,6 @@ module.exports = [
   ['新北市', 'Funbox新店誠品店', 'https://linevoom.line.me/user/_dWQGqQnQTk4Tc7wJjzrBXKS145vBC93TlHkNG5E'],
   ['新北市', 'FUNBOX 比漾廣場店', 'https://linevoom.line.me/user/_dQbxr4jKpXDT3BtXULflBCgU9GujoUvNaAUOOZo'],
   ['台北市', '來玩聚-北車地下街', 'https://linevoom.line.me/user/_dXjo38IGuVk3obdbWWB8DVc86lCei15_6UkRuW8'],
-  ['桃園市', 'Funbox toys - 桃園台茂店', 'https://linevoom.line.me/user/_dZrp8IBATlHOFZaobLCYRrXE5m7abD4dD2ItWm8']
+  ['桃園市', 'Funbox toys - 桃園台茂店', 'https://linevoom.line.me/user/_dZrp8IBATlHOFZaobLCYRrXE5m7abD4dD2ItWm8'],
+  ['台中市', 'Funbox 文心秀泰店', 'https://linevoom.line.me/user/_dVbUMDyduUeLgyWJWRb0k8o55Sa-xzXFMnCJxpE']
 ].map(([region, name, url]) => ({ region, name, url }));
