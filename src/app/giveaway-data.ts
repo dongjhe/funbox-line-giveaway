@@ -388,14 +388,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox-桃園站前三越',
       storeUrl: 'https://linevoom.line.me/user/_dQTwDiZdgoMiaxHmu-STwWJF69wlpmOwL0IjMoY',
       startTime: '2026年08月28日（五）11:00 ~ 08月29日（六）21:00',
-      items: [
-        { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/PMfRxsS' },
-        { name: 'BX-18 X旋風發射器', url: 'https://lin.ee/UJOyslk' },
-        { name: 'BX-26 獨角刺心', url: 'https://lin.ee/Oya4wBN' },
-        { name: 'BX-33 皓戰猛虎', url: 'https://lin.ee/XQtg8KH' },
-        { name: 'BX-35 隨機強化組Vol.04', url: 'https://lin.ee/WHbtrMP' },
-        { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/W7a5GSM' },
-      ],
+      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/Q5emiZW' }],
     },
     {
       store: 'Funbox Toy-桃園環球A8店',
@@ -471,6 +464,8 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BX-18 X旋風發射器', url: 'https://lin.ee/6SuMVwo' },
         { name: 'BX-30 X發射器改造型握把（黑紅）', url: 'https://lin.ee/w8eDenX' },
         { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/nvd275v' },
+        { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/QlKLYZV' },
+        { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/PRPdton' },
       ],
     },
     {
@@ -547,6 +542,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-19 子彈獅鷲H-', url: 'https://lin.ee/PDuEWPU' },
         { name: 'UX-02 惡魔戰錘-', url: 'https://lin.ee/z8SP0Fc' },
         { name: 'BX-40 發射器(酒紅)-', url: 'https://lin.ee/oFWfevv' },
+        { name: 'UX-21 惡魔冥界改造組-', url: 'https://lin.ee/9cp66iv' },
       ],
     },
   ],
@@ -778,6 +774,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox 宜蘭新月店',
       storeUrl: 'https://linevoom.line.me/user/_dTS4fzrnBtUOuG-T_J22hfcZSdxunoOsypVfgRg',
       items: [
+        { name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/RJDBg0h' },
         { name: 'BX-57 3V3對戰收納盒 黑 –', url: 'https://lin.ee/5UQ9GzU' },
         { name: 'BX-50 天堂日輪 隨機強化組 –', url: 'https://lin.ee/sXZYSWK' },
         { name: 'BX-51 旋風發射器 黑綠 –', url: 'https://lin.ee/R6sbF7F' },
