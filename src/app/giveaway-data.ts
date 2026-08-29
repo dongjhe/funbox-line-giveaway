@@ -56,6 +56,20 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/suYW8By' },
         { name: 'CX-18 腕龍鞭打 隨機強化組', url: 'https://lin.ee/XoUgnBE' },
         { name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/QsQzRTL' },
+        { name: 'UX-21 惡魔幽冥改造組（8/29 11:00才開始）', url: 'https://lin.ee/UKM6TKK' },
+        { name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/Xqa4sFy' },
+        { name: 'UX-21 戰鬥陀螺（8/29 10:30才開始）', url: 'https://lin.ee/Xo7D2Lr' },
+        { name: 'UX-21 惡魔冥界改造組 $895（8/29 11:00才開始）', url: 'https://lin.ee/rJR0bl3' },
+        { name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/yjWrZ5V' },
+        { name: 'UX-21 惡魔冥界改造組 $895（8/29 11:00才開始）', url: 'https://lin.ee/YNOqqPO' },
+        { name: 'UX-21 惡魔 冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/w9EtprO' },
+        { name: 'UX-21 惡魔 冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/Z4UqYWp' },
+        { name: 'UX-21 惡魔冥界改造組 895元（8/29 11:00才開始）', url: 'https://lin.ee/oMumz50' },
+        {
+          name: 'UX-21 惡魔幽冥改造組 - 原價$895（8/29 10:00才開始）',
+          url: 'https://lin.ee/xXRH1Gc',
+        },
+        { name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/7wPAWOB' },
       ],
     },
     {
@@ -813,6 +827,16 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       startTime: '2026/08/28 11:00~2026/08/29 21:00',
       items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/tC9NrYY' }],
     },
+    {
+      store: '來玩聚鳳山店',
+      startTime: '2026/08/28~2026/08/29',
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/8lgrcWU' }],
+    },
+    {
+      store: '來玩聚 楠梓店',
+      startTime: '2026/08/28~2026/08/29',
+      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/9exJ7qo' }],
+    },
   ],
   宜蘭縣: [
     {
@@ -962,6 +986,11 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox 台東秀泰店',
       startTime: '2026/08/28~2026/08/29',
       items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/T8gcAp5' }],
+    },
+    {
+      store: '來玩聚-台東家樂福',
+      startTime: '2026/08/28~2026/08/29',
+      items: [{ name: 'UX-21 惡魔冥界改造組（8/29 11:00才開始）', url: 'https://lin.ee/S7Bt8VH' }],
     },
   ],
 };
