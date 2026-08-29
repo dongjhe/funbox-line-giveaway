@@ -798,7 +798,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: '義大世界購物廣場 fun box 義大2館',
       storeUrl: 'https://www.facebook.com/profile.php?id=100057653970900',
-      items: [],
+      items: [{ name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/WJUKWR4' }],
     },
     {
       store: 'Funbox-夢時代店',
@@ -935,6 +935,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BX-25 專業收納包', url: 'https://lin.ee/SGrSo04' },
         { name: 'BX-10 極限衝擊戰鬥盤', url: 'https://lin.ee/7ywJfSN' },
         { name: 'BX-57 3V3對戰收納盒黑', url: 'https://lin.ee/tMbYyuo' },
+        { name: 'UX-21 惡魔冥界改造組895元（8/29 11:00才開始）', url: 'https://lin.ee/Z689cvI' },
       ],
     },
   ],
