@@ -663,6 +663,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-03 魔導神杖', url: 'https://lin.ee/WhA1YMF' },
         { name: 'UX-11 衝擊龍神豪華組', url: 'https://lin.ee/7cQpFng' },
         { name: 'UX-20 榮耀武神LF', url: 'https://lin.ee/6TBJaAM' },
+        { name: 'UX-21 惡魔冥界改造組（8/29 10:30才開始）', url: 'https://lin.ee/ps0aj3G' },
         { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/WQncIAy' },
         { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/SzdgXPy' },
       ],
@@ -749,6 +750,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-11【衝擊龍神豪華組】：', url: 'https://lin.ee/Wo4vwGH' },
         { name: 'UX-19【子彈獅鷲H】：', url: 'https://lin.ee/ukxITe9' },
         { name: 'UX-20【榮耀武神LF】：', url: 'https://lin.ee/ppsPrIS4' },
+        { name: 'UX-21【惡魔冥界改造組】（8/29 10:30才開始）', url: 'https://lin.ee/w7T1FtI' },
       ],
     },
     {
