@@ -23,6 +23,8 @@ export class AppComponent {
   selectedRegions = new Set<string>();
   selectedProducts = new Set<string>();
   selectedProductOrder: string[] = [];
+  continuousMode = false;
+  continuousIndex = 0;
 
   constructor() {
     this.loadClickedGiveaways();
@@ -67,6 +69,7 @@ export class AppComponent {
     const next = new Set(this.selectedRegions);
     checked ? next.add(region) : next.delete(region);
     this.selectedRegions = next;
+    this.resetContinuousDraw();
   }
   clearSelectedRegions(): void {
     this.selectedRegions = new Set<string>();
@@ -74,6 +77,7 @@ export class AppComponent {
   resetAllFilters(productFilter?: HTMLDetailsElement, regionFilter?: HTMLDetailsElement): void {
     this.clearSelectedRegions();
     this.clearSelectedProducts();
+    this.resetContinuousDraw();
     if (productFilter) productFilter.open = false;
     if (regionFilter) regionFilter.open = false;
   }
@@ -131,6 +135,7 @@ export class AppComponent {
       this.selectedProductOrder = this.selectedProductOrder.filter((c) => c !== code);
     }
     this.selectedProducts = next;
+    this.resetContinuousDraw();
   }
   productSelectionNumber(product: string): number | null {
     const i = this.selectedProductOrder.indexOf(this.productCode(product));
@@ -142,10 +147,44 @@ export class AppComponent {
   clearSelectedProducts(): void {
     this.selectedProducts = new Set<string>();
     this.selectedProductOrder = [];
+    this.resetContinuousDraw();
   }
   clearClickedGiveaways(): void {
     localStorage.removeItem(this.clickedStorageKey);
     this.clickedGiveaways = new Set<string>();
+  }
+  get currentContinuousGiveaway(): SelectedGiveaway | null {
+    return this.selectedGiveaways[this.continuousIndex] ?? null;
+  }
+  get continuousCountText(): string {
+    const total = this.selectedGiveaways.length;
+    if (!total) return '第 0 / 0 家';
+    return `第 ${this.continuousIndex + 1} / ${total} 家`;
+  }
+  triggerContinuousDraw(): void {
+    const current = this.currentContinuousGiveaway;
+    if (!current) return;
+
+    this.markGiveawayClicked(current.item.url);
+    const popup = window.open(current.item.url, '_blank', 'noopener,noreferrer');
+    if (popup) popup.opener = null;
+
+    if (!this.continuousMode) {
+      this.continuousMode = true;
+      if (this.selectedGiveaways.length > 1) this.continuousIndex = 1;
+      return;
+    }
+
+    if (this.continuousIndex < this.selectedGiveaways.length - 1) {
+      this.continuousIndex += 1;
+      return;
+    }
+
+    this.resetContinuousDraw();
+  }
+  resetContinuousDraw(): void {
+    this.continuousMode = false;
+    this.continuousIndex = 0;
   }
   filteredItems(giveaway: { items: GiveawayItem[] }): GiveawayItem[] {
     if (!this.selectedProducts.size) return giveaway.items;
