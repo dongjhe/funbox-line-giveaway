@@ -31,7 +31,14 @@ function ensureRegion(source, region) { if (source.includes(`  ${region}: [`)) r
 
 function parseItems(text) {
   const lines = text.split('\n').map((line) => line.trim()).filter(Boolean); const items = [];
-  for (let i = 0; i < lines.length; i += 1) { const line = lines[i]; const inline = line.match(/^(\d+[.、]\s*)?((?:BXG|BX|UX|CX)-?\d+[^\n]*?)\s*-?\s*(https:\/\/lin\.ee\/[A-Za-z0-9_-]+)/i); if (inline) { items.push({ name: cleanName(inline[2]), url: inline[3] }); continue; } if (/^(\d+[.、]\s*)?(?:BXG|BX|UX|CX)-?\d+/i.test(line)) { for (let j = i + 1; j <= Math.min(i + 3, lines.length - 1); j += 1) { const link = lines[j].match(/https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i); if (link) { items.push({ name: cleanName(line), url: link[0] }); i = j; break; } } } }
+  for (let i = 0; i < lines.length; i += 1) {
+    const line = lines[i];
+    const linkFirst = line.match(/(https:\/\/lin\.ee\/[A-Za-z0-9_-]+)\s+((?:BXG|BX|UX|CX)-?\d+[^\n]*)/i);
+    if (linkFirst) { items.push({ name: cleanName(linkFirst[2]), url: linkFirst[1] }); continue; }
+    const inline = line.match(/^(\d+[.、]\s*)?((?:BXG|BX|UX|CX)-?\d+[^\n]*?)\s*-?\s*(https:\/\/lin\.ee\/[A-Za-z0-9_-]+)/i);
+    if (inline) { items.push({ name: cleanName(inline[2]), url: inline[3] }); continue; }
+    if (/^(\d+[.、]\s*)?(?:BXG|BX|UX|CX)-?\d+/i.test(line)) { for (let j = i + 1; j <= Math.min(i + 3, lines.length - 1); j += 1) { const link = lines[j].match(/https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i); if (link) { items.push({ name: cleanName(line), url: link[0] }); i = j; break; } } }
+  }
   const deduped = new Map(); for (const item of items) deduped.set(`${productCode(item.name) || item.name}|${item.url}`, item); return [...deduped.values()];
 }
 function parseRelativeTime(text, now = new Date()) { const value = (text || '').trim(); const result = new Date(now); let m; if ((m = value.match(/^(\d+)分鐘前$/))) { result.setMinutes(result.getMinutes() - Number(m[1])); return result; } if ((m = value.match(/^(\d+)小時前$/))) { result.setHours(result.getHours() - Number(m[1])); return result; } if ((m = value.match(/^昨天\s*(\d{1,2}):(\d{2})$/))) { result.setDate(result.getDate() - 1); result.setHours(+m[1], +m[2], 0, 0); return result; } if ((m = value.match(/^前天\s*(\d{1,2}):(\d{2})$/))) { result.setDate(result.getDate() - 2); result.setHours(+m[1], +m[2], 0, 0); return result; } if ((m = value.match(/^(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/))) return new Date(now.getFullYear(), +m[1] - 1, +m[2], +m[3], +m[4]); if ((m = value.match(/^(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/))) return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]); return null; }
@@ -57,12 +64,7 @@ async function expandRecentPosts(page, keepLegacyCouponExpansion = false) {
     const controls = root.getByText(/優惠券連結|抽獎連結|抽選連結/, { exact: false });
     for (let i = 0; i < await controls.count(); i += 1) {
       const control = controls.nth(i);
-      try {
-        if (!(await control.isVisible())) continue;
-        const href = await control.evaluate((el) => (el.closest('a')?.getAttribute('href') || ''));
-        if (/^https?:\/\/lin\.ee\//i.test(href)) continue;
-        await control.click({ timeout: 1500 }); await page.waitForTimeout(300); coupons += 1;
-      } catch (_) {}
+      try { if (!(await control.isVisible())) continue; const href = await control.evaluate((el) => (el.closest('a')?.getAttribute('href') || '')); if (/^https?:\/\/lin\.ee\//i.test(href)) continue; await control.click({ timeout: 1500 }); await page.waitForTimeout(300); coupons += 1; } catch (_) {}
     }
   }
   if (more) console.log(`🔓 已展開 ${more} 個 8/25 後文章的「顯示更多」`);
@@ -71,8 +73,35 @@ async function expandRecentPosts(page, keepLegacyCouponExpansion = false) {
 }
 
 async function parseItemsFromPostDom(page, aggregateAll = false) {
-  const candidates = await page.evaluate(() => [...document.querySelectorAll('[data-voom-audit-id]')].map((post) => { const viewer = post.querySelector('.text_viewer.page_feed') || post; const text = (viewer.innerText || viewer.textContent || '').trim(); const links = [...viewer.querySelectorAll('a[href^="https://lin.ee/"]')]; const items = links.map((link) => { let name = ''; let node = link.nextSibling; while (node) { if (node.nodeType === Node.TEXT_NODE) name += node.textContent || ''; else if (node.nodeName === 'BR') break; else name += node.textContent || ''; node = node.nextSibling; } return { name: name.replace(/\s+/g, ' ').trim(), url: link.href }; }).filter((item) => /\b(?:BXG|BX|UX|CX)-?\d+\b/i.test(item.name)); return { text, items }; }).filter((x) => x.items.length > 0));
-  if (!candidates.length) return []; const selected = aggregateAll ? candidates : [candidates.sort((a, b) => b.items.length - a.items.length)[0]]; const deduped = new Map(); for (const candidate of selected) for (const item of candidate.items) { const cleaned = { name: cleanName(item.name), url: item.url }; deduped.set(`${productCode(cleaned.name) || cleaned.name}|${cleaned.url}`, cleaned); } return [...deduped.values()];
+  const candidates = await page.evaluate(() => [...document.querySelectorAll('[data-voom-audit-id]')].map((post) => {
+    const viewer = post.querySelector('.text_viewer.page_feed') || post;
+    const text = (viewer.innerText || viewer.textContent || '').trim();
+    const items = parseText(text);
+    const anchors = [...viewer.querySelectorAll('a[href*="lin.ee/"]')];
+    for (const link of anchors) {
+      const url = link.href || link.getAttribute('href') || '';
+      if (!/https?:\/\/lin\.ee\//i.test(url)) continue;
+      const parentText = (link.parentElement?.innerText || link.parentElement?.textContent || '').replace(/\s+/g, ' ').trim();
+      const match = parentText.match(/\b((?:BXG|BX|UX|CX)-?\d+[^\n]*?)(?=\s{2,}|$)/i) || text.match(new RegExp(`${escapeRegex(url)}\\s+((?:BXG|BX|UX|CX)-?\\d+[^\\n]*)`, 'i'));
+      if (match) items.push({ name: match[1].trim(), url });
+    }
+    return { text, items };
+
+    function parseText(value) {
+      const found = []; const lines = value.split('\n').map((x) => x.trim()).filter(Boolean);
+      for (const line of lines) {
+        let m = line.match(/(https:\/\/lin\.ee\/[A-Za-z0-9_-]+)\s+((?:BXG|BX|UX|CX)-?\d+[^\n]*)/i);
+        if (m) { found.push({ name: m[2], url: m[1] }); continue; }
+        m = line.match(/((?:BXG|BX|UX|CX)-?\d+[^\n]*?)\s+(https:\/\/lin\.ee\/[A-Za-z0-9_-]+)/i);
+        if (m) found.push({ name: m[1], url: m[2] });
+      }
+      return found;
+    }
+    function escapeRegex(value) { return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  }).filter((x) => x.items.length > 0));
+  if (!candidates.length) return [];
+  const selected = aggregateAll ? candidates : [candidates.sort((a, b) => b.items.length - a.items.length)[0]];
+  const deduped = new Map(); for (const candidate of selected) for (const item of candidate.items) { const cleaned = { name: cleanName(item.name), url: item.url }; deduped.set(`${productCode(cleaned.name) || cleaned.name}|${cleaned.url}`, cleaned); } return [...deduped.values()];
 }
 
 async function getLatestGiveaway(page, aggregateAllRecent = false) {
