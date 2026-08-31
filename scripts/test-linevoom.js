@@ -40,7 +40,35 @@ async function getRecentPostContainers(page) {
   const raw = await page.evaluate(() => { const timePattern = /^(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})$/; const all = [...document.querySelectorAll('body *')]; const result = []; for (const el of all) { if (el.children.length > 3) continue; const text = (el.innerText || el.textContent || '').trim(); if (!timePattern.test(text)) continue; let post = el; for (let i = 0; i < 8 && post.parentElement; i += 1) { post = post.parentElement; const t = (post.innerText || '').trim(); if (t.includes('Public') && (t.includes('Like') || t.includes('Comment') || t.includes('Share'))) break; } if (!post || post === document.body) continue; if (!post.dataset.voomAuditId) post.dataset.voomAuditId = `audit-${result.length}-${Math.random().toString(36).slice(2)}`; result.push({ id: post.dataset.voomAuditId, timeLabel: text }); } return result; });
   const now = new Date(); const seen = new Set(); const recent = []; for (const row of raw) { const publishedAt = parseRelativeTime(row.timeLabel, now); if (!publishedAt || publishedAt < CUTOFF || seen.has(row.id)) continue; seen.add(row.id); recent.push({ ...row, publishedAt }); } return recent.sort((a, b) => b.publishedAt - a.publishedAt);
 }
-async function expandRecentPosts(page) { const recent = await getRecentPostContainers(page); let more = 0; let coupons = 0; for (const post of recent) { const root = page.locator(`[data-voom-audit-id="${post.id}"]`); for (let round = 0; round < 5; round += 1) { const controls = root.getByText('顯示更多', { exact: false }); let clicked = false; for (let i = 0; i < await controls.count(); i += 1) { const control = controls.nth(i); try { if (!(await control.isVisible())) continue; await control.click({ timeout: 1500 }); await page.waitForTimeout(250); more += 1; clicked = true; break; } catch (_) {} } if (!clicked) break; } const controls = root.getByText(/優惠券連結|抽獎連結|抽選連結/, { exact: false }); for (let i = 0; i < await controls.count(); i += 1) { const control = controls.nth(i); try { if (!(await control.isVisible())) continue; const href = await control.evaluate((el) => (el.closest('a')?.getAttribute('href') || '')); if (/^https?:\/\/lin\.ee\//i.test(href)) continue; await control.click({ timeout: 1500 }); await page.waitForTimeout(300); coupons += 1; } catch (_) {} } } if (more) console.log(`🔓 已展開 ${more} 個 8/25 後文章的「顯示更多」`); if (coupons) console.log(`🎟️ 已展開 ${coupons} 個 8/25 後文章的「優惠券/抽獎/抽選連結」區塊`); }
+
+async function expandRecentPosts(page, keepLegacyCouponExpansion = false) {
+  const recent = await getRecentPostContainers(page); let more = 0; let coupons = 0;
+  for (const post of recent) {
+    const root = page.locator(`[data-voom-audit-id="${post.id}"]`);
+    for (let round = 0; round < 5; round += 1) {
+      const controls = root.getByText('顯示更多', { exact: false }); let clicked = false;
+      for (let i = 0; i < await controls.count(); i += 1) {
+        const control = controls.nth(i);
+        try { if (!(await control.isVisible())) continue; await control.click({ timeout: 1500 }); await page.waitForTimeout(250); more += 1; clicked = true; break; } catch (_) {}
+      }
+      if (!clicked) break;
+    }
+    if (!keepLegacyCouponExpansion) continue;
+    const controls = root.getByText(/優惠券連結|抽獎連結|抽選連結/, { exact: false });
+    for (let i = 0; i < await controls.count(); i += 1) {
+      const control = controls.nth(i);
+      try {
+        if (!(await control.isVisible())) continue;
+        const href = await control.evaluate((el) => (el.closest('a')?.getAttribute('href') || ''));
+        if (/^https?:\/\/lin\.ee\//i.test(href)) continue;
+        await control.click({ timeout: 1500 }); await page.waitForTimeout(300); coupons += 1;
+      } catch (_) {}
+    }
+  }
+  if (more) console.log(`🔓 已展開 ${more} 個 8/25 後文章的「顯示更多」`);
+  if (coupons) console.log(`🎟️ 已展開 ${coupons} 個 8/25 後文章的「優惠券/抽獎/抽選連結」區塊`);
+  if (!keepLegacyCouponExpansion) console.log('🛡️ 一般店家模式：不點優惠券連結，避免跳離 LINE VOOM；直接從展開後 DOM 解析');
+}
 
 async function parseItemsFromPostDom(page, aggregateAll = false) {
   const candidates = await page.evaluate(() => [...document.querySelectorAll('[data-voom-audit-id]')].map((post) => { const viewer = post.querySelector('.text_viewer.page_feed') || post; const text = (viewer.innerText || viewer.textContent || '').trim(); const links = [...viewer.querySelectorAll('a[href^="https://lin.ee/"]')]; const items = links.map((link) => { let name = ''; let node = link.nextSibling; while (node) { if (node.nodeType === Node.TEXT_NODE) name += node.textContent || ''; else if (node.nodeName === 'BR') break; else name += node.textContent || ''; node = node.nextSibling; } return { name: name.replace(/\s+/g, ' ').trim(), url: link.href }; }).filter((item) => /\b(?:BXG|BX|UX|CX)-?\d+\b/i.test(item.name)); return { text, items }; }).filter((x) => x.items.length > 0));
@@ -62,7 +90,28 @@ function compareItems(dataItems, voomItems) { const dataByCode = new Map(dataIte
 (async () => {
   let dataSource = fs.readFileSync(DATA_FILE, 'utf8'); let dataStores = parseGiveawayData(dataSource); let changed = 0; console.log(`\n🧪 LINE VOOM ${SYNC_MODE ? '同步' : '完整店家母清單稽核'}`); console.log('⏱️ 只檢查 2026/08/25 00:00 Asia/Taipei 之後文章'); console.log(`🏪 LINE VOOM 母清單：${VOOM_STORES.length} 間\n`); if (SYNC_MODE) console.log('✍️ SYNC MODE：只更新確認店家一致且最新相關貼文含商品連結的資料；PENDING / SKIP / STORE MISMATCH / ERROR 不修改。\n');
   const browser = await chromium.launch({ headless: false }); const context = await browser.newContext({ locale: 'zh-TW', timezoneId: 'Asia/Taipei' }); const page = await context.newPage(); const summary = { match: 0, different: 0, skipped: 0, pending: 0, mismatch: 0, newStore: 0, error: 0, synced: 0 };
-  for (let index = 0; index < VOOM_STORES.length; index += 1) { const master = VOOM_STORES[index]; let dataStore = findDataStore(master, dataStores); console.log(`\n[${index + 1}/${VOOM_STORES.length}] 🔎 ${master.region} / ${master.name}`); try { await page.goto(master.url, { waitUntil: 'domcontentloaded', timeout: 60000 }); await page.waitForTimeout(2500); const title = (await page.title()).replace(/\s*\|\s*LINE VOOM.*$/i, '').trim(); console.log(`📄 ${title}`); if (normalizeName(title) && normalizeName(master.name) && !normalizeName(title).includes(normalizeName(master.name)) && !normalizeName(master.name).includes(normalizeName(title))) { console.log(`🚨 STORE MISMATCH - 母清單=${master.name} / PAGE=${title}`); summary.mismatch += 1; continue; } await expandRecentPosts(page); const aggregateAllRecent = MULTI_POST_STORE_IDS.some((id) => master.url.includes(id)); if (aggregateAllRecent) console.log('🧺 台中 LaLaport 特殊模式：抓取指定時間後所有文章的商品連結'); const latest = await getLatestGiveaway(page, aggregateAllRecent); if (!latest) { console.log('⏭️ SKIP - 8/25 後找不到陀螺抽籤相關文章'); summary.skipped += 1; continue; } console.log(`🕐 ${latest.timeLabel}${latest.aggregated ? '（彙整模式最新文章時間）' : ''}`); if (latest.pending) { console.log('🕒 PENDING - 指定時間後尚無可解析的 lin.ee 商品連結'); summary.pending += 1; continue; } if (!dataStore) { console.log(`🆕 NEW STORE - giveaway-data.ts 尚未建立，VOOM 商品 ${latest.items.length} 個`); if (SYNC_MODE) { dataSource = ensureRegion(dataSource, master.region); dataSource = syncNewStore(dataSource, master, latest.items); dataStores = parseGiveawayData(dataSource); changed += 1; summary.synced += 1; console.log('💾 SYNCED - 已新增店家與商品'); } else for (const item of latest.items) console.log(`  ➕ ${productCode(item.name)} ${item.name}\n     ${item.url}`); summary.newStore += 1; continue; } console.log(`📦 VOOM ${latest.items.length} / DATA ${dataStore.items.length}`); const differences = compareItems(dataStore.items, latest.items); if (!differences.length && latest.items.length === dataStore.items.length) { console.log('✅ MATCH'); summary.match += 1; continue; } console.log('⚠️ DIFFERENT'); if (SYNC_MODE) { dataSource = syncExistingStore(dataSource, dataStore, latest.items); dataStores = parseGiveawayData(dataSource); changed += 1; summary.synced += 1; console.log(`💾 SYNCED - 已以 VOOM ${latest.aggregated ? '指定時間後所有文章彙整' : '最新貼文'}完整取代 items (${latest.items.length})`); } else for (const diff of differences) { if (diff.type === 'URL_CHANGED') console.log(`  🔄 ${diff.code} ${diff.voom.name}\n     DATA: ${diff.data.url}\n     VOOM: ${diff.voom.url}`); else if (diff.type === 'MISSING_IN_DATA') console.log(`  ➕ ${diff.code} ${diff.voom.name}\n     VOOM: ${diff.voom.url}`); else console.log(`  ➖ ${diff.code} ${diff.data.name}\n     DATA only: ${diff.data.url}`); } summary.different += 1; } catch (error) { console.log(`❌ ERROR: ${error.message}`); summary.error += 1; } }
+  for (let index = 0; index < VOOM_STORES.length; index += 1) {
+    const master = VOOM_STORES[index]; let dataStore = findDataStore(master, dataStores); console.log(`\n[${index + 1}/${VOOM_STORES.length}] 🔎 ${master.region} / ${master.name}`);
+    try {
+      await page.goto(master.url, { waitUntil: 'domcontentloaded', timeout: 60000 }); await page.waitForTimeout(2500);
+      const title = (await page.title()).replace(/\s*\|\s*LINE VOOM.*$/i, '').trim(); console.log(`📄 ${title}`);
+      if (normalizeName(title) && normalizeName(master.name) && !normalizeName(title).includes(normalizeName(master.name)) && !normalizeName(master.name).includes(normalizeName(title))) { console.log(`🚨 STORE MISMATCH - 母清單=${master.name} / PAGE=${title}`); summary.mismatch += 1; continue; }
+      const aggregateAllRecent = MULTI_POST_STORE_IDS.some((id) => master.url.includes(id));
+      if (aggregateAllRecent) console.log('🧺 台中 LaLaport 特殊模式：抓取指定時間後所有文章的商品連結');
+      await expandRecentPosts(page, aggregateAllRecent);
+      const latest = await getLatestGiveaway(page, aggregateAllRecent);
+      if (!latest) { console.log('⏭️ SKIP - 8/25 後找不到陀螺抽籤相關文章'); summary.skipped += 1; continue; }
+      console.log(`🕐 ${latest.timeLabel}${latest.aggregated ? '（彙整模式最新文章時間）' : ''}`);
+      if (latest.pending) { console.log('🕒 PENDING - 指定時間後尚無可解析的 lin.ee 商品連結'); summary.pending += 1; continue; }
+      if (!dataStore) { console.log(`🆕 NEW STORE - giveaway-data.ts 尚未建立，VOOM 商品 ${latest.items.length} 個`); if (SYNC_MODE) { dataSource = ensureRegion(dataSource, master.region); dataSource = syncNewStore(dataSource, master, latest.items); dataStores = parseGiveawayData(dataSource); changed += 1; summary.synced += 1; console.log('💾 SYNCED - 已新增店家與商品'); } else for (const item of latest.items) console.log(`  ➕ ${productCode(item.name)} ${item.name}\n     ${item.url}`); summary.newStore += 1; continue; }
+      console.log(`📦 VOOM ${latest.items.length} / DATA ${dataStore.items.length}`); const differences = compareItems(dataStore.items, latest.items);
+      if (!differences.length && latest.items.length === dataStore.items.length) { console.log('✅ MATCH'); summary.match += 1; continue; }
+      console.log('⚠️ DIFFERENT');
+      if (SYNC_MODE) { dataSource = syncExistingStore(dataSource, dataStore, latest.items); dataStores = parseGiveawayData(dataSource); changed += 1; summary.synced += 1; console.log(`💾 SYNCED - 已以 VOOM ${latest.aggregated ? '指定時間後所有文章彙整' : '最新貼文'}完整取代 items (${latest.items.length})`); }
+      else for (const diff of differences) { if (diff.type === 'URL_CHANGED') console.log(`  🔄 ${diff.code} ${diff.voom.name}\n     DATA: ${diff.data.url}\n     VOOM: ${diff.voom.url}`); else if (diff.type === 'MISSING_IN_DATA') console.log(`  ➕ ${diff.code} ${diff.voom.name}\n     VOOM: ${diff.voom.url}`); else console.log(`  ➖ ${diff.code} ${diff.data.name}\n     DATA only: ${diff.data.url}`); }
+      summary.different += 1;
+    } catch (error) { console.log(`❌ ERROR: ${error.message}`); summary.error += 1; }
+  }
   if (SYNC_MODE && changed > 0) { fs.writeFileSync(DATA_FILE, dataSource, 'utf8'); console.log(`\n💾 已寫入 ${DATA_FILE}`); console.log(`🔄 共同步 ${changed} 間店家。請先 git diff，再重新跑 npm run test:linevoom 驗證。`); }
   console.log('\n================ AUDIT SUMMARY ================'); console.log(`✅ MATCH:          ${summary.match}`); console.log(`⚠️ DIFFERENT:      ${summary.different}`); console.log(`🆕 NEW STORE:      ${summary.newStore}`); console.log(`🕒 PENDING:        ${summary.pending}`); console.log(`🚨 STORE MISMATCH: ${summary.mismatch}`); console.log(`⏭️ SKIP:           ${summary.skipped}`); console.log(`❌ ERROR:          ${summary.error}`); if (SYNC_MODE) console.log(`💾 SYNCED:         ${summary.synced}`); console.log('================================================'); if (!SYNC_MODE) console.log('ℹ️ Audit 模式不會修改 giveaway-data.ts。\n'); await browser.close();
 })().catch((error) => { console.error('\n❌ LINE VOOM audit/sync failed'); console.error(error); process.exitCode = 1; });
