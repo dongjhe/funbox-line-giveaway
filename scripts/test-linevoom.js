@@ -7,13 +7,15 @@ const CUTOFF = new Date('2026-08-25T00:00:00+08:00');
 const GIVEAWAY_KEYWORDS = ['陀螺', '抽選', '抽籤', '購買券', '購買資格', '抽獎連結', '抽選連結'];
 const DATA_FILE = path.resolve(__dirname, '../src/app/giveaway-data.ts');
 const SYNC_MODE = process.argv.includes('--sync');
-const MULTI_POST_STORE_IDS = ['_dWbmVBOBVpcGPA3UWP953LsGWVx32VkrDcGrqRQ'];
+const LALAPORT_ID = '_dWbmVBOBVpcGPA3UWP953LsGWVx32VkrDcGrqRQ';
+const XIZHI_ID = '_dXWlFT8AyCrEdtsk_fRRUYuqERc8rWDzx3c6DUA';
 
 function normalizeName(value = '') { return value.toLowerCase().replace(/funbox|toys|sanrio/g, '').replace(/[\s&\-－_()（）]/g, ''); }
 function productCode(name) { return (name.match(/\b(BXG|BX|UX|CX)-?\d+\b/i)?.[0] || '').toUpperCase().replace(/^(BXG|BX|UX|CX)(\d+)/, '$1-$2'); }
 function cleanName(name) { return name.replace(/^\d+[.、]\s*/, '').replace(/\s*-?\s*\$?\d+(?:,\d{3})*元?\s*$/i, '').replace(/\s+-\s*$/, '').trim(); }
 function escapeTs(value) { return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
 function formatItems(items, indent = '        ') { return items.map((item) => `${indent}{ name: '${escapeTs(item.name)}', url: '${escapeTs(item.url)}' },`).join('\n'); }
+function dedupeItems(items) { const map = new Map(); for (const item of items) { if (!productCode(item.name) || !/^https:\/\/lin\.ee\//i.test(item.url)) continue; map.set(`${productCode(item.name)}|${item.url}`, { name: cleanName(item.name), url: item.url }); } return [...map.values()]; }
 
 function parseGiveawayData(source) {
   const stores = []; const regionRegex = /^\s{2}([^\s][^:]*): \[$/gm; const regions = [...source.matchAll(regionRegex)];
@@ -29,118 +31,41 @@ function syncExistingStore(source, dataStore, latestItems) { const escapedName =
 function syncNewStore(source, master, latestItems) { const regionHeader = `  ${master.region}: [`; const start = source.indexOf(regionHeader); if (start < 0) throw new Error(`giveaway-data.ts 尚未建立地區：${master.region}`); const afterHeader = start + regionHeader.length; const rest = source.slice(afterHeader); const nextRegionMatch = rest.match(/^  [^\s][^:\n]*: \[$/m); const regionEnd = nextRegionMatch ? afterHeader + nextRegionMatch.index : source.lastIndexOf('\n};'); const regionBlock = source.slice(start, regionEnd); const closeOffset = regionBlock.lastIndexOf('\n  ],'); if (closeOffset < 0) throw new Error(`找不到地區結尾：${master.region}`); const close = start + closeOffset + 1; const block = `    {\n      store: '${escapeTs(master.name)}',\n      storeUrl: '${escapeTs(master.url)}',\n      items: [\n${formatItems(latestItems)}\n      ],\n    },\n`; return source.slice(0, close) + block + source.slice(close); }
 function ensureRegion(source, region) { if (source.includes(`  ${region}: [`)) return source; const end = source.lastIndexOf('\n};'); if (end < 0) throw new Error('找不到 GIVEAWAYS 結尾'); return source.slice(0, end) + `\n  ${region}: [\n  ],` + source.slice(end); }
 
-function parseItems(text) {
-  const lines = text.split('\n').map((line) => line.trim()).filter(Boolean); const items = [];
+function parseNormalItems(text) {
+  const lines = text.split('\n').map((x) => x.trim()).filter(Boolean); const items = [];
   for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i];
-    const linkFirst = line.match(/(https:\/\/lin\.ee\/[A-Za-z0-9_-]+)\s+((?:BXG|BX|UX|CX)-?\d+[^\n]*)/i);
-    if (linkFirst) { items.push({ name: cleanName(linkFirst[2]), url: linkFirst[1] }); continue; }
     const inline = line.match(/^(\d+[.、]\s*)?((?:BXG|BX|UX|CX)-?\d+[^\n]*?)\s*-?\s*(https:\/\/lin\.ee\/[A-Za-z0-9_-]+)/i);
-    if (inline) { items.push({ name: cleanName(inline[2]), url: inline[3] }); continue; }
-    if (/^(\d+[.、]\s*)?(?:BXG|BX|UX|CX)-?\d+/i.test(line)) { for (let j = i + 1; j <= Math.min(i + 3, lines.length - 1); j += 1) { const link = lines[j].match(/https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i); if (link) { items.push({ name: cleanName(line), url: link[0] }); i = j; break; } } }
+    if (inline) { items.push({ name: inline[2], url: inline[3] }); continue; }
+    if (/^(\d+[.、]\s*)?(?:BXG|BX|UX|CX)-?\d+/i.test(line)) {
+      for (let j = i + 1; j <= Math.min(i + 3, lines.length - 1); j += 1) { const link = lines[j].match(/https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i); if (link) { items.push({ name: line, url: link[0] }); i = j; break; } }
+    }
   }
-  const deduped = new Map(); for (const item of items) deduped.set(`${productCode(item.name) || item.name}|${item.url}`, item); return [...deduped.values()];
+  return dedupeItems(items);
 }
+function parseXizhiItems(text) {
+  const lines = text.split('\n').map((x) => x.trim()).filter(Boolean); const items = [];
+  for (let i = 0; i < lines.length; i += 1) {
+    let m = lines[i].match(/(https:\/\/lin\.ee\/[A-Za-z0-9_-]+)\s+((?:BXG|BX|UX|CX)-?\d+[^\n]*)/i);
+    if (m) items.push({ name: m[2], url: m[1] });
+    else if (/^https:\/\/lin\.ee\//i.test(lines[i]) && i + 1 < lines.length && /^(?:BXG|BX|UX|CX)-?\d+/i.test(lines[i + 1])) items.push({ name: lines[i + 1], url: lines[i].match(/https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i)[0] });
+  }
+  return dedupeItems(items);
+}
+function cleanLalaportName(name) { return cleanName(name).replace(/\s+購買資格[\s\S]*$/i, '').replace(/\s*\|\s*Funbox[\s\S]*$/i, '').trim(); }
+function parseLalaportItems(text) { return dedupeItems(parseNormalItems(text).map((x) => ({ ...x, name: cleanLalaportName(x.name) }))); }
+
 function parseRelativeTime(text, now = new Date()) { const value = (text || '').trim(); const result = new Date(now); let m; if ((m = value.match(/^(\d+)分鐘前$/))) { result.setMinutes(result.getMinutes() - Number(m[1])); return result; } if ((m = value.match(/^(\d+)小時前$/))) { result.setHours(result.getHours() - Number(m[1])); return result; } if ((m = value.match(/^昨天\s*(\d{1,2}):(\d{2})$/))) { result.setDate(result.getDate() - 1); result.setHours(+m[1], +m[2], 0, 0); return result; } if ((m = value.match(/^前天\s*(\d{1,2}):(\d{2})$/))) { result.setDate(result.getDate() - 2); result.setHours(+m[1], +m[2], 0, 0); return result; } if ((m = value.match(/^(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/))) return new Date(now.getFullYear(), +m[1] - 1, +m[2], +m[3], +m[4]); if ((m = value.match(/^(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/))) return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]); return null; }
+async function getRecentPostContainers(page) { const raw = await page.evaluate(() => { const timePattern = /^(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})$/; const all = [...document.querySelectorAll('body *')]; const result = []; for (const el of all) { if (el.children.length > 3) continue; const text = (el.innerText || el.textContent || '').trim(); if (!timePattern.test(text)) continue; let post = el; for (let i = 0; i < 8 && post.parentElement; i += 1) { post = post.parentElement; const t = (post.innerText || '').trim(); if (t.includes('Public') && (t.includes('Like') || t.includes('Comment') || t.includes('Share'))) break; } if (!post || post === document.body) continue; if (!post.dataset.voomAuditId) post.dataset.voomAuditId = `audit-${result.length}-${Math.random().toString(36).slice(2)}`; result.push({ id: post.dataset.voomAuditId, timeLabel: text }); } return result; }); const now = new Date(); const seen = new Set(); return raw.map((x) => ({ ...x, publishedAt: parseRelativeTime(x.timeLabel, now) })).filter((x) => x.publishedAt && x.publishedAt >= CUTOFF && !seen.has(x.id) && seen.add(x.id)).sort((a,b)=>b.publishedAt-a.publishedAt); }
+async function expandRecentPosts(page) { const recent = await getRecentPostContainers(page); let more = 0; for (const post of recent) { const root = page.locator(`[data-voom-audit-id="${post.id}"]`); for (let round=0; round<5; round+=1) { const controls=root.getByText('顯示更多',{exact:false}); let clicked=false; for(let i=0;i<await controls.count();i+=1){const c=controls.nth(i);try{if(!(await c.isVisible()))continue;await c.click({timeout:1500});await page.waitForTimeout(250);more+=1;clicked=true;break;}catch(_){}} if(!clicked)break; } } if(more)console.log(`🔓 已展開 ${more} 個 8/25 後文章的「顯示更多」`); }
+async function collectPosts(page) { const rows = await page.evaluate(() => [...document.querySelectorAll('[data-voom-audit-id]')].map((post) => ({ id: post.dataset.voomAuditId, text: ((post.querySelector('.text_viewer.page_feed') || post).innerText || '').trim() }))); const recent = await getRecentPostContainers(page); const byId = new Map(rows.map((x)=>[x.id,x.text])); return recent.map((x)=>({ ...x, text: byId.get(x.id)||'' })); }
 
-async function getRecentPostContainers(page) {
-  const raw = await page.evaluate(() => { const timePattern = /^(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})$/; const all = [...document.querySelectorAll('body *')]; const result = []; for (const el of all) { if (el.children.length > 3) continue; const text = (el.innerText || el.textContent || '').trim(); if (!timePattern.test(text)) continue; let post = el; for (let i = 0; i < 8 && post.parentElement; i += 1) { post = post.parentElement; const t = (post.innerText || '').trim(); if (t.includes('Public') && (t.includes('Like') || t.includes('Comment') || t.includes('Share'))) break; } if (!post || post === document.body) continue; if (!post.dataset.voomAuditId) post.dataset.voomAuditId = `audit-${result.length}-${Math.random().toString(36).slice(2)}`; result.push({ id: post.dataset.voomAuditId, timeLabel: text }); } return result; });
-  const now = new Date(); const seen = new Set(); const recent = []; for (const row of raw) { const publishedAt = parseRelativeTime(row.timeLabel, now); if (!publishedAt || publishedAt < CUTOFF || seen.has(row.id)) continue; seen.add(row.id); recent.push({ ...row, publishedAt }); } return recent.sort((a, b) => b.publishedAt - a.publishedAt);
-}
+async function getNormalGiveaway(page) { const posts=await collectPosts(page); for(const post of posts){ if(!GIVEAWAY_KEYWORDS.some((k)=>post.text.includes(k)))continue; const items=parseNormalItems(post.text); if(items.length) return {...post,items,pending:false,mode:'normal'}; return {...post,items:[],pending:true,mode:'normal'}; } return null; }
+async function getLalaportGiveaway(page) { const posts=await collectPosts(page); const all=[]; for(const post of posts) for(const item of parseLalaportItems(post.text)) all.push(item); const items=dedupeItems(all); if(!posts.length)return null; console.log(`🧺 多文章模式：彙整 8/25 後所有文章，共解析 ${items.length} 個商品連結`); return {...posts[0],items,pending:!items.length,aggregated:true,mode:'lalaport'}; }
+async function getXizhiGiveaway(page) { const posts=await collectPosts(page); for(const post of posts){ if(!GIVEAWAY_KEYWORDS.some((k)=>post.text.includes(k)))continue; const items=parseXizhiItems(post.text); return {...post,items,pending:!items.length,mode:'xizhi'}; } return null; }
+function compareItems(dataItems, voomItems) { const dataByCode=new Map(dataItems.map((x)=>[productCode(x.name)||x.name,x])); const voomByCode=new Map(voomItems.map((x)=>[productCode(x.name)||x.name,x])); const differences=[]; for(const [code,voom] of voomByCode){const data=dataByCode.get(code);if(!data)differences.push({type:'MISSING_IN_DATA',code,voom});else if(data.url!==voom.url)differences.push({type:'URL_CHANGED',code,data,voom});} for(const [code,data] of dataByCode)if(!voomByCode.has(code))differences.push({type:'NOT_IN_LATEST_POST',code,data}); return differences; }
+function unsafeSyncReason(dataStore, latest) { if(!latest.items.length)return 'VOOM 沒有商品'; if(latest.items.some((x)=>!productCode(x.name)||x.name.includes('https://lin.ee/')||x.name.length>100))return '商品名稱解析異常'; if(dataStore && dataStore.items.length>=4 && latest.items.length < Math.ceil(dataStore.items.length*0.5))return `商品數異常下降 ${dataStore.items.length} → ${latest.items.length}`; return ''; }
 
-async function expandRecentPosts(page, keepLegacyCouponExpansion = false) {
-  const recent = await getRecentPostContainers(page); let more = 0; let coupons = 0;
-  for (const post of recent) {
-    const root = page.locator(`[data-voom-audit-id="${post.id}"]`);
-    for (let round = 0; round < 5; round += 1) {
-      const controls = root.getByText('顯示更多', { exact: false }); let clicked = false;
-      for (let i = 0; i < await controls.count(); i += 1) {
-        const control = controls.nth(i);
-        try { if (!(await control.isVisible())) continue; await control.click({ timeout: 1500 }); await page.waitForTimeout(250); more += 1; clicked = true; break; } catch (_) {}
-      }
-      if (!clicked) break;
-    }
-    if (!keepLegacyCouponExpansion) continue;
-    const controls = root.getByText(/優惠券連結|抽獎連結|抽選連結/, { exact: false });
-    for (let i = 0; i < await controls.count(); i += 1) {
-      const control = controls.nth(i);
-      try { if (!(await control.isVisible())) continue; const href = await control.evaluate((el) => (el.closest('a')?.getAttribute('href') || '')); if (/^https?:\/\/lin\.ee\//i.test(href)) continue; await control.click({ timeout: 1500 }); await page.waitForTimeout(300); coupons += 1; } catch (_) {}
-    }
-  }
-  if (more) console.log(`🔓 已展開 ${more} 個 8/25 後文章的「顯示更多」`);
-  if (coupons) console.log(`🎟️ 已展開 ${coupons} 個 8/25 後文章的「優惠券/抽獎/抽選連結」區塊`);
-  if (!keepLegacyCouponExpansion) console.log('🛡️ 一般店家模式：不點優惠券連結，避免跳離 LINE VOOM；直接從展開後 DOM 解析');
-}
-
-async function parseItemsFromPostDom(page, aggregateAll = false) {
-  const candidates = await page.evaluate(() => [...document.querySelectorAll('[data-voom-audit-id]')].map((post) => {
-    const viewer = post.querySelector('.text_viewer.page_feed') || post;
-    const text = (viewer.innerText || viewer.textContent || '').trim();
-    const items = parseText(text);
-    const anchors = [...viewer.querySelectorAll('a[href*="lin.ee/"]')];
-    for (const link of anchors) {
-      const url = link.href || link.getAttribute('href') || '';
-      if (!/https?:\/\/lin\.ee\//i.test(url)) continue;
-      const parentText = (link.parentElement?.innerText || link.parentElement?.textContent || '').replace(/\s+/g, ' ').trim();
-      const match = parentText.match(/\b((?:BXG|BX|UX|CX)-?\d+[^\n]*?)(?=\s{2,}|$)/i) || text.match(new RegExp(`${escapeRegex(url)}\\s+((?:BXG|BX|UX|CX)-?\\d+[^\\n]*)`, 'i'));
-      if (match) items.push({ name: match[1].trim(), url });
-    }
-    return { text, items };
-
-    function parseText(value) {
-      const found = []; const lines = value.split('\n').map((x) => x.trim()).filter(Boolean);
-      for (const line of lines) {
-        let m = line.match(/(https:\/\/lin\.ee\/[A-Za-z0-9_-]+)\s+((?:BXG|BX|UX|CX)-?\d+[^\n]*)/i);
-        if (m) { found.push({ name: m[2], url: m[1] }); continue; }
-        m = line.match(/((?:BXG|BX|UX|CX)-?\d+[^\n]*?)\s+(https:\/\/lin\.ee\/[A-Za-z0-9_-]+)/i);
-        if (m) found.push({ name: m[1], url: m[2] });
-      }
-      return found;
-    }
-    function escapeRegex(value) { return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
-  }).filter((x) => x.items.length > 0));
-  if (!candidates.length) return [];
-  const selected = aggregateAll ? candidates : [candidates.sort((a, b) => b.items.length - a.items.length)[0]];
-  const deduped = new Map(); for (const candidate of selected) for (const item of candidate.items) { const cleaned = { name: cleanName(item.name), url: item.url }; deduped.set(`${productCode(cleaned.name) || cleaned.name}|${cleaned.url}`, cleaned); } return [...deduped.values()];
-}
-
-async function getLatestGiveaway(page, aggregateAllRecent = false) {
-  const posts = await page.evaluate(() => { const lines = (document.body.innerText || '').replace(/\r/g, '').split('\n').map((line) => line.trim()).filter(Boolean); const timePattern = /^(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})$/; const result = []; let start = 0; for (let i = 0; i < lines.length - 1; i += 1) { if (lines[i] !== 'Public' || !timePattern.test(lines[i + 1])) continue; const segment = lines.slice(start, i + 2); result.push({ text: segment.join('\n'), timeLabel: lines[i + 1] }); start = i + 2; } return result; });
-  const now = new Date(); const parsedPosts = []; for (const post of posts) { const publishedAt = parseRelativeTime(post.timeLabel, now); if (!publishedAt || publishedAt < CUTOFF) continue; parsedPosts.push({ ...post, publishedAt, textLength: post.text.length }); } parsedPosts.sort((a, b) => b.publishedAt - a.publishedAt || a.textLength - b.textLength); if (!parsedPosts.length) return null;
-  if (aggregateAllRecent) {
-    const deduped = new Map(); for (const post of parsedPosts) for (const item of parseItems(post.text)) deduped.set(`${productCode(item.name) || item.name}|${item.url}`, item);
-    const domItems = await parseItemsFromPostDom(page, true); for (const item of domItems) deduped.set(`${productCode(item.name) || item.name}|${item.url}`, item);
-    const items = [...deduped.values()]; console.log(`🧺 多文章模式：彙整 8/25 後所有文章，共解析 ${items.length} 個商品連結`); if (!items.length) return { ...parsedPosts[0], items: [], pending: true }; return { ...parsedPosts[0], items, pending: false, aggregated: true };
-  }
-  const latestRelevant = parsedPosts.find(({ text }) => GIVEAWAY_KEYWORDS.some((keyword) => text.includes(keyword))); if (!latestRelevant) return null; let items = parseItems(latestRelevant.text); if (!items.length) { items = await parseItemsFromPostDom(page); if (items.length) console.log(`🧩 DOM fallback 解析到 ${items.length} 個商品連結`); } if (!items.length) return { ...latestRelevant, items: [], pending: true, hasLineLinks: /https:\/\/lin\.ee\//i.test(latestRelevant.text) }; return { ...latestRelevant, items, pending: false };
-}
-function compareItems(dataItems, voomItems) { const dataByCode = new Map(dataItems.map((x) => [productCode(x.name) || x.name, x])); const voomByCode = new Map(voomItems.map((x) => [productCode(x.name) || x.name, x])); const differences = []; for (const [code, voom] of voomByCode) { const data = dataByCode.get(code); if (!data) differences.push({ type: 'MISSING_IN_DATA', code, voom }); else if (data.url !== voom.url) differences.push({ type: 'URL_CHANGED', code, data, voom }); } for (const [code, data] of dataByCode) if (!voomByCode.has(code)) differences.push({ type: 'NOT_IN_LATEST_POST', code, data }); return differences; }
-
-(async () => {
-  let dataSource = fs.readFileSync(DATA_FILE, 'utf8'); let dataStores = parseGiveawayData(dataSource); let changed = 0; console.log(`\n🧪 LINE VOOM ${SYNC_MODE ? '同步' : '完整店家母清單稽核'}`); console.log('⏱️ 只檢查 2026/08/25 00:00 Asia/Taipei 之後文章'); console.log(`🏪 LINE VOOM 母清單：${VOOM_STORES.length} 間\n`); if (SYNC_MODE) console.log('✍️ SYNC MODE：只更新確認店家一致且最新相關貼文含商品連結的資料；PENDING / SKIP / STORE MISMATCH / ERROR 不修改。\n');
-  const browser = await chromium.launch({ headless: false }); const context = await browser.newContext({ locale: 'zh-TW', timezoneId: 'Asia/Taipei' }); const page = await context.newPage(); const summary = { match: 0, different: 0, skipped: 0, pending: 0, mismatch: 0, newStore: 0, error: 0, synced: 0 };
-  for (let index = 0; index < VOOM_STORES.length; index += 1) {
-    const master = VOOM_STORES[index]; let dataStore = findDataStore(master, dataStores); console.log(`\n[${index + 1}/${VOOM_STORES.length}] 🔎 ${master.region} / ${master.name}`);
-    try {
-      await page.goto(master.url, { waitUntil: 'domcontentloaded', timeout: 60000 }); await page.waitForTimeout(2500);
-      const title = (await page.title()).replace(/\s*\|\s*LINE VOOM.*$/i, '').trim(); console.log(`📄 ${title}`);
-      if (normalizeName(title) && normalizeName(master.name) && !normalizeName(title).includes(normalizeName(master.name)) && !normalizeName(master.name).includes(normalizeName(title))) { console.log(`🚨 STORE MISMATCH - 母清單=${master.name} / PAGE=${title}`); summary.mismatch += 1; continue; }
-      const aggregateAllRecent = MULTI_POST_STORE_IDS.some((id) => master.url.includes(id));
-      if (aggregateAllRecent) console.log('🧺 台中 LaLaport 特殊模式：抓取指定時間後所有文章的商品連結');
-      await expandRecentPosts(page, aggregateAllRecent);
-      const latest = await getLatestGiveaway(page, aggregateAllRecent);
-      if (!latest) { console.log('⏭️ SKIP - 8/25 後找不到陀螺抽籤相關文章'); summary.skipped += 1; continue; }
-      console.log(`🕐 ${latest.timeLabel}${latest.aggregated ? '（彙整模式最新文章時間）' : ''}`);
-      if (latest.pending) { console.log('🕒 PENDING - 指定時間後尚無可解析的 lin.ee 商品連結'); summary.pending += 1; continue; }
-      if (!dataStore) { console.log(`🆕 NEW STORE - giveaway-data.ts 尚未建立，VOOM 商品 ${latest.items.length} 個`); if (SYNC_MODE) { dataSource = ensureRegion(dataSource, master.region); dataSource = syncNewStore(dataSource, master, latest.items); dataStores = parseGiveawayData(dataSource); changed += 1; summary.synced += 1; console.log('💾 SYNCED - 已新增店家與商品'); } else for (const item of latest.items) console.log(`  ➕ ${productCode(item.name)} ${item.name}\n     ${item.url}`); summary.newStore += 1; continue; }
-      console.log(`📦 VOOM ${latest.items.length} / DATA ${dataStore.items.length}`); const differences = compareItems(dataStore.items, latest.items);
-      if (!differences.length && latest.items.length === dataStore.items.length) { console.log('✅ MATCH'); summary.match += 1; continue; }
-      console.log('⚠️ DIFFERENT');
-      if (SYNC_MODE) { dataSource = syncExistingStore(dataSource, dataStore, latest.items); dataStores = parseGiveawayData(dataSource); changed += 1; summary.synced += 1; console.log(`💾 SYNCED - 已以 VOOM ${latest.aggregated ? '指定時間後所有文章彙整' : '最新貼文'}完整取代 items (${latest.items.length})`); }
-      else for (const diff of differences) { if (diff.type === 'URL_CHANGED') console.log(`  🔄 ${diff.code} ${diff.voom.name}\n     DATA: ${diff.data.url}\n     VOOM: ${diff.voom.url}`); else if (diff.type === 'MISSING_IN_DATA') console.log(`  ➕ ${diff.code} ${diff.voom.name}\n     VOOM: ${diff.voom.url}`); else console.log(`  ➖ ${diff.code} ${diff.data.name}\n     DATA only: ${diff.data.url}`); }
-      summary.different += 1;
-    } catch (error) { console.log(`❌ ERROR: ${error.message}`); summary.error += 1; }
-  }
-  if (SYNC_MODE && changed > 0) { fs.writeFileSync(DATA_FILE, dataSource, 'utf8'); console.log(`\n💾 已寫入 ${DATA_FILE}`); console.log(`🔄 共同步 ${changed} 間店家。請先 git diff，再重新跑 npm run test:linevoom 驗證。`); }
-  console.log('\n================ AUDIT SUMMARY ================'); console.log(`✅ MATCH:          ${summary.match}`); console.log(`⚠️ DIFFERENT:      ${summary.different}`); console.log(`🆕 NEW STORE:      ${summary.newStore}`); console.log(`🕒 PENDING:        ${summary.pending}`); console.log(`🚨 STORE MISMATCH: ${summary.mismatch}`); console.log(`⏭️ SKIP:           ${summary.skipped}`); console.log(`❌ ERROR:          ${summary.error}`); if (SYNC_MODE) console.log(`💾 SYNCED:         ${summary.synced}`); console.log('================================================'); if (!SYNC_MODE) console.log('ℹ️ Audit 模式不會修改 giveaway-data.ts。\n'); await browser.close();
-})().catch((error) => { console.error('\n❌ LINE VOOM audit/sync failed'); console.error(error); process.exitCode = 1; });
+(async()=>{ let dataSource=fs.readFileSync(DATA_FILE,'utf8');let dataStores=parseGiveawayData(dataSource);let changed=0;console.log(`\n🧪 LINE VOOM ${SYNC_MODE?'同步':'完整店家母清單稽核'}`);console.log('⏱️ 只檢查 2026/08/25 00:00 Asia/Taipei 之後文章');console.log(`🏪 LINE VOOM 母清單：${VOOM_STORES.length} 間\n`);if(SYNC_MODE)console.log('✍️ SYNC MODE：三種解析模式完全隔離；異常商品數下降會阻止同步。\n'); const browser=await chromium.launch({headless:false});const context=await browser.newContext({locale:'zh-TW',timezoneId:'Asia/Taipei'});const page=await context.newPage();const summary={match:0,different:0,skipped:0,pending:0,mismatch:0,newStore:0,error:0,synced:0,unsafe:0};
+for(let index=0;index<VOOM_STORES.length;index+=1){const master=VOOM_STORES[index];let dataStore=findDataStore(master,dataStores);console.log(`\n[${index+1}/${VOOM_STORES.length}] 🔎 ${master.region} / ${master.name}`);try{await page.goto(master.url,{waitUntil:'domcontentloaded',timeout:60000});await page.waitForTimeout(2500);const title=(await page.title()).replace(/\s*\|\s*LINE VOOM.*$/i,'').trim();console.log(`📄 ${title}`);if(normalizeName(title)&&normalizeName(master.name)&&!normalizeName(title).includes(normalizeName(master.name))&&!normalizeName(master.name).includes(normalizeName(title))){console.log(`🚨 STORE MISMATCH - 母清單=${master.name} / PAGE=${title}`);summary.mismatch+=1;continue;} const isLalaport=master.url.includes(LALAPORT_ID);const isXizhi=master.url.includes(XIZHI_ID);console.log(isLalaport?'🧺 MODE: 台中 LaLaport 多文章彙整':isXizhi?'🎯 MODE: 汐止遠雄 URL→商品專用解析':'🛡️ MODE: 一般店家原始解析');await expandRecentPosts(page);const latest=isLalaport?await getLalaportGiveaway(page):isXizhi?await getXizhiGiveaway(page):await getNormalGiveaway(page);if(!latest){console.log('⏭️ SKIP - 8/25 後找不到陀螺抽籤相關文章');summary.skipped+=1;continue;}console.log(`🕐 ${latest.timeLabel}${latest.aggregated?'（彙整模式最新文章時間）':''}`);if(latest.pending){console.log('🕒 PENDING - 指定時間後尚無可解析的 lin.ee 商品連結');summary.pending+=1;continue;}if(!dataStore){console.log(`🆕 NEW STORE - giveaway-data.ts 尚未建立，VOOM 商品 ${latest.items.length} 個`);const bad=unsafeSyncReason(null,latest);if(SYNC_MODE&&!bad){dataSource=ensureRegion(dataSource,master.region);dataSource=syncNewStore(dataSource,master,latest.items);dataStores=parseGiveawayData(dataSource);changed+=1;summary.synced+=1;console.log('💾 SYNCED - 已新增店家與商品');}else if(SYNC_MODE&&bad){console.log(`🛑 UNSAFE SYNC - ${bad}`);summary.unsafe+=1;}summary.newStore+=1;continue;}console.log(`📦 VOOM ${latest.items.length} / DATA ${dataStore.items.length}`);const differences=compareItems(dataStore.items,latest.items);if(!differences.length&&latest.items.length===dataStore.items.length){console.log('✅ MATCH');summary.match+=1;continue;}console.log('⚠️ DIFFERENT');const bad=unsafeSyncReason(dataStore,latest);if(SYNC_MODE&&bad){console.log(`🛑 UNSAFE SYNC - ${bad}，保留原 DATA`);summary.unsafe+=1;}else if(SYNC_MODE){dataSource=syncExistingStore(dataSource,dataStore,latest.items);dataStores=parseGiveawayData(dataSource);changed+=1;summary.synced+=1;console.log(`💾 SYNCED - 已以 VOOM ${latest.aggregated?'多文章彙整':'指定模式解析'}取代 items (${latest.items.length})`);}else for(const diff of differences){if(diff.type==='URL_CHANGED')console.log(`  🔄 ${diff.code} ${diff.voom.name}\n     DATA: ${diff.data.url}\n     VOOM: ${diff.voom.url}`);else if(diff.type==='MISSING_IN_DATA')console.log(`  ➕ ${diff.code} ${diff.voom.name}\n     VOOM: ${diff.voom.url}`);else console.log(`  ➖ ${diff.code} ${diff.data.name}\n     DATA only: ${diff.data.url}`);}summary.different+=1;}catch(error){console.log(`❌ ERROR: ${error.message}`);summary.error+=1;}}
+if(SYNC_MODE&&changed>0){fs.writeFileSync(DATA_FILE,dataSource,'utf8');console.log(`\n💾 已寫入 ${DATA_FILE}`);console.log(`🔄 共同步 ${changed} 間店家。請先 git diff，再重新跑 npm run test:linevoom 驗證。`);}console.log('\n================ AUDIT SUMMARY ================');console.log(`✅ MATCH:          ${summary.match}`);console.log(`⚠️ DIFFERENT:      ${summary.different}`);console.log(`🆕 NEW STORE:      ${summary.newStore}`);console.log(`🕒 PENDING:        ${summary.pending}`);console.log(`🛑 UNSAFE SYNC:    ${summary.unsafe}`);console.log(`🚨 STORE MISMATCH: ${summary.mismatch}`);console.log(`⏭️ SKIP:           ${summary.skipped}`);console.log(`❌ ERROR:          ${summary.error}`);if(SYNC_MODE)console.log(`💾 SYNCED:         ${summary.synced}`);console.log('================================================');if(!SYNC_MODE)console.log('ℹ️ Audit 模式不會修改 giveaway-data.ts。\n');await browser.close();})().catch((error)=>{console.error('\n❌ LINE VOOM audit/sync failed');console.error(error);process.exitCode=1;});
