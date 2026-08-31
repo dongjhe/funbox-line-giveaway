@@ -158,8 +158,8 @@ export class AppComponent {
   }
   get continuousCountText(): string {
     const total = this.selectedGiveaways.length;
-    if (!total) return '第 0 / 0 家';
-    return `第 ${this.continuousIndex + 1} / ${total} 家`;
+    if (!total) return '第 0 / 0 個';
+    return `第 ${this.continuousIndex + 1} / ${total} 個`;
   }
   triggerContinuousDraw(): void {
     const current = this.currentContinuousGiveaway;
