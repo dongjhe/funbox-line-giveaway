@@ -73,8 +73,8 @@
       <h2>連續抽選模式</h2>
       <div class="continuous-progress">{{ continuousCountText }}</div>
       <div class="continuous-meta">
-        {{ currentContinuousGiveaway?.region ?? ''
-        }}{{ currentContinuousGiveaway?.store ?? '' }}（{{ selectedGiveaways.length }}個抽選）
+        {{ currentContinuousGiveaway?.region ?? '' }}{{ currentContinuousGiveaway?.store ?? '' }}
+        <br />（{{ selectedGiveaways.length }}個抽選）
       </div>
       <div class="continuous-item">{{ currentContinuousGiveaway?.item?.name ?? '' }}</div>
       <button class="continuous-primary" type="button" (click)="triggerContinuousDraw()">
