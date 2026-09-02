@@ -9,8 +9,9 @@
     "build:pages": "ng build --base-href /funbox-line-giveaway/",
     "test:linevoom": "node scripts/linevoom-parser-v2.js && node scripts/sync-linevoom-start-time.js",
     "sync:store-urls": "node scripts/sync-linevoom-store-urls.js",
+    "sync:new-stores": "node scripts/sync-linevoom-new-stores.js",
     "sync:start-time": "node scripts/sync-linevoom-start-time.js --sync",
-    "sync:linevoom": "npm run sync:store-urls && npm run sync:start-time && node scripts/linevoom-parser-v2.js --sync",
+    "sync:linevoom": "npm run sync:store-urls && node scripts/linevoom-parser-v2.js --sync && npm run sync:new-stores && npm run sync:start-time",
     "format": "prettier --write \"src/**/*.{ts,html,css}\" \"*.{json,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,css}\" \"*.{json,md}\"",
     "prepare": "husky"
