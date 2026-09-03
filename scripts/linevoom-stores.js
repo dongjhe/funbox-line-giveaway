@@ -11,7 +11,11 @@ module.exports = [
   ['屏東縣', 'funbox屏東太平洋', 'https://linevoom.line.me/user/_dTnMNq0eoiZ5jnuQaFUz2oVpxylrT13ojfI_Ko8'],
   ['屏東縣', 'Funbox 屏東環球店', 'https://linevoom.line.me/user/_dfq4IRS_qaEaR4Svk0SKsB78xW9x2-lkU1wSpKU'],
   ['台東縣', 'Funbox 台東秀泰店', 'https://linevoom.line.me/user/_dWiMasxT4CrK1ogY11eoxXAVvwO-U9Fchsvba6o'],
+  ['台東縣', '來玩聚 台東店', 'https://linevoom.line.me/user/_ddo7WW1F_7wkPowMrkgjn5xDa0Yx5JV8P3gyQCs'],
   ['高雄市', 'funbox大魯閣新光', 'https://linevoom.line.me/user/_dQ0ecVMFJ6V-NPSlxQbE5hqjsBH-WOBO5HdSv4Q'],
+  ['高雄市', '來玩聚 楠梓店', 'https://linevoom.line.me/user/_dVPoSlHQT0aqmC-EZpckQXYHAMiL802BM23S7qk'],
+  ['高雄市', '來玩聚鳳山店', 'https://linevoom.line.me/user/_dYHKZsEifm4hbpeUB6f8DAHE-NaYM-f4lmS_yxc'],
+  ['高雄市', '來玩聚-新楠店', 'https://linevoom.line.me/user/_deAwpKm1kymi62-wvUqTCvK1LpCSk5bvwxAubMQ'],
   ['台中市', 'Funbox 文心秀泰店', 'https://linevoom.line.me/user/_dVbUMDyduUeLgyWJWRb0k8o55Sa-xzXFMnCJxpE'],
   ['台中市', 'Funbox 豐原太平洋店', 'https://linevoom.line.me/user/_dWUEiTQIz0C550q-X-t3o65-r0CLa8-fBL6b6u8'],
   ['台中市', 'Funbox麗寶一期店', 'https://linevoom.line.me/user/_dZD8OLWoBDH7CMfvg3nqfJoIb3wQMGpZ_V7DOOI'],
@@ -24,6 +28,7 @@ module.exports = [
   ['宜蘭縣', 'Funbox 宜蘭新月店', 'https://linevoom.line.me/user/_dTS4fzrnBtUOuG-T_J22hfcZSdxunoOsypVfgRg'],
   ['高雄市', 'Funbox-夢時代店', 'https://linevoom.line.me/user/_dVHpcOhwVrBQ3ZY1xQBHuGMcluZ-yMcOSsSnRfU'],
   ['台北市', 'Funbox 遠百信義A13', 'https://linevoom.line.me/user/_dZWTe6za3_22gXVkl46uAq37zC6nwkQQCwZnBoA'],
+  ['台北市', '來玩聚-北車地下街', 'https://linevoom.line.me/user/_dXjo38IGuVk3obdbWWB8DVc86lCei15_6UkRuW8'],
   ['新竹縣', 'funbox 享平方店', 'https://linevoom.line.me/user/_dfuDiJPQBJn4ih1iarevDIEIB9XvR-_q44VI6bE'],
   ['新竹縣', 'Funbox 竹北遠東店', 'https://linevoom.line.me/user/_deu1wnG4xXho1I98-nH_PZKQ0gl-iAoehGDIHxA'],
   ['新竹市', 'Funbox 新竹巨城店', 'https://linevoom.line.me/user/_dSYAGjN3DhBtiB8tU2pa3kl5yoRdBG7ucZNUZvo'],
@@ -55,5 +60,8 @@ module.exports = [
   ['台北市', 'Funbox LaLaport南港', 'https://linevoom.line.me/user/_dVgaAWKsM1ofi6bVa7iJV1_zOspCOrdSv0vgXKw'],
   ['台中市', 'Funbox 廣三SOGO店', 'https://linevoom.line.me/user/_dUpKOzSR_s9Wca-q8vJLgOSM-UGMJNMonlEK_Nw'],
   ['新北市', 'Funbox新店誠品店', 'https://linevoom.line.me/user/_dWQGqQnQTk4Tc7wJjzrBXKS145vBC93TlHkNG5E'],
-  ['新北市', 'FUNBOX 比漾廣場店', 'https://linevoom.line.me/user/_dQbxr4jKpXDT3BtXULflBCgU9GujoUvNaAUOOZo']
+  ['新北市', 'FUNBOX 比漾廣場店', 'https://linevoom.line.me/user/_dQbxr4jKpXDT3BtXULflBCgU9GujoUvNaAUOOZo'],
+  ['彰化縣', '來玩聚-彰化店', 'https://linevoom.line.me/user/_deL1i2Bb8uUCbeQ10yCnEvVLz_iZbXwvFtNNTRM'],
+  ['彰化縣', '來玩聚-員林店', 'https://linevoom.line.me/user/_dar-0z1aYQPkB0W-BiwgwDp6XsDKAdehbmupEaI'],
+  ['雲林縣', '來玩聚斗六店', 'https://linevoom.line.me/user/_ddu256ZXwJCBqOeIfKwY6QYdeIvbrVOmBRIOKfo']
 ].map(([region, name, url]) => ({ region, name, url }));
