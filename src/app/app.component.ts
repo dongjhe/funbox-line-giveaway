@@ -91,27 +91,25 @@ export class AppComponent {
   }
 
   get productOptions(): string[] {
+    // Do not use product code alone as the key. Different products can share a code
+    // (for example BX-00 蒼龍神劍 and BX-00 爆擊/暴風天馬).
     const products = new Map<string, string>();
     Object.values(this.giveaways)
       .flat()
       .flatMap((g) => g.items)
       .forEach((item) => {
-        const code = this.productCode(item.name);
-        if (!products.has(code)) products.set(code, item.name);
+        const key = this.productKey(item.name);
+        if (!products.has(key)) products.set(key, item.name.trim());
       });
     return [...products.entries()]
-      .sort(([a], [b]) => a.localeCompare(b, 'en', { numeric: true, sensitivity: 'base' }))
-      .map(([code, name]) =>
-        name.trim().toUpperCase().startsWith(code.toUpperCase())
-          ? name.trim()
-          : `${code} ${name.trim()}`,
-      );
+      .sort(([a], [b]) => a.localeCompare(b, 'zh-Hant', { numeric: true, sensitivity: 'base' }))
+      .map(([, name]) => name);
   }
   get orderedProductOptions(): string[] {
     const order = new Map(this.selectedProductOrder.map((c, i) => [c, i]));
     return [...this.productOptions].sort((a, b) => {
-      const ia = order.get(this.productCode(a)),
-        ib = order.get(this.productCode(b));
+      const ia = order.get(this.productKey(a)),
+        ib = order.get(this.productKey(b));
       if (ia !== undefined && ib !== undefined) return ia - ib;
       if (ia !== undefined) return -1;
       if (ib !== undefined) return 1;
@@ -127,30 +125,30 @@ export class AppComponent {
     const order = new Map(this.selectedProductOrder.map((c, i) => [c, i]));
     return results.sort(
       (a, b) =>
-        (order.get(this.productCode(a.item.name)) ?? 9999) -
-        (order.get(this.productCode(b.item.name)) ?? 9999),
+        (order.get(this.productKey(a.item.name)) ?? 9999) -
+        (order.get(this.productKey(b.item.name)) ?? 9999),
     );
   }
   toggleProduct(product: string, checked: boolean): void {
-    const code = this.productCode(product),
+    const key = this.productKey(product),
       next = new Set(this.selectedProducts);
     if (checked) {
-      next.add(code);
-      if (!this.selectedProductOrder.includes(code))
-        this.selectedProductOrder = [...this.selectedProductOrder, code];
+      next.add(key);
+      if (!this.selectedProductOrder.includes(key))
+        this.selectedProductOrder = [...this.selectedProductOrder, key];
     } else {
-      next.delete(code);
-      this.selectedProductOrder = this.selectedProductOrder.filter((c) => c !== code);
+      next.delete(key);
+      this.selectedProductOrder = this.selectedProductOrder.filter((c) => c !== key);
     }
     this.selectedProducts = next;
     this.resetContinuousDraw();
   }
   productSelectionNumber(product: string): number | null {
-    const i = this.selectedProductOrder.indexOf(this.productCode(product));
+    const i = this.selectedProductOrder.indexOf(this.productKey(product));
     return i >= 0 ? i + 1 : null;
   }
   isProductSelected(product: string): boolean {
-    return this.selectedProducts.has(this.productCode(product));
+    return this.selectedProducts.has(this.productKey(product));
   }
   clearSelectedProducts(): void {
     this.selectedProducts = new Set<string>();
@@ -193,11 +191,11 @@ export class AppComponent {
     if (!this.selectedProducts.size) return giveaway.items;
     const order = new Map(this.selectedProductOrder.map((c, i) => [c, i]));
     return giveaway.items
-      .filter((item) => this.selectedProducts.has(this.productCode(item.name)))
+      .filter((item) => this.selectedProducts.has(this.productKey(item.name)))
       .sort(
         (a, b) =>
-          (order.get(this.productCode(a.name)) ?? 9999) -
-          (order.get(this.productCode(b.name)) ?? 9999),
+          (order.get(this.productKey(a.name)) ?? 9999) -
+          (order.get(this.productKey(b.name)) ?? 9999),
       );
   }
   hasVisibleGiveaways(region: string): boolean {
@@ -217,6 +215,19 @@ export class AppComponent {
   private productCode(name: string): string {
     const match = name.toUpperCase().match(/\b(?:BXG|BX|CX|UX)-?\d+\b/);
     return match ? match[0].replace(/^(BXG|BX|CX|UX)(\d)/, '$1-$2') : name.trim();
+  }
+  private productKey(name: string): string {
+    const code = this.productCode(name).toUpperCase();
+    // Product names in DATA often differ only by price, emoji or part/spec suffixes.
+    // Keep the Chinese title so products sharing BX-00 remain separate, while the
+    // same named product from different stores still maps to one filter option.
+    const chineseTitle = name
+      .replace(/🎉/g, '')
+      .replace(/(?:BXG|BX|CX|UX)-?\d+/gi, '')
+      .replace(/\$\s*[\d,]+(?:\.\d+)?/g, '')
+      .match(/[\u3400-\u9fff]+/g)
+      ?.join('') ?? '';
+    return chineseTitle ? `${code}|${chineseTitle}` : `${code}|${name.trim().toUpperCase()}`;
   }
   private loadClickedGiveaways(): void {
     const saved = localStorage.getItem(this.clickedStorageKey);
