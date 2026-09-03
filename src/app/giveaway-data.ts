@@ -113,12 +113,24 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox 美麗華',
       storeUrl: 'https://linevoom.line.me/user/_dS6PecGuAayr8FMQ6NoCcETN1oXZ0zgwun4Uivc',
       startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
-      items: [],
+      items: [
+        { name: 'UX20 榮耀武神', url: 'https://lin.ee/YEjtQAn' },
+        { name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/ojSXOr2' },
+        { name: 'CX-13 龍王閃擊BK1-50I', url: 'https://lin.ee/TUogZd8' },
+        { name: 'BX-00 蒼龍神劍 3-60 F V2', url: 'https://lin.ee/wWzOz0G' },
+        { name: 'BX-26 獨角刺心 5-60 GP', url: 'https://lin.ee/SX7w6tZ' },
+        { name: 'BX-33 皓戰猛虎 3-60 U', url: 'https://lin.ee/ZAbTKi7' },
+        { name: 'BX-37 雙重極限衝擊戰鬥盤豪華組', url: 'https://lin.ee/85UmwDEM' },
+        { name: 'BX-45 武士魂斬 6-70M', url: 'https://lin.ee/y1zKx5W' },
+        { name: 'BXG-01烈焰飛鳳S3-80T', url: 'https://lin.ee/zqKWBXd' },
+        { name: 'BXG-04銀牙烈虎S4-80P', url: 'https://lin.ee/xO0pNXN' },
+      ],
     },
 
     {
       store: 'Funbox 三越南西店',
       storeUrl: 'https://linevoom.line.me/user/_dXRCeNI62-wxECClrgjwMfi8HnY2ow5Onw6aC1A',
+      startTime: '抽選/購買時間 2026/09/04 11:00 - 2026/09/05 21:00',
       items: [
         { name: 'BX-00蒼龍神劍3-60F V2', url: 'https://lin.ee/safDqUe' },
         { name: 'BX-00 暴風天馬3-70RA', url: 'https://lin.ee/wYrNdRC' },
@@ -131,7 +143,6 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-20榮耀武神LF', url: 'https://lin.ee/vneOzIi' },
         { name: 'UX-21惡魔冥界改造組', url: 'https://lin.ee/oD41qlW' },
       ],
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
     },
   ],
   新北市: [
@@ -276,7 +287,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox 台中港三井',
       storeUrl: 'https://linevoom.line.me/user/_dXDniXt3Xu0U5lkXYliBBHGQRD2FtCUnVVbXPhY',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間&使用期限 2026/09/04 11:00 - 2026/09/05 20:30',
       items: [
         { name: 'BX-57 3V3對戰收納盒 黑', url: 'https://lin.ee/7A2qdwJ' },
         { name: 'BX-25 戰鬥陀螺X專業收納包', url: 'https://lin.ee/tVP1tAG' },

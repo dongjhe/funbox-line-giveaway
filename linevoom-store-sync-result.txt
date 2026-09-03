@@ -15,12 +15,9 @@
 ✅ OK 屏東縣 / Funbox 屏東環球店
 ✅ OK 台東縣 / Funbox 台東秀泰店
 ✅ OK 高雄市 / funbox大魯閣新光
-🔄 FIX 高雄市 / 來玩聚 楠梓店
-   url:   (無 storeUrl) -> https://linevoom.line.me/user/_dVPoSlHQT0aqmC-EZpckQXYHAMiL802BM23S7qk
-🔄 FIX 高雄市 / 來玩聚鳳山店
-   url:   (無 storeUrl) -> https://linevoom.line.me/user/_dYHKZsEifm4hbpeUB6f8DAHE-NaYM-f4lmS_yxc
-🔄 FIX 高雄市 / 來玩聚-新楠店
-   url:   (無 storeUrl) -> https://linevoom.line.me/user/_deAwpKm1kymi62-wvUqTCvK1LpCSk5bvwxAubMQ
+✅ OK 高雄市 / 來玩聚 楠梓店
+✅ OK 高雄市 / 來玩聚鳳山店
+✅ OK 高雄市 / 來玩聚-新楠店
 ✅ OK 台中市 / Funbox 文心秀泰店
 ✅ OK 台中市 / Funbox 豐原太平洋店
 ✅ OK 台中市 / Funbox麗寶一期店
@@ -65,14 +62,11 @@
 ✅ OK 台中市 / Funbox 廣三SOGO店
 ✅ OK 新北市 / Funbox新店誠品店
 ✅ OK 新北市 / FUNBOX 比漾廣場店
-🔄 FIX 彰化縣 / 來玩聚-彰化店
-   url:   (無 storeUrl) -> https://linevoom.line.me/user/_deL1i2Bb8uUCbeQ10yCnEvVLz_iZbXwvFtNNTRM
-🔄 FIX 彰化縣 / 來玩聚-員林店
-   url:   (無 storeUrl) -> https://linevoom.line.me/user/_dar-0z1aYQPkB0W-BiwgwDp6XsDKAdehbmupEaI
-🔄 FIX 雲林縣 / 來玩聚斗六店
-   url:   (無 storeUrl) -> https://linevoom.line.me/user/_ddu256ZXwJCBqOeIfKwY6QYdeIvbrVOmBRIOKfo
+✅ OK 彰化縣 / 來玩聚-彰化店
+✅ OK 彰化縣 / 來玩聚-員林店
+✅ OK 雲林縣 / 來玩聚斗六店
 
-SUMMARY: updated=6 unchanged=57 missing=2 ambiguous=0 auditErrors=0
+SUMMARY: updated=0 unchanged=63 missing=2 ambiguous=0 auditErrors=0
 
 ⚠️ DATA 尚未存在的主檔店家（交給 new-store sync；不亂配）：
 - 台東縣 / 來玩聚 台東店
