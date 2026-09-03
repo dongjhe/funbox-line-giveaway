@@ -2,30 +2,40 @@
 ✅ KEEP 來玩聚-北車地下街：11 商品（9/1 後最新文章）
 ✅ KEEP Funbox天母三越店：7 商品（9/1 後最新文章）
 ✅ KEEP Funbox-信義A8店(陀螺販售)：6 商品（9/1 後最新文章）
+✅ KEEP Funbox 遠百信義A13：5 商品（9/1 後最新文章）
 ✅ KEEP Funbox 三越站前店：4 商品（9/1 後最新文章）
+✅ KEEP Funbox 天母SOGO店：4 商品（9/1 後最新文章）
 ✅ KEEP Funbox 美麗華：10 商品（9/1 後最新文章）
 ✅ KEEP Funbox 三越南西店：10 商品（9/1 後最新文章）
 ✅ KEEP Funbox樹林秀泰店：17 商品（9/1 後最新文章）
+✅ KEEP Funbox新店誠品店：7 商品（9/1 後最新文章）
 ✅ KEEP Funbox-中和環球店：5 商品（9/1 後最新文章）
 ✅ KEEP Funbox板橋遠東店：9 商品（9/1 後最新文章）
 ✅ KEEP Funbox-桃園站前三越：12 商品（9/1 後最新文章）
+✅ KEEP Funbox 中壢大江店：7 商品（9/1 後最新文章）
 ✅ KEEP Funbox-新竹遠雄店：4 商品（9/1 後最新文章）
 ✅ KEEP Funbox-新竹遠東店：4 商品（9/1 後最新文章）
 ✅ KEEP Funbox 台中港三井：12 商品（9/1 後最新文章）
+✅ KEEP Funbox麗寶一期店：13 商品（9/1 後最新文章）
 ✅ KEEP Funbox 豐原太平洋店：5 商品（9/1 後最新文章）
+✅ KEEP Funbox 台中中友店：13 商品（9/1 後最新文章）
 ✅ KEEP Funbox 廣三SOGO店：11 商品（9/1 後最新文章）
 ✅ KEEP Funbox Toys-嘉義遠東店：3 商品（9/1 後最新文章）
 ✅ KEEP Funbox 嘉義三越店：4 商品（9/1 後最新文章）
 ✅ KEEP Funbox-夢時代店：4 商品（9/1 後最新文章）
 ✅ KEEP Funbox-漢神巨蛋店：5 商品（9/1 後最新文章）
 ✅ KEEP Funbox 高雄大立店：8 商品（9/1 後最新文章）
+✅ KEEP Funbox高雄sogo店：2 商品（9/1 後最新文章）
 ✅ KEEP 來玩聚-新楠店：7 商品（9/1 後最新文章）
 ✅ KEEP funbox大魯閣新光：3 商品（9/1 後最新文章）
 ✅ KEEP Funbox 宜蘭新月店：12 商品（9/1 後最新文章）
 ✅ KEEP Funbox 竹北遠東店：10 商品（9/1 後最新文章）
+✅ KEEP Funbox Toys-台南南紡店：14 商品（9/1 後最新文章）
+🧹 CLEAR funbox-台南新天地：4 → 0（不是 9/1 後最新有效商品）
+✅ KEEP FUNBOX 台南遠百：1 商品（9/1 後最新文章）
 ✅ KEEP 來玩聚-彰化店：11 商品（9/1 後最新文章）
 ✅ KEEP 來玩聚斗六店：4 商品（9/1 後最新文章）
 ✅ KEEP funbox屏東太平洋：3 商品（9/1 後最新文章）
 ✅ KEEP Funbox 屏東環球店：4 商品（9/1 後最新文章）
 
-SUMMARY: active=29 kept=29 cleared=0
+SUMMARY: active=39 kept=38 cleared=1
