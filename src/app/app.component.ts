@@ -26,9 +26,7 @@ export class AppComponent {
   continuousMode = false;
   continuousIndex = 0;
 
-  constructor() {
-    this.loadClickedGiveaways();
-  }
+  constructor() { this.loadClickedGiveaways(); }
 
   @HostListener('document:click', ['$event'])
   closeFiltersOnOutsideClick(event: MouseEvent): void {
@@ -44,66 +42,56 @@ export class AppComponent {
   }
 
   get totalGiveawayCount(): number {
-    return Object.values(this.giveaways)
-      .flat()
-      .reduce((t, g) => t + g.items.length, 0);
+    return Object.values(this.giveaways).flat().reduce((t, g) => t + g.items.length, 0);
   }
+
   regionStoreCount(region: string): number {
-    return region === '全部'
-      ? Object.values(this.giveaways).reduce((t, s) => t + s.length, 0)
-      : (this.giveaways[region]?.length ?? 0);
+    if (region === '全部') {
+      return Object.values(this.giveaways).flat().filter((g) => g.items.length > 0).length;
+    }
+    return (this.giveaways[region] ?? []).filter((g) => g.items.length > 0).length;
   }
 
   get regionOptions(): string[] {
-    return this.regions.map((r) => r.name).filter((r) => r !== '全部' && !!this.giveaways[r]);
+    return this.regions
+      .map((r) => r.name)
+      .filter((r) => r !== '全部' && this.regionStoreCount(r) > 0);
   }
+
   get visibleRegions(): string[] {
     return this.selectedRegions.size
       ? this.regionOptions.filter((r) => this.selectedRegions.has(r))
       : this.regionOptions;
   }
-  isRegionSelected(region: string): boolean {
-    return this.selectedRegions.has(region);
-  }
+
+  isRegionSelected(region: string): boolean { return this.selectedRegions.has(region); }
   toggleRegion(region: string, checked: boolean): void {
     const next = new Set(this.selectedRegions);
     checked ? next.add(region) : next.delete(region);
     this.selectedRegions = next;
     this.resetContinuousDraw();
   }
-  clearSelectedRegions(): void {
-    this.selectedRegions = new Set<string>();
-  }
+  clearSelectedRegions(): void { this.selectedRegions = new Set<string>(); }
   resetAllFilters(productFilter?: HTMLDetailsElement, regionFilter?: HTMLDetailsElement): void {
-    this.clearSelectedRegions();
-    this.clearSelectedProducts();
-    this.resetContinuousDraw();
+    this.clearSelectedRegions(); this.clearSelectedProducts(); this.resetContinuousDraw();
     if (productFilter) productFilter.open = false;
     if (regionFilter) regionFilter.open = false;
   }
 
   get productOptions(): string[] {
     const products = new Map<string, string>();
-    Object.values(this.giveaways)
-      .flat()
-      .flatMap((g) => g.items)
-      .forEach((item) => {
-        const code = this.productCode(item.name);
-        if (!products.has(code)) products.set(code, item.name);
-      });
+    Object.values(this.giveaways).flat().flatMap((g) => g.items).forEach((item) => {
+      const code = this.productCode(item.name);
+      if (!products.has(code)) products.set(code, item.name);
+    });
     return [...products.entries()]
       .sort(([a], [b]) => a.localeCompare(b, 'en', { numeric: true, sensitivity: 'base' }))
-      .map(([code, name]) =>
-        name.trim().toUpperCase().startsWith(code.toUpperCase())
-          ? name.trim()
-          : `${code} ${name.trim()}`,
-      );
+      .map(([code, name]) => name.trim().toUpperCase().startsWith(code.toUpperCase()) ? name.trim() : `${code} ${name.trim()}`);
   }
   get orderedProductOptions(): string[] {
     const order = new Map(this.selectedProductOrder.map((c, i) => [c, i]));
     return [...this.productOptions].sort((a, b) => {
-      const ia = order.get(this.productCode(a)),
-        ib = order.get(this.productCode(b));
+      const ia = order.get(this.productCode(a)), ib = order.get(this.productCode(b));
       if (ia !== undefined && ib !== undefined) return ia - ib;
       if (ia !== undefined) return -1;
       if (ib !== undefined) return 1;
@@ -112,100 +100,52 @@ export class AppComponent {
   }
   get selectedGiveaways(): SelectedGiveaway[] {
     const results = this.visibleRegions.flatMap((region) =>
-      (this.giveaways[region] ?? []).flatMap((g) =>
-        this.filteredItems(g).map((item) => ({ region, store: g.store, item })),
-      ),
+      (this.giveaways[region] ?? []).flatMap((g) => this.filteredItems(g).map((item) => ({ region, store: g.store, item }))),
     );
     const order = new Map(this.selectedProductOrder.map((c, i) => [c, i]));
-    return results.sort(
-      (a, b) =>
-        (order.get(this.productCode(a.item.name)) ?? 9999) -
-        (order.get(this.productCode(b.item.name)) ?? 9999),
-    );
+    return results.sort((a, b) => (order.get(this.productCode(a.item.name)) ?? 9999) - (order.get(this.productCode(b.item.name)) ?? 9999));
   }
   toggleProduct(product: string, checked: boolean): void {
-    const code = this.productCode(product),
-      next = new Set(this.selectedProducts);
+    const code = this.productCode(product), next = new Set(this.selectedProducts);
     if (checked) {
       next.add(code);
-      if (!this.selectedProductOrder.includes(code))
-        this.selectedProductOrder = [...this.selectedProductOrder, code];
+      if (!this.selectedProductOrder.includes(code)) this.selectedProductOrder = [...this.selectedProductOrder, code];
     } else {
       next.delete(code);
       this.selectedProductOrder = this.selectedProductOrder.filter((c) => c !== code);
     }
-    this.selectedProducts = next;
-    this.resetContinuousDraw();
+    this.selectedProducts = next; this.resetContinuousDraw();
   }
   productSelectionNumber(product: string): number | null {
-    const i = this.selectedProductOrder.indexOf(this.productCode(product));
-    return i >= 0 ? i + 1 : null;
+    const i = this.selectedProductOrder.indexOf(this.productCode(product)); return i >= 0 ? i + 1 : null;
   }
-  isProductSelected(product: string): boolean {
-    return this.selectedProducts.has(this.productCode(product));
-  }
-  clearSelectedProducts(): void {
-    this.selectedProducts = new Set<string>();
-    this.selectedProductOrder = [];
-    this.resetContinuousDraw();
-  }
-  clearClickedGiveaways(): void {
-    localStorage.removeItem(this.clickedStorageKey);
-    this.clickedGiveaways = new Set<string>();
-  }
-  get currentContinuousGiveaway(): SelectedGiveaway | null {
-    return this.selectedGiveaways[this.continuousIndex] ?? null;
-  }
+  isProductSelected(product: string): boolean { return this.selectedProducts.has(this.productCode(product)); }
+  clearSelectedProducts(): void { this.selectedProducts = new Set<string>(); this.selectedProductOrder = []; this.resetContinuousDraw(); }
+  clearClickedGiveaways(): void { localStorage.removeItem(this.clickedStorageKey); this.clickedGiveaways = new Set<string>(); }
+  get currentContinuousGiveaway(): SelectedGiveaway | null { return this.selectedGiveaways[this.continuousIndex] ?? null; }
   get continuousCountText(): string {
-    const total = this.selectedGiveaways.length;
-    if (!total) return '第 0 / 0 個';
-    return `第 ${this.continuousIndex + 1} / ${total} 個`;
+    const total = this.selectedGiveaways.length; return total ? `第 ${this.continuousIndex + 1} / ${total} 個` : '第 0 / 0 個';
   }
   triggerContinuousDraw(): void {
-    const current = this.currentContinuousGiveaway;
-    if (!current) return;
-
+    const current = this.currentContinuousGiveaway; if (!current) return;
     this.markGiveawayClicked(current.item.url);
-    const popup = window.open(current.item.url, '_blank', 'noopener,noreferrer');
-    if (popup) popup.opener = null;
-
-    if (!this.continuousMode) {
-      this.continuousMode = true;
-      if (this.selectedGiveaways.length > 1) this.continuousIndex = 1;
-      return;
-    }
-
-    if (this.continuousIndex < this.selectedGiveaways.length - 1) {
-      this.continuousIndex += 1;
-      return;
-    }
-
+    const popup = window.open(current.item.url, '_blank', 'noopener,noreferrer'); if (popup) popup.opener = null;
+    if (!this.continuousMode) { this.continuousMode = true; if (this.selectedGiveaways.length > 1) this.continuousIndex = 1; return; }
+    if (this.continuousIndex < this.selectedGiveaways.length - 1) { this.continuousIndex += 1; return; }
     this.resetContinuousDraw();
   }
-  resetContinuousDraw(): void {
-    this.continuousMode = false;
-    this.continuousIndex = 0;
-  }
+  resetContinuousDraw(): void { this.continuousMode = false; this.continuousIndex = 0; }
   filteredItems(giveaway: { items: GiveawayItem[] }): GiveawayItem[] {
     if (!this.selectedProducts.size) return giveaway.items;
     const order = new Map(this.selectedProductOrder.map((c, i) => [c, i]));
-    return giveaway.items
-      .filter((item) => this.selectedProducts.has(this.productCode(item.name)))
-      .sort(
-        (a, b) =>
-          (order.get(this.productCode(a.name)) ?? 9999) -
-          (order.get(this.productCode(b.name)) ?? 9999),
-      );
+    return giveaway.items.filter((item) => this.selectedProducts.has(this.productCode(item.name)))
+      .sort((a, b) => (order.get(this.productCode(a.name)) ?? 9999) - (order.get(this.productCode(b.name)) ?? 9999));
   }
   hasVisibleGiveaways(region: string): boolean {
     const stores = this.giveaways[region] ?? [];
-    return !this.selectedProducts.size
-      ? stores.length > 0
-      : stores.some((g) => this.filteredItems(g).length > 0);
+    return stores.some((g) => g.items.length > 0 && (!this.selectedProducts.size || this.filteredItems(g).length > 0));
   }
-  isGiveawayClicked(url: string): boolean {
-    return this.clickedGiveaways.has(url);
-  }
+  isGiveawayClicked(url: string): boolean { return this.clickedGiveaways.has(url); }
   markGiveawayClicked(url: string): void {
     this.clickedGiveaways.add(url);
     localStorage.setItem(this.clickedStorageKey, JSON.stringify([...this.clickedGiveaways]));
@@ -215,14 +155,10 @@ export class AppComponent {
     return match ? match[0].replace(/^(BXG|BX|CX|UX)(\d)/, '$1-$2') : name.trim();
   }
   private loadClickedGiveaways(): void {
-    const saved = localStorage.getItem(this.clickedStorageKey);
-    if (!saved) return;
+    const saved = localStorage.getItem(this.clickedStorageKey); if (!saved) return;
     try {
       const urls: unknown = JSON.parse(saved);
-      if (Array.isArray(urls))
-        this.clickedGiveaways = new Set(urls.filter((u): u is string => typeof u === 'string'));
-    } catch {
-      localStorage.removeItem(this.clickedStorageKey);
-    }
+      if (Array.isArray(urls)) this.clickedGiveaways = new Set(urls.filter((u): u is string => typeof u === 'string'));
+    } catch { localStorage.removeItem(this.clickedStorageKey); }
   }
 }
