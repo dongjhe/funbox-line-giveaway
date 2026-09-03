@@ -41,12 +41,22 @@ for (const block of blocks) {
   }
   if (!items.length) { log(`⚠️ SKIP ${region} / ${name}：沒有安全解析商品`); skipped++; continue; }
 
-  const regionRe = new RegExp(`(${escRe(region)}:\\s*\\[)([\\s\\S]*?)(\\n\\s*\\],)`);
-  const match = src.match(regionRe);
-  if (!match) { log(`⚠️ SKIP ${region} / ${name}：找不到區域陣列`); skipped++; continue; }
+  // IMPORTANT: insert only immediately before the region array's closing `  ],`.
+  // The previous regex allowed the body match to stop at an inner `items: [...]` closing,
+  // which could inject a new store inside the previous store's items array and break TS formatting.
+  const regionStartRe = new RegExp(`^\\s{2}${escRe(region)}:\\s*\\[\\s*$`, 'm');
+  const startMatch = regionStartRe.exec(src);
+  if (!startMatch) { log(`⚠️ SKIP ${region} / ${name}：找不到區域陣列`); skipped++; continue; }
 
-  const object = `\n    {\n      store: '${esc(name)}',\n      storeUrl: '${esc(master.url)}',\n      items: [\n${items.map(x => `        { name: '${esc(x.name)}', url: '${esc(x.url)}' },`).join('\n')}\n      ],\n    },`;
-  src = src.replace(regionRe, (_, a, body, c) => `${a}${body}${object}${c}`);
+  const bodyStart = startMatch.index + startMatch[0].length;
+  const rest = src.slice(bodyStart);
+  const regionEndMatch = /^\s{2}\],\s*$/m.exec(rest);
+  if (!regionEndMatch) { log(`⚠️ SKIP ${region} / ${name}：找不到區域結尾`); skipped++; continue; }
+
+  const insertAt = bodyStart + regionEndMatch.index;
+  const object = `\n    {\n      store: '${esc(name)}',\n      storeUrl: '${esc(master.url)}',\n      items: [\n${items.map(x => `        { name: '${esc(x.name)}', url: '${esc(x.url)}' },`).join('\n')}\n      ],\n    },\n`;
+
+  src = src.slice(0, insertAt) + object + src.slice(insertAt);
   existing.push(name);
   added++;
   log(`✅ ADD ${region} / ${name}：${items.length} 商品`);
