@@ -217,13 +217,14 @@ export class AppComponent {
   private productIdentity(name: string): string {
     const text = name.replace(/🎉/g, '').replace(/(?:BXG|BX|CX|UX)-?\d+/gi, '');
     const aliases = [
-      '蒼龍神劍', '暴風天馬', '爆擊天馬', '極限衝擊戰鬥盤', '發射器', '專業收納包',
+      '蒼龍神劍', '倉龍神劍', '暴風天馬', '爆擊天馬', '極限衝擊戰鬥盤', '發射器', '專業收納包',
       '獨角刺心', '皓戰猛虎', '鳳凰閃焰', '榮耀武神', '榮耀戰神', '惡魔幽冥改造組',
       '惡魔冥界改造組', '龍王閃擊', '烈焰飛鳳', '銀牙烈虎', '武士魂斬', '惡魔戰錘',
       '惡魔戰鎚', '天堂日輪', '子彈獅鷲', '旋風發射器', '雙重極限衝擊戰鬥盤',
     ];
     const found = aliases.find((alias) => text.includes(alias));
     if (found) {
+      if (found === '倉龍神劍') return '蒼龍神劍';
       if (found === '惡魔冥界改造組') return '惡魔幽冥改造組';
       if (found === '榮耀戰神') return '榮耀武神';
       if (found === '惡魔戰鎚') return '惡魔戰錘';
@@ -233,12 +234,14 @@ export class AppComponent {
     return chinese || text.replace(/\$\s*[\d,]+(?:\.\d+)?/g, '').trim().toUpperCase();
   }
   private productKey(name: string): string {
-    return `${this.productCode(name).toUpperCase()}|${this.productIdentity(name)}`;
+    const code = this.productCode(name).toUpperCase();
+    return code === 'BX-00' ? `${code}|${this.productIdentity(name)}` : code;
   }
   private productLabel(name: string): string {
     const code = this.productCode(name).toUpperCase();
+    if (code !== 'BX-00') return code;
     const identity = this.productIdentity(name);
-    return identity ? `${code} ${identity}` : name.trim();
+    return identity ? `${code} ${identity}` : code;
   }
   private loadClickedGiveaways(): void {
     const saved = localStorage.getItem(this.clickedStorageKey);
