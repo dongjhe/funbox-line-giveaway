@@ -91,15 +91,13 @@ export class AppComponent {
   }
 
   get productOptions(): string[] {
-    // Do not use product code alone as the key. Different products can share a code
-    // (for example BX-00 蒼龍神劍 and BX-00 爆擊/暴風天馬).
     const products = new Map<string, string>();
     Object.values(this.giveaways)
       .flat()
       .flatMap((g) => g.items)
       .forEach((item) => {
         const key = this.productKey(item.name);
-        if (!products.has(key)) products.set(key, item.name.trim());
+        if (!products.has(key)) products.set(key, this.productLabel(item.name));
       });
     return [...products.entries()]
       .sort(([a], [b]) => a.localeCompare(b, 'zh-Hant', { numeric: true, sensitivity: 'base' }))
@@ -216,18 +214,31 @@ export class AppComponent {
     const match = name.toUpperCase().match(/\b(?:BXG|BX|CX|UX)-?\d+\b/);
     return match ? match[0].replace(/^(BXG|BX|CX|UX)(\d)/, '$1-$2') : name.trim();
   }
+  private productIdentity(name: string): string {
+    const text = name.replace(/🎉/g, '').replace(/(?:BXG|BX|CX|UX)-?\d+/gi, '');
+    const aliases = [
+      '蒼龍神劍', '暴風天馬', '爆擊天馬', '極限衝擊戰鬥盤', '發射器', '專業收納包',
+      '獨角刺心', '皓戰猛虎', '鳳凰閃焰', '榮耀武神', '榮耀戰神', '惡魔幽冥改造組',
+      '惡魔冥界改造組', '龍王閃擊', '烈焰飛鳳', '銀牙烈虎', '武士魂斬', '惡魔戰錘',
+      '惡魔戰鎚', '天堂日輪', '子彈獅鷲', '旋風發射器', '雙重極限衝擊戰鬥盤',
+    ];
+    const found = aliases.find((alias) => text.includes(alias));
+    if (found) {
+      if (found === '惡魔冥界改造組') return '惡魔幽冥改造組';
+      if (found === '榮耀戰神') return '榮耀武神';
+      if (found === '惡魔戰鎚') return '惡魔戰錘';
+      return found;
+    }
+    const chinese = text.match(/[\u3400-\u9fff]+/g)?.join('') ?? '';
+    return chinese || text.replace(/\$\s*[\d,]+(?:\.\d+)?/g, '').trim().toUpperCase();
+  }
   private productKey(name: string): string {
+    return `${this.productCode(name).toUpperCase()}|${this.productIdentity(name)}`;
+  }
+  private productLabel(name: string): string {
     const code = this.productCode(name).toUpperCase();
-    // Product names in DATA often differ only by price, emoji or part/spec suffixes.
-    // Keep the Chinese title so products sharing BX-00 remain separate, while the
-    // same named product from different stores still maps to one filter option.
-    const chineseTitle = name
-      .replace(/🎉/g, '')
-      .replace(/(?:BXG|BX|CX|UX)-?\d+/gi, '')
-      .replace(/\$\s*[\d,]+(?:\.\d+)?/g, '')
-      .match(/[\u3400-\u9fff]+/g)
-      ?.join('') ?? '';
-    return chineseTitle ? `${code}|${chineseTitle}` : `${code}|${name.trim().toUpperCase()}`;
+    const identity = this.productIdentity(name);
+    return identity ? `${code} ${identity}` : name.trim();
   }
   private loadClickedGiveaways(): void {
     const saved = localStorage.getItem(this.clickedStorageKey);
