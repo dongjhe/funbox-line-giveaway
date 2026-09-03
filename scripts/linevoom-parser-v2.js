@@ -27,8 +27,48 @@ function parseTime(label,now=new Date()){const d=new Date(now);let m;if((m=label
 async function mark(page){const raw=await page.evaluate(()=>{const re=/^(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})$/;const a=[];for(const el of document.querySelectorAll('body *')){if(el.children.length>3)continue;const t=(el.innerText||el.textContent||'').trim();if(!re.test(t))continue;let p=el;for(let i=0;i<8&&p.parentElement;i++){p=p.parentElement;const s=(p.innerText||'');if(s.includes('Public')&&(s.includes('Like')||s.includes('Comment')||s.includes('Share')))break;}if(!p||p===document.body)continue;if(!p.dataset.voomV2)p.dataset.voomV2=`v2-${a.length}-${Math.random().toString(36).slice(2)}`;a.push({id:p.dataset.voomV2,label:t});}return a;});const now=new Date(),seen=new Set();return raw.map(x=>({...x,date:parseTime(x.label,now)})).filter(x=>x.date&&x.date>=CUTOFF&&!seen.has(x.id)&&seen.add(x.id)).sort((a,b)=>b.date-a.date);}
 async function expand(page){const ps=await mark(page);let n=0;for(const p of ps){const root=page.locator(`[data-voom-v2="${p.id}"]`);for(let r=0;r<5;r++){const xs=root.getByText('顯示更多',{exact:false});let ok=false;for(let i=0;i<await xs.count();i++){try{if(!(await xs.nth(i).isVisible()))continue;await xs.nth(i).click({timeout:1200});await page.waitForTimeout(200);n++;ok=true;break;}catch{}}if(!ok)break;}}if(n)log(`🔓 展開 ${n} 個「顯示更多」`);}
 async function posts(page){const recent=await mark(page);const rows=await page.evaluate(()=>[...document.querySelectorAll('[data-voom-v2]')].map(p=>({id:p.dataset.voomV2,text:((p.querySelector('.text_viewer.page_feed')||p).innerText||'').trim()})));const m=new Map(rows.map(x=>[x.id,x.text]));return recent.map(x=>({...x,text:m.get(x.id)||''}));}
-async function anchorItems(page,p){const rows=await page.locator(`[data-voom-v2="${p.id}"]`).evaluate(post=>[...post.querySelectorAll('a')].map(a=>({raw:a.getAttribute('href')||'',href:a.href||'',text:(a.innerText||a.textContent||'').trim(),aria:a.getAttribute('aria-label')||'',title:a.getAttribute('title')||'',parent:(a.parentElement?.innerText||'').trim(),prev:(a.parentElement?.previousElementSibling?.innerText||'').trim(),next:(a.parentElement?.nextElementSibling?.innerText||'').trim()})));
- const out=[];for(const a of rows){const url=[a.raw,a.href,a.text,a.parent].map(x=>x.match(LINE)?.[0]).find(Boolean);if(!url)continue;const candidates=[a.text,a.aria,a.title,a.prev,a.next,a.parent];let hit='';for(const t of candidates){const lines=t.split('\n').map(x=>x.trim()).filter(Boolean);hit=lines.find(x=>PRODUCT.test(x)&&!LINE.test(x))||'';if(hit)break;}if(hit)out.push({name:hit,url});}return dedupe(out);}
+async function anchorItems(page,p){
+  const data=await page.locator(`[data-voom-v2="${p.id}"]`).evaluate(post=>{
+    const lineRe=/https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i;
+    const productRe=/(?:BXG|BX|UX|CX)-?\d+/i;
+    const anchors=[...post.querySelectorAll('a')].map((a,index)=>({
+      index,
+      raw:a.getAttribute('href')||'',href:a.href||'',text:(a.innerText||a.textContent||'').trim(),
+      aria:a.getAttribute('aria-label')||'',title:a.getAttribute('title')||'',
+      parent:(a.parentElement?.innerText||'').trim(),prev:(a.parentElement?.previousElementSibling?.innerText||'').trim(),
+      next:(a.parentElement?.nextElementSibling?.innerText||'').trim()
+    })).filter(a=>[a.raw,a.href,a.text,a.parent].some(x=>lineRe.test(x||'')));
+    const viewer=post.querySelector('.text_viewer.page_feed')||post;
+    const productLines=(viewer.innerText||'').split('\n').map(x=>x.trim()).filter(x=>productRe.test(x)&&!lineRe.test(x));
+    return {anchors,productLines};
+  });
+  const anchors=[];
+  for(const a of data.anchors){const url=[a.raw,a.href,a.text,a.parent].map(x=>(x||'').match(LINE)?.[0]).find(Boolean);if(url&&!anchors.some(x=>x.url===url))anchors.push({...a,url});}
+  const products=data.productLines.map(clean).filter(x=>PRODUCT.test(x)&&!LINE.test(x));
+  const out=[];
+  for(const a of anchors){
+    const candidates=[a.text,a.aria,a.title,a.prev,a.next];
+    let hit='';
+    for(const t of candidates){const lines=(t||'').split('\n').map(x=>clean(x)).filter(Boolean);const matches=lines.filter(x=>PRODUCT.test(x)&&!LINE.test(x));if(matches.length===1){hit=matches[0];break;}}
+    if(hit)out.push({name:hit,url:a.url});
+  }
+  if(out.length===anchors.length&&out.length)return dedupe(out);
+  // Some VOOM posts render all coupon anchors in one shared parent. In that case parent text
+  // always points at the first product. Pair by DOM/text order only when counts match exactly.
+  if(anchors.length>1&&products.length===anchors.length){
+    log(`🔗 多連結順序配對：${products.length} 商品 / ${anchors.length} LINE 連結`);
+    return dedupe(anchors.map((a,i)=>({name:products[i],url:a.url})));
+  }
+  // Safe single-link fallback only. Never use a shared multi-product parent for many anchors.
+  if(anchors.length===1){
+    const a=anchors[0];
+    const parentLines=(a.parent||'').split('\n').map(x=>clean(x)).filter(x=>PRODUCT.test(x)&&!LINE.test(x));
+    const unique=[...new Set(parentLines)];
+    if(unique.length===1)return dedupe([{name:unique[0],url:a.url}]);
+    if(products.length===1)return dedupe([{name:products[0],url:a.url}]);
+  }
+  return dedupe(out);
+}
 async function pendingDiagnostic(page,p){return page.locator(`[data-voom-v2="${p.id}"]`).evaluate(post=>{const viewer=post.querySelector('.text_viewer.page_feed')||post;const anchors=[...post.querySelectorAll('a')].filter(a=>/lin\.ee\//i.test([a.getAttribute('href'),a.href,a.innerText,a.parentElement?.innerText].filter(Boolean).join(' '))).slice(0,30).map(a=>({href:a.getAttribute('href')||a.href||'',text:(a.innerText||'').trim().slice(0,160),aria:(a.getAttribute('aria-label')||'').slice(0,160),title:(a.getAttribute('title')||'').slice(0,160),parent:(a.parentElement?.innerText||'').trim().slice(0,500),prev:(a.parentElement?.previousElementSibling?.innerText||'').trim().slice(0,300),next:(a.parentElement?.nextElementSibling?.innerText||'').trim().slice(0,300)}));return{text:(viewer.innerText||'').trim().slice(0,5000),anchors};});}
 async function parseLalaportPost(page,p){let items=parseNormal(p.text);if(items.length)return items;return anchorItems(page,p);}
 async function latest(page,mode){const ps=await posts(page);if(mode==='lalaport'){const all=[];for(const p of ps){const x=await parseLalaportPost(page,p);for(const item of x)all.push(item);}const items=dedupe(all);log(`🧺 LaLaport 多文章模式：8/25 後 ${ps.length} 則文章，解析 ${items.length} 商品`);return ps.length?{...ps[0],items,pending:!items.length,aggregated:true}:null;}for(const p of ps){if(!KEYWORDS.some(k=>p.text.includes(k)))continue;let items=mode==='xizhi'?parseXizhi(p.text):parseNormal(p.text);if(!items.length&&mode==='normal')items=await anchorItems(page,p);if(items.length)return{...p,items,pending:false};const hasProduct=PRODUCT.test(p.text),hasLine=LINE.test(p.text);if(!hasProduct&&!hasLine)return{...p,items:[],pending:false,noticeOnly:true};return{...p,items:[],pending:true};}return null;}
