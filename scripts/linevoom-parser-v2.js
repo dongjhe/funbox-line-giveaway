@@ -3,17 +3,17 @@ const fs = require('fs');
 const path = require('path');
 const STORES = require('./linevoom-stores');
 
-const CUTOFF = new Date('2026-08-25T00:00:00+08:00');
+// New policy: only the newest relevant post on/after 2026/09/01 is authoritative.
+const CUTOFF = new Date('2026-09-01T00:00:00+08:00');
 const DATA_FILE = path.resolve(__dirname, '../src/app/giveaway-data.ts');
 const OUTPUT_FILE = path.resolve(__dirname, '../linevoom-parser-v2-result.txt');
 const SYNC = process.argv.includes('--sync');
-const LALAPORT_ID = '_dWbmVBOBVpcGPA3UWP953LsGWVx32VkrDcGrqRQ';
 const XIZHI_ID = '_dXWlFT8AyCrEdtsk_fRRUYuqERc8rWDzx3c6DUA';
 const KEYWORDS = ['陀螺','抽選','抽籤','購買券','購買資格','抽獎連結','抽選連結'];
 const PRODUCT = /(?:BXG|BX|UX|CX)-?\d+/i;
 const LINE = /https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i;
 const output=[];
-const stats={match:0,different:0,pending:0,skip:0,newStore:0,error:0};
+const stats={match:0,different:0,cleared:0,pending:0,skip:0,newStore:0,error:0};
 const pendingStores=[];
 function log(...args){const text=args.map(x=>typeof x==='string'?x:JSON.stringify(x)).join(' ');console.log(text);output.push(text);}
 function saveOutput(){fs.writeFileSync(OUTPUT_FILE,output.join('\n')+'\n','utf8');}
@@ -27,56 +27,19 @@ function parseTime(label,now=new Date()){const d=new Date(now);let m;if((m=label
 async function mark(page){const raw=await page.evaluate(()=>{const re=/^(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})$/;const a=[];for(const el of document.querySelectorAll('body *')){if(el.children.length>3)continue;const t=(el.innerText||el.textContent||'').trim();if(!re.test(t))continue;let p=el;for(let i=0;i<8&&p.parentElement;i++){p=p.parentElement;const s=(p.innerText||'');if(s.includes('Public')&&(s.includes('Like')||s.includes('Comment')||s.includes('Share')))break;}if(!p||p===document.body)continue;if(!p.dataset.voomV2)p.dataset.voomV2=`v2-${a.length}-${Math.random().toString(36).slice(2)}`;a.push({id:p.dataset.voomV2,label:t});}return a;});const now=new Date(),seen=new Set();return raw.map(x=>({...x,date:parseTime(x.label,now)})).filter(x=>x.date&&x.date>=CUTOFF&&!seen.has(x.id)&&seen.add(x.id)).sort((a,b)=>b.date-a.date);}
 async function expand(page){const ps=await mark(page);let n=0;for(const p of ps){const root=page.locator(`[data-voom-v2="${p.id}"]`);for(let r=0;r<5;r++){const xs=root.getByText('顯示更多',{exact:false});let ok=false;for(let i=0;i<await xs.count();i++){try{if(!(await xs.nth(i).isVisible()))continue;await xs.nth(i).click({timeout:1200});await page.waitForTimeout(200);n++;ok=true;break;}catch{}}if(!ok)break;}}if(n)log(`🔓 展開 ${n} 個「顯示更多」`);}
 async function posts(page){const recent=await mark(page);const rows=await page.evaluate(()=>[...document.querySelectorAll('[data-voom-v2]')].map(p=>({id:p.dataset.voomV2,text:((p.querySelector('.text_viewer.page_feed')||p).innerText||'').trim()})));const m=new Map(rows.map(x=>[x.id,x.text]));return recent.map(x=>({...x,text:m.get(x.id)||''}));}
-async function anchorItems(page,p){
-  const data=await page.locator(`[data-voom-v2="${p.id}"]`).evaluate(post=>{
-    const lineRe=/https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i;
-    const productRe=/(?:BXG|BX|UX|CX)-?\d+/i;
-    const anchors=[...post.querySelectorAll('a')].map((a,index)=>({
-      index,
-      raw:a.getAttribute('href')||'',href:a.href||'',text:(a.innerText||a.textContent||'').trim(),
-      aria:a.getAttribute('aria-label')||'',title:a.getAttribute('title')||'',
-      parent:(a.parentElement?.innerText||'').trim(),prev:(a.parentElement?.previousElementSibling?.innerText||'').trim(),
-      next:(a.parentElement?.nextElementSibling?.innerText||'').trim()
-    })).filter(a=>[a.raw,a.href,a.text,a.parent].some(x=>lineRe.test(x||'')));
-    const viewer=post.querySelector('.text_viewer.page_feed')||post;
-    const productLines=(viewer.innerText||'').split('\n').map(x=>x.trim()).filter(x=>productRe.test(x)&&!lineRe.test(x));
-    return {anchors,productLines};
-  });
-  const anchors=[];
-  for(const a of data.anchors){const url=[a.raw,a.href,a.text,a.parent].map(x=>(x||'').match(LINE)?.[0]).find(Boolean);if(url&&!anchors.some(x=>x.url===url))anchors.push({...a,url});}
-  const products=data.productLines.map(clean).filter(x=>PRODUCT.test(x)&&!LINE.test(x));
-  const out=[];
-  for(const a of anchors){
-    const candidates=[a.text,a.aria,a.title,a.prev,a.next];
-    let hit='';
-    for(const t of candidates){const lines=(t||'').split('\n').map(x=>clean(x)).filter(Boolean);const matches=lines.filter(x=>PRODUCT.test(x)&&!LINE.test(x));if(matches.length===1){hit=matches[0];break;}}
-    if(hit)out.push({name:hit,url:a.url});
-  }
-  if(out.length===anchors.length&&out.length)return dedupe(out);
-  // Some VOOM posts render all coupon anchors in one shared parent. In that case parent text
-  // always points at the first product. Pair by DOM/text order only when counts match exactly.
-  if(anchors.length>1&&products.length===anchors.length){
-    log(`🔗 多連結順序配對：${products.length} 商品 / ${anchors.length} LINE 連結`);
-    return dedupe(anchors.map((a,i)=>({name:products[i],url:a.url})));
-  }
-  // Safe single-link fallback only. Never use a shared multi-product parent for many anchors.
-  if(anchors.length===1){
-    const a=anchors[0];
-    const parentLines=(a.parent||'').split('\n').map(x=>clean(x)).filter(x=>PRODUCT.test(x)&&!LINE.test(x));
-    const unique=[...new Set(parentLines)];
-    if(unique.length===1)return dedupe([{name:unique[0],url:a.url}]);
-    if(products.length===1)return dedupe([{name:products[0],url:a.url}]);
-  }
-  return dedupe(out);
-}
+async function anchorItems(page,p){const data=await page.locator(`[data-voom-v2="${p.id}"]`).evaluate(post=>{const lineRe=/https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i;const productRe=/(?:BXG|BX|UX|CX)-?\d+/i;const anchors=[...post.querySelectorAll('a')].map((a,index)=>({index,raw:a.getAttribute('href')||'',href:a.href||'',text:(a.innerText||a.textContent||'').trim(),aria:a.getAttribute('aria-label')||'',title:a.getAttribute('title')||'',parent:(a.parentElement?.innerText||'').trim(),prev:(a.parentElement?.previousElementSibling?.innerText||'').trim(),next:(a.parentElement?.nextElementSibling?.innerText||'').trim()})).filter(a=>[a.raw,a.href,a.text,a.parent].some(x=>lineRe.test(x||'')));const viewer=post.querySelector('.text_viewer.page_feed')||post;const productLines=(viewer.innerText||'').split('\n').map(x=>x.trim()).filter(x=>productRe.test(x)&&!lineRe.test(x));return{anchors,productLines};});const anchors=[];for(const a of data.anchors){const url=[a.raw,a.href,a.text,a.parent].map(x=>(x||'').match(LINE)?.[0]).find(Boolean);if(url&&!anchors.some(x=>x.url===url))anchors.push({...a,url});}const products=data.productLines.map(clean).filter(x=>PRODUCT.test(x)&&!LINE.test(x));const out=[];for(const a of anchors){const candidates=[a.text,a.aria,a.title,a.prev,a.next];let hit='';for(const t of candidates){const lines=(t||'').split('\n').map(x=>clean(x)).filter(Boolean);const matches=lines.filter(x=>PRODUCT.test(x)&&!LINE.test(x));if(matches.length===1){hit=matches[0];break;}}if(hit)out.push({name:hit,url:a.url});}if(out.length===anchors.length&&out.length)return dedupe(out);if(anchors.length>1&&products.length===anchors.length){log(`🔗 多連結順序配對：${products.length} 商品 / ${anchors.length} LINE 連結`);return dedupe(anchors.map((a,i)=>({name:products[i],url:a.url})));}if(anchors.length===1){const a=anchors[0];const parentLines=(a.parent||'').split('\n').map(x=>clean(x)).filter(x=>PRODUCT.test(x)&&!LINE.test(x));const unique=[...new Set(parentLines)];if(unique.length===1)return dedupe([{name:unique[0],url:a.url}]);if(products.length===1)return dedupe([{name:products[0],url:a.url}]);}return dedupe(out);}
 async function pendingDiagnostic(page,p){return page.locator(`[data-voom-v2="${p.id}"]`).evaluate(post=>{const viewer=post.querySelector('.text_viewer.page_feed')||post;const anchors=[...post.querySelectorAll('a')].filter(a=>/lin\.ee\//i.test([a.getAttribute('href'),a.href,a.innerText,a.parentElement?.innerText].filter(Boolean).join(' '))).slice(0,30).map(a=>({href:a.getAttribute('href')||a.href||'',text:(a.innerText||'').trim().slice(0,160),aria:(a.getAttribute('aria-label')||'').slice(0,160),title:(a.getAttribute('title')||'').slice(0,160),parent:(a.parentElement?.innerText||'').trim().slice(0,500),prev:(a.parentElement?.previousElementSibling?.innerText||'').trim().slice(0,300),next:(a.parentElement?.nextElementSibling?.innerText||'').trim().slice(0,300)}));return{text:(viewer.innerText||'').trim().slice(0,5000),anchors};});}
-async function parseLalaportPost(page,p){let items=parseNormal(p.text);if(items.length)return items;return anchorItems(page,p);}
-async function latest(page,mode){const ps=await posts(page);if(mode==='lalaport'){const all=[];for(const p of ps){const x=await parseLalaportPost(page,p);for(const item of x)all.push(item);}const items=dedupe(all);log(`🧺 LaLaport 多文章模式：8/25 後 ${ps.length} 則文章，解析 ${items.length} 商品`);return ps.length?{...ps[0],items,pending:!items.length,aggregated:true}:null;}for(const p of ps){if(!KEYWORDS.some(k=>p.text.includes(k)))continue;let items=mode==='xizhi'?parseXizhi(p.text):parseNormal(p.text);if(!items.length&&mode==='normal')items=await anchorItems(page,p);if(items.length)return{...p,items,pending:false};const hasProduct=PRODUCT.test(p.text),hasLine=LINE.test(p.text);if(!hasProduct&&!hasLine)return{...p,items:[],pending:false,noticeOnly:true};return{...p,items:[],pending:true};}return null;}
+async function latest(page,mode){const ps=await posts(page);const p=ps.find(x=>KEYWORDS.some(k=>x.text.includes(k)));if(!p)return null;let items=mode==='xizhi'?parseXizhi(p.text):parseNormal(p.text);if(!items.length)items=await anchorItems(page,p);return{...p,items,pending:!items.length};}
 function parseData(src){const stores=[];const re=/\{\s*store:\s*'([^']+)'[\s\S]*?storeUrl:\s*'([^']*)'[\s\S]*?items:\s*\[([\s\S]*?)\]\s*,?\s*\}/g;for(const m of src.matchAll(re)){const items=[...m[3].matchAll(/\{\s*name:\s*'([^']+)',\s*url:\s*'(https:\/\/lin\.ee\/[^']+)'\s*\}/g)].map(x=>({name:x[1],url:x[2]}));stores.push({name:m[1],url:m[2],items});}return stores;}
 function norm(s=''){return s.toLowerCase().replace(/funbox|toys|sanrio/g,'').replace(/[\s&\-－_()（）]/g,'');}
 function findStore(master,data){return data.find(x=>(x.url||'').replace(/[?#].*$/,'')===master.url.replace(/[?#].*$/,''))||data.find(x=>norm(x.name)===norm(master.name));}
-function compare(a,b){const A=new Map(a.map(x=>[code(x.name),x])),B=new Map(b.map(x=>[code(x.name),x]));const d=[];for(const[c,x]of B){if(!A.has(c))d.push(`➕ ${c} ${x.name} ${x.url}`);else if(A.get(c).url!==x.url)d.push(`🔄 ${c} DATA=${A.get(c).url} VOOM=${x.url}`);}for(const[c,x]of A)if(!B.has(c))d.push(`➖ ${c} DATA only ${x.url}`);return d;}
+function compare(a,b){const A=new Map(a.map(x=>[`${code(x.name)}|${x.url}`,x])),B=new Map(b.map(x=>[`${code(x.name)}|${x.url}`,x]));const d=[];for(const[k,x]of B)if(!A.has(k))d.push(`➕ ${code(x.name)} ${x.name} ${x.url}`);for(const[k,x]of A)if(!B.has(k))d.push(`➖ ${code(x.name)} DATA only ${x.url}`);return d;}
 function esc(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
-function replaceItems(src,store,items){const name=store.name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');const re=new RegExp(`(\\{\\s*store:\\s*'${name}'[\\s\\S]*?items:\\s*\\[)([\\s\\S]*?)(\\]\\s*,?\\s*\\})`);return src.replace(re,(_,a,b,c)=>`${a}\n${items.map(x=>`        { name: '${esc(x.name)}', url: '${esc(x.url)}' },`).join('\n')}\n      ${c}`);}
-function summary(){log('\n================ SUMMARY ================');log(`MATCH: ${stats.match}`);log(`DIFFERENT: ${stats.different}`);log(`PENDING: ${stats.pending}`);log(`NEW STORE: ${stats.newStore}`);log(`SKIP: ${stats.skip}`);log(`ERROR: ${stats.error}`);if(pendingStores.length){log('\nPENDING STORES:');for(const s of pendingStores)log(`- ${s}`);}log('=========================================');}
-(async()=>{let src=fs.readFileSync(DATA_FILE,'utf8'),data=parseData(src),changed=0;log(`🧪 LINE VOOM Parser V2 ${SYNC?'SYNC':'AUDIT'} — ${STORES.length} 間`);log(`📄 完整結果：${OUTPUT_FILE}`);const browser=await chromium.launch({headless:false});const ctx=await browser.newContext({locale:'zh-TW',timezoneId:'Asia/Taipei'});const page=await ctx.newPage();for(let i=0;i<STORES.length;i++){const s=STORES[i];const mode=s.url.includes(LALAPORT_ID)?'lalaport':s.url.includes(XIZHI_ID)?'xizhi':'normal';log(`\n[${i+1}/${STORES.length}] ${s.region} / ${s.name}`);log(`MODE: ${mode}`);try{await page.goto(s.url,{waitUntil:'domcontentloaded',timeout:60000});await page.waitForTimeout(2200);await expand(page);const v=await latest(page,mode);if(!v){stats.skip++;log('⏭️ SKIP');continue;}if(v.noticeOnly){stats.skip++;log(`⏭️ SKIP NOTICE - ${v.label}，相關公告但沒有 LINE 商品連結`);continue;}if(v.pending){stats.pending++;pendingStores.push(`${s.region} / ${s.name}`);log(`🕒 PENDING - ${v.label}，文章存在但尚未解析到商品`);try{const d=await pendingDiagnostic(page,v);log('🔬 PENDING DIAGNOSTIC');log(`ARTICLE:\n${d.text}`);for(const [j,a] of d.anchors.entries())log(`ANCHOR ${j+1}: ${JSON.stringify(a)}`);}catch(e){log(`🔬 diagnostic error: ${e.message}`);}continue;}const ds=findStore(s,data);log(`📦 VOOM ${v.items.length} / DATA ${ds?.items.length??0}`);for(const x of v.items)log(`  ${x.name} -> ${x.url}`);if(!ds){stats.newStore++;log('🆕 NEW STORE（V2 暫不自動新增，避免錯寫）');continue;}const diff=compare(ds.items,v.items);if(!diff.length){stats.match++;log('✅ MATCH');continue;}stats.different++;log('⚠️ DIFFERENT');for(const d of diff)log(`  ${d}`);if(SYNC){if(ds.items.length>0){log('🛡️ DATA 已有商品：依安全規則只稽核，不覆寫');continue;}src=replaceItems(src,ds,v.items);data=parseData(src);changed++;log('💾 SYNCED（原 DATA=0）');}}catch(e){stats.error++;log(`❌ ERROR: ${e.message}`);}}await browser.close();if(SYNC&&changed)fs.writeFileSync(DATA_FILE,src,'utf8');if(SYNC)log(`\n💾 已更新 ${changed} 間 DATA=0 店家`);summary();saveOutput();log('\n✅ V2 完成');saveOutput();})().catch(e=>{log(`\n💥 FATAL: ${e.stack||e.message}`);saveOutput();process.exit(1);});
+function replaceItems(src,store,items){const name=store.name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');const re=new RegExp(`(\\{\\s*store:\\s*'${name}'[\\s\\S]*?items:\\s*\\[)([\\s\\S]*?)(\\]\\s*,?\\s*\\})`);return src.replace(re,(_,a,b,c)=>`${a}\n${items.map(x=>`        { name: '${esc(x.name)}', url: '${esc(x.url)}' },`).join('\n')}${items.length?'\n      ':''}${c}`);}
+function syncItems(src,ds,items,reason){const before=ds.items.length;const next=replaceItems(src,ds,items);if(next===src){log(`⚠️ 無法更新 DATA：${ds.name}`);return{src,changed:false};}log(`💾 ${reason}：${before} → ${items.length}`);return{src:next,changed:true};}
+function summary(){log('\n================ SUMMARY ================');log(`MATCH: ${stats.match}`);log(`DIFFERENT: ${stats.different}`);log(`CLEARED: ${stats.cleared}`);log(`PENDING: ${stats.pending}`);log(`NEW STORE: ${stats.newStore}`);log(`SKIP: ${stats.skip}`);log(`ERROR: ${stats.error}`);if(pendingStores.length){log('\nPENDING/CLEARED STORES:');for(const s of pendingStores)log(`- ${s}`);}log('=========================================');}
+(async()=>{let src=fs.readFileSync(DATA_FILE,'utf8'),data=parseData(src),changed=0;log(`🧪 LINE VOOM Parser V2 ${SYNC?'SYNC':'AUDIT'} — ${STORES.length} 間`);log('📅 規則：只取 2026/09/01 00:00 之後最新一則相關文章；沒有商品則清空 DATA items');log(`📄 完整結果：${OUTPUT_FILE}`);const browser=await chromium.launch({headless:false});const ctx=await browser.newContext({locale:'zh-TW',timezoneId:'Asia/Taipei'});const page=await ctx.newPage();for(let i=0;i<STORES.length;i++){const s=STORES[i];const mode=s.url.includes(XIZHI_ID)?'xizhi':'normal';log(`\n[${i+1}/${STORES.length}] ${s.region} / ${s.name}`);log(`MODE: ${mode}`);try{await page.goto(s.url,{waitUntil:'domcontentloaded',timeout:60000});await page.waitForTimeout(2200);await expand(page);const ds=findStore(s,data);const v=await latest(page,mode);
+if(!v){stats.skip++;log('⏭️ 9/1 後沒有相關文章');if(SYNC&&ds&&ds.items.length){const r=syncItems(src,ds,[],'CLEARED（9/1 後沒有相關文章）');src=r.src;if(r.changed){changed++;stats.cleared++;data=parseData(src);}}continue;}
+log(`🕐 最新相關文章：${v.label}`);
+if(v.pending){stats.pending++;pendingStores.push(`${s.region} / ${s.name}`);log('🕒 最新文章沒有解析到商品');try{const d=await pendingDiagnostic(page,v);log('🔬 PENDING DIAGNOSTIC');log(`ARTICLE:\n${d.text}`);for(const [j,a] of d.anchors.entries())log(`ANCHOR ${j+1}: ${JSON.stringify(a)}`);}catch(e){log(`🔬 diagnostic error: ${e.message}`);}if(SYNC&&ds&&ds.items.length){const r=syncItems(src,ds,[],'CLEARED（最新文章沒有商品）');src=r.src;if(r.changed){changed++;stats.cleared++;data=parseData(src);}}continue;}
+log(`📦 VOOM ${v.items.length} / DATA ${ds?.items.length??0}`);for(const x of v.items)log(`  ${x.name} -> ${x.url}`);if(!ds){stats.newStore++;log('🆕 NEW STORE（交由 new-store sync 新增）');continue;}const diff=compare(ds.items,v.items);if(!diff.length){stats.match++;log('✅ MATCH（已是最新文章商品）');continue;}stats.different++;log('⚠️ DIFFERENT → 最新文章將取代舊 DATA');for(const d of diff)log(`  ${d}`);if(SYNC){const r=syncItems(src,ds,v.items,'SYNCED（只保留最新文章商品）');src=r.src;if(r.changed){changed++;data=parseData(src);}}}catch(e){stats.error++;log(`❌ ERROR: ${e.message}`);}}await browser.close();if(SYNC&&changed)fs.writeFileSync(DATA_FILE,src,'utf8');if(SYNC)log(`\n💾 已更新/清空 ${changed} 間店家`);summary();saveOutput();log('\n✅ V2 完成');saveOutput();})().catch(e=>{log(`\n💥 FATAL: ${e.stack||e.message}`);saveOutput();process.exit(1);});
