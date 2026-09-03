@@ -63,5 +63,6 @@ module.exports = [
   ['新北市', 'FUNBOX 比漾廣場店', 'https://linevoom.line.me/user/_dQbxr4jKpXDT3BtXULflBCgU9GujoUvNaAUOOZo'],
   ['彰化縣', '來玩聚-彰化店', 'https://linevoom.line.me/user/_deL1i2Bb8uUCbeQ10yCnEvVLz_iZbXwvFtNNTRM'],
   ['彰化縣', '來玩聚-員林店', 'https://linevoom.line.me/user/_dar-0z1aYQPkB0W-BiwgwDp6XsDKAdehbmupEaI'],
-  ['雲林縣', '來玩聚斗六店', 'https://linevoom.line.me/user/_ddu256ZXwJCBqOeIfKwY6QYdeIvbrVOmBRIOKfo']
+  ['雲林縣', '來玩聚斗六店', 'https://linevoom.line.me/user/_ddu256ZXwJCBqOeIfKwY6QYdeIvbrVOmBRIOKfo'],
+  ['台北市', 'Fun box忠孝SOGO', 'https://linevoom.line.me/user/_dZR3EbkBX6ugUrxVH_Qo47n8xYDp-95FYmhlIWM']
 ].map(([region, name, url]) => ({ region, name, url }));

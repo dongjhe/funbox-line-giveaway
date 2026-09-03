@@ -1,2 +1,3 @@
+✅ ADD 台北市 / Fun box忠孝SOGO：9 商品
 
-SUMMARY: added=0 skipped=0
+SUMMARY: added=1 skipped=0
