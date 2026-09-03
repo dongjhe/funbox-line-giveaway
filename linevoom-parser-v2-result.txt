@@ -5,7 +5,7 @@
 [1/65] 嘉義市 / Funbox Toys-嘉義遠東店
 MODE: normal
 🔓 展開 1 個「顯示更多」
-🕐 最新相關文章：2小時前
+🕐 最新相關文章：3小時前
 📦 VOOM 3 / DATA 3
   BX-00 蒼龍神劍 -> https://lin.ee/NoSbfkR
   UX-21惡魔冥界改造組 -> https://lin.ee/pIJWrfq
@@ -15,7 +15,7 @@ MODE: normal
 [2/65] 嘉義市 / Funbox 嘉義三越店
 MODE: normal
 🔓 展開 1 個「顯示更多」
-🕐 最新相關文章：2小時前
+🕐 最新相關文章：3小時前
 📦 VOOM 4 / DATA 4
   BX-00蒼龍神劍3-60F V2 -> https://lin.ee/TSZ5FQE
   UX-20榮耀武神LF -> https://lin.ee/U2KWNuL
@@ -89,7 +89,21 @@ MODE: normal
 
 [19/65] 台中市 / Funbox 豐原太平洋店
 MODE: normal
-⏭️ 9/1 後沒有相關文章
+🔓 展開 1 個「顯示更多」
+🕐 最新相關文章：21分鐘前
+📦 VOOM 5 / DATA 0
+  BXG-04 銀牙烈虎S -> https://lin.ee/QmiHujG
+  UX-21 惡魔冥界改造組 -> https://lin.ee/SDfhjGG
+  BX-00 蒼龍神劍3-60F V2 -> https://lin.ee/x5Mnd76
+  UX-20 榮耀武神LF -> https://lin.ee/xcqK2MJ
+  CX-13 龍王閃擊 -> https://lin.ee/YL4kdql
+⚠️ DIFFERENT → 最新文章將取代舊 DATA
+  ➕ BXG-04 BXG-04 銀牙烈虎S https://lin.ee/QmiHujG
+  ➕ UX-21 UX-21 惡魔冥界改造組 https://lin.ee/SDfhjGG
+  ➕ BX-00 BX-00 蒼龍神劍3-60F V2 https://lin.ee/x5Mnd76
+  ➕ UX-20 UX-20 榮耀武神LF https://lin.ee/xcqK2MJ
+  ➕ CX-13 CX-13 龍王閃擊 https://lin.ee/YL4kdql
+💾 SYNCED（只保留最新文章商品）：0 → 5
 
 [20/65] 台中市 / Funbox麗寶一期店
 MODE: normal
@@ -136,7 +150,35 @@ MODE: normal
 
 [27/65] 宜蘭縣 / Funbox 宜蘭新月店
 MODE: normal
-⏭️ 9/1 後沒有相關文章
+🔓 展開 1 個「顯示更多」
+🕐 最新相關文章：37分鐘前
+📦 VOOM 12 / DATA 0
+  BX-50 天堂日輪 隨機強化組 -> https://lin.ee/7UbdwSO
+  UX-20 榮耀武神LF -> https://lin.ee/r4EoEPI
+  UX-19 子彈獅鷲H -> https://lin.ee/UVlBzJmk
+  CX-18 腕龍鞭打 隨機強化組 -> https://lin.ee/o2QZhWI
+  BX-00 暴風天馬3-70RA -> https://lin.ee/q22Xnoi
+  BXG-01 烈焰飛鳳S -> https://lin.ee/r9MQCqb
+  BX-26 獨角刺心 -> https://lin.ee/PhWqcc0
+  BX-33 皓戰猛虎 -> https://lin.ee/Vp4aUiB
+  BXG-04 銀牙烈虎S -> https://lin.ee/90DcANj
+  CX-13 龍王閃擊 -> https://lin.ee/TvWlXi0
+  UX-21 惡魔冥界改造組 -> https://lin.ee/WfiQkkY
+  BX-00 蒼龍神劍3-60F V2 -> https://lin.ee/zBADrxA
+⚠️ DIFFERENT → 最新文章將取代舊 DATA
+  ➕ BX-50 BX-50 天堂日輪 隨機強化組 https://lin.ee/7UbdwSO
+  ➕ UX-20 UX-20 榮耀武神LF https://lin.ee/r4EoEPI
+  ➕ UX-19 UX-19 子彈獅鷲H https://lin.ee/UVlBzJmk
+  ➕ CX-18 CX-18 腕龍鞭打 隨機強化組 https://lin.ee/o2QZhWI
+  ➕ BX-00 BX-00 暴風天馬3-70RA https://lin.ee/q22Xnoi
+  ➕ BXG-01 BXG-01 烈焰飛鳳S https://lin.ee/r9MQCqb
+  ➕ BX-26 BX-26 獨角刺心 https://lin.ee/PhWqcc0
+  ➕ BX-33 BX-33 皓戰猛虎 https://lin.ee/Vp4aUiB
+  ➕ BXG-04 BXG-04 銀牙烈虎S https://lin.ee/90DcANj
+  ➕ CX-13 CX-13 龍王閃擊 https://lin.ee/TvWlXi0
+  ➕ UX-21 UX-21 惡魔冥界改造組 https://lin.ee/WfiQkkY
+  ➕ BX-00 BX-00 蒼龍神劍3-60F V2 https://lin.ee/zBADrxA
+💾 SYNCED（只保留最新文章商品）：0 → 12
 
 [28/65] 高雄市 / Funbox-夢時代店
 MODE: normal
@@ -149,7 +191,7 @@ MODE: normal
 [30/65] 台北市 / 來玩聚-北車地下街
 MODE: normal
 🔓 展開 1 個「顯示更多」
-🕐 最新相關文章：3小時前
+🕐 最新相關文章：5小時前
 📦 VOOM 11 / DATA 11
   BX-18 發射器 -> https://lin.ee/qo0YNUu
   BX-51 黑綠旋風拉線發射器 -> https://lin.ee/6uMADK5
@@ -206,13 +248,25 @@ MODE: normal
 
 [41/65] 台北市 / Funbox 三越站前店
 MODE: normal
-⏭️ 9/1 後沒有相關文章
+🔓 展開 1 個「顯示更多」
+🕐 最新相關文章：48分鐘前
+📦 VOOM 4 / DATA 0
+  BX-00 蒼龍神劍3-60F V2 -> https://lin.ee/oGGJp4E
+  CX-13 龍王閃擊 -> https://lin.ee/ro7BPcE
+  UX-20 榮耀武神 -> https://lin.ee/uTN2vok
+  UX-21 惡魔冥界改造組 -> https://lin.ee/ubPqswd
+⚠️ DIFFERENT → 最新文章將取代舊 DATA
+  ➕ BX-00 BX-00 蒼龍神劍3-60F V2 https://lin.ee/oGGJp4E
+  ➕ CX-13 CX-13 龍王閃擊 https://lin.ee/ro7BPcE
+  ➕ UX-20 UX-20 榮耀武神 https://lin.ee/uTN2vok
+  ➕ UX-21 UX-21 惡魔冥界改造組 https://lin.ee/ubPqswd
+💾 SYNCED（只保留最新文章商品）：0 → 4
 
 [42/65] 台北市 / Funbox 三越南西店
 MODE: normal
 🔓 展開 1 個「顯示更多」
 🔗 多連結順序配對：10 商品 / 10 LINE 連結
-🕐 最新相關文章：3小時前
+🕐 最新相關文章：5小時前
 📦 VOOM 10 / DATA 10
   BX-00蒼龍神劍3-60F V2 -> https://lin.ee/safDqUe
   BX-00 暴風天馬3-70RA -> https://lin.ee/wYrNdRC
@@ -228,7 +282,25 @@ MODE: normal
 
 [43/65] 台北市 / Funbox天母三越店
 MODE: normal
-⏭️ 9/1 後沒有相關文章
+🔓 展開 1 個「顯示更多」
+🕐 最新相關文章：11分鐘前
+📦 VOOM 7 / DATA 0
+  BX-00 暴風天馬 -> https://lin.ee/zfyVDku
+  UX-02 惡魔戰錘 -> https://lin.ee/9sGjpih
+  BXG-04 銀牙烈虎S -> https://lin.ee/UNUtlZi
+  BX-00 蒼龍神劍V2 -> https://lin.ee/PLbLMXo
+  BX-26 獨角刺心 -> https://lin.ee/qW7Oiqi
+  BXG-01 烈焰飛鳳S -> https://lin.ee/n4KT7gJ
+  CX-13 龍王閃擊 -> https://lin.ee/nziJiOE
+⚠️ DIFFERENT → 最新文章將取代舊 DATA
+  ➕ BX-00 BX-00 暴風天馬 https://lin.ee/zfyVDku
+  ➕ UX-02 UX-02 惡魔戰錘 https://lin.ee/9sGjpih
+  ➕ BXG-04 BXG-04 銀牙烈虎S https://lin.ee/UNUtlZi
+  ➕ BX-00 BX-00 蒼龍神劍V2 https://lin.ee/PLbLMXo
+  ➕ BX-26 BX-26 獨角刺心 https://lin.ee/qW7Oiqi
+  ➕ BXG-01 BXG-01 烈焰飛鳳S https://lin.ee/n4KT7gJ
+  ➕ CX-13 CX-13 龍王閃擊 https://lin.ee/nziJiOE
+💾 SYNCED（只保留最新文章商品）：0 → 7
 
 [44/65] 新北市 / Funbox淡水禮萊廣場店
 MODE: normal
@@ -245,7 +317,7 @@ MODE: normal
 [47/65] 新北市 / Funbox-中和環球店
 MODE: normal
 🔓 展開 1 個「顯示更多」
-🕐 最新相關文章：1小時前
+🕐 最新相關文章：2小時前
 📦 VOOM 5 / DATA 5
   UX-21 惡魔幽冥 -> https://lin.ee/slJensL
   BX-00 蒼龍神劍V2 -> https://lin.ee/pULgSQU
@@ -269,8 +341,8 @@ MODE: normal
 [51/65] 台北市 / Funbox 美麗華
 MODE: normal
 🔓 展開 1 個「顯示更多」
-🕐 最新相關文章：38分鐘前
-📦 VOOM 10 / DATA 0
+🕐 最新相關文章：2小時前
+📦 VOOM 10 / DATA 10
   UX20 榮耀武神 -> https://lin.ee/YEjtQAn
   UX-21 惡魔冥界改造組 -> https://lin.ee/ojSXOr2
   CX-13 龍王閃擊BK1-50I -> https://lin.ee/TUogZd8
@@ -281,18 +353,7 @@ MODE: normal
   BX-45 武士魂斬 6-70M -> https://lin.ee/y1zKx5W
   BXG-01烈焰飛鳳S3-80T -> https://lin.ee/zqKWBXd
   BXG-04銀牙烈虎S4-80P -> https://lin.ee/xO0pNXN
-⚠️ DIFFERENT → 最新文章將取代舊 DATA
-  ➕ UX-20 UX20 榮耀武神 https://lin.ee/YEjtQAn
-  ➕ UX-21 UX-21 惡魔冥界改造組 https://lin.ee/ojSXOr2
-  ➕ CX-13 CX-13 龍王閃擊BK1-50I https://lin.ee/TUogZd8
-  ➕ BX-00 BX-00 蒼龍神劍 3-60 F V2 https://lin.ee/wWzOz0G
-  ➕ BX-26 BX-26 獨角刺心 5-60 GP https://lin.ee/SX7w6tZ
-  ➕ BX-33 BX-33 皓戰猛虎 3-60 U https://lin.ee/ZAbTKi7
-  ➕ BX-37 BX-37 雙重極限衝擊戰鬥盤豪華組 https://lin.ee/85UmwDEM
-  ➕ BX-45 BX-45 武士魂斬 6-70M https://lin.ee/y1zKx5W
-  ➕ BXG-01 BXG-01烈焰飛鳳S3-80T https://lin.ee/zqKWBXd
-  ➕ BXG-04 BXG-04銀牙烈虎S4-80P https://lin.ee/xO0pNXN
-💾 SYNCED（只保留最新文章商品）：0 → 10
+✅ MATCH（已是最新文章商品）
 
 [52/65] 新北市 / FunBox Toys-汐止遠雄店
 MODE: xizhi
@@ -313,7 +374,7 @@ MODE: normal
 [56/65] 桃園市 / Funbox-桃園站前三越
 MODE: normal
 🔓 展開 1 個「顯示更多」
-🕐 最新相關文章：3小時前
+🕐 最新相關文章：4小時前
 📦 VOOM 12 / DATA 12
   UX-21 惡魔冥界改造組 -> https://lin.ee/xI92MJV
   UX-02 惡魔戰錘 -> https://lin.ee/vhFWT494
@@ -336,7 +397,7 @@ MODE: normal
 [58/65] 新竹市 / Funbox-新竹遠東店
 MODE: normal
 🔓 展開 1 個「顯示更多」
-🕐 最新相關文章：1小時前
+🕐 最新相關文章：3小時前
 📦 VOOM 4 / DATA 4
   UX-21 惡魔冥界改造組 -> https://lin.ee/PuWtTsF
   UX-20 榮耀武神LF -> https://lin.ee/ReA7kmv
@@ -350,7 +411,33 @@ MODE: normal
 
 [60/65] 台中市 / Funbox 廣三SOGO店
 MODE: normal
-⏭️ 9/1 後沒有相關文章
+🔓 展開 1 個「顯示更多」
+🕐 最新相關文章：49分鐘前
+📦 VOOM 11 / DATA 0
+  UX-21惡魔冥界改造組(原價$895) -> https://lin.ee/7FEy4nT
+  CX-13龍王閃擊(原價$495) -> https://lin.ee/Te56iHk
+  BX-00蒼龍神劍3-60F V2(原價$350) -> https://lin.ee/RhOq9MT
+  CX-18腕龍鞭打 隨機強化組(原價$350) -> https://lin.ee/nXDPrFf
+  UX-11衝擊龍神豪華組(原價$550) -> https://lin.ee/91eNlQH
+  UX-19 子彈獅鷲(原價$550) -> https://lin.ee/XybrZ2g
+  UX-20榮耀武神LF(原價$595) -> https://lin.ee/94by55q
+  BXG-01 烈焰飛鳳S(原價$350) -> https://lin.ee/PqJKUQu
+  BXG-04 銀牙烈虎S(原價$350) -> https://lin.ee/NOzqhRa
+  BX-26獨角刺心(原價$295) -> https://lin.ee/vwLhYfb
+  BX-35 隨機強化組Vol.04(原價$295) -> https://lin.ee/9ECer6h
+⚠️ DIFFERENT → 最新文章將取代舊 DATA
+  ➕ UX-21 UX-21惡魔冥界改造組(原價$895) https://lin.ee/7FEy4nT
+  ➕ CX-13 CX-13龍王閃擊(原價$495) https://lin.ee/Te56iHk
+  ➕ BX-00 BX-00蒼龍神劍3-60F V2(原價$350) https://lin.ee/RhOq9MT
+  ➕ CX-18 CX-18腕龍鞭打 隨機強化組(原價$350) https://lin.ee/nXDPrFf
+  ➕ UX-11 UX-11衝擊龍神豪華組(原價$550) https://lin.ee/91eNlQH
+  ➕ UX-19 UX-19 子彈獅鷲(原價$550) https://lin.ee/XybrZ2g
+  ➕ UX-20 UX-20榮耀武神LF(原價$595) https://lin.ee/94by55q
+  ➕ BXG-01 BXG-01 烈焰飛鳳S(原價$350) https://lin.ee/PqJKUQu
+  ➕ BXG-04 BXG-04 銀牙烈虎S(原價$350) https://lin.ee/NOzqhRa
+  ➕ BX-26 BX-26獨角刺心(原價$295) https://lin.ee/vwLhYfb
+  ➕ BX-35 BX-35 隨機強化組Vol.04(原價$295) https://lin.ee/9ECer6h
+💾 SYNCED（只保留最新文章商品）：0 → 11
 
 [61/65] 新北市 / Funbox新店誠品店
 MODE: normal
@@ -371,17 +458,29 @@ MODE: normal
 
 [65/65] 雲林縣 / 來玩聚斗六店
 MODE: normal
-⏭️ 9/1 後沒有相關文章
+🔓 展開 1 個「顯示更多」
+🕐 最新相關文章：26分鐘前
+📦 VOOM 4 / DATA 0
+  UX-21 惡魔冥界改造組 -> https://lin.ee/N9ztcQs
+  UX-20 榮耀武神LF -> https://lin.ee/ujJuXj0
+  CX-13 龍王閃擊 -> https://lin.ee/ny8t5uU
+  BX-00蒼龍神劍3-60F V2 -> https://lin.ee/RRZW8v7
+⚠️ DIFFERENT → 最新文章將取代舊 DATA
+  ➕ UX-21 UX-21 惡魔冥界改造組 https://lin.ee/N9ztcQs
+  ➕ UX-20 UX-20 榮耀武神LF https://lin.ee/ujJuXj0
+  ➕ CX-13 CX-13 龍王閃擊 https://lin.ee/ny8t5uU
+  ➕ BX-00 BX-00蒼龍神劍3-60F V2 https://lin.ee/RRZW8v7
+💾 SYNCED（只保留最新文章商品）：0 → 4
 
-💾 已更新/清空 1 間店家
+💾 已更新/清空 6 間店家
 
 ================ SUMMARY ================
-MATCH: 8
-DIFFERENT: 1
+MATCH: 9
+DIFFERENT: 6
 CLEARED: 0
 PENDING: 0
 NEW STORE: 0
-SKIP: 56
+SKIP: 50
 ERROR: 0
 =========================================
 
