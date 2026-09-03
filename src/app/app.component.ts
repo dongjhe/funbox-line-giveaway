@@ -239,7 +239,6 @@ export class AppComponent {
   }
   private productLabel(name: string): string {
     const code = this.productCode(name).toUpperCase();
-    if (code !== 'BX-00') return code;
     const identity = this.productIdentity(name);
     return identity ? `${code} ${identity}` : code;
   }
