@@ -12,7 +12,7 @@
     "sync:new-stores": "node scripts/sync-linevoom-new-stores.js",
     "sync:prune": "node scripts/prune-linevoom-stale-items.js",
     "sync:start-time": "node scripts/sync-linevoom-start-time.js --sync",
-    "sync:linevoom": "npm run sync:store-urls && node scripts/linevoom-parser-v2.js --sync && npm run sync:new-stores && npm run sync:prune",
+    "sync:linevoom": "npm run sync:store-urls && node scripts/linevoom-parser-v2.js --sync && npm run sync:new-stores && npm run sync:prune && npm run sync:start-time",
     "format": "prettier --write \"src/**/*.{ts,html,css}\" \"*.{json,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,html,css}\" \"*.{json,md}\"",
     "prepare": "husky"
