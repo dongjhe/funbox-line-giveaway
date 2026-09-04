@@ -217,10 +217,30 @@ export class AppComponent {
   private productIdentity(name: string): string {
     const text = name.replace(/🎉/g, '').replace(/(?:BXG|BX|CX|UX)-?\d+/gi, '');
     const aliases = [
-      '蒼龍神劍', '倉龍神劍', '暴風天馬', '爆擊天馬', '極限衝擊戰鬥盤', '發射器', '專業收納包',
-      '獨角刺心', '皓戰猛虎', '鳳凰閃焰', '榮耀武神', '榮耀戰神', '惡魔幽冥改造組',
-      '惡魔冥界改造組', '龍王閃擊', '烈焰飛鳳', '銀牙烈虎', '武士魂斬', '惡魔戰錘',
-      '惡魔戰鎚', '天堂日輪', '子彈獅鷲', '旋風發射器', '雙重極限衝擊戰鬥盤',
+      '蒼龍神劍',
+      '倉龍神劍',
+      '暴風天馬',
+      '爆擊天馬',
+      '極限衝擊戰鬥盤',
+      '發射器',
+      '專業收納包',
+      '獨角刺心',
+      '皓戰猛虎',
+      '鳳凰閃焰',
+      '榮耀武神',
+      '榮耀戰神',
+      '惡魔幽冥改造組',
+      '惡魔冥界改造組',
+      '龍王閃擊',
+      '烈焰飛鳳',
+      '銀牙烈虎',
+      '武士魂斬',
+      '惡魔戰錘',
+      '惡魔戰鎚',
+      '天堂日輪',
+      '子彈獅鷲',
+      '旋風發射器',
+      '雙重極限衝擊戰鬥盤',
     ];
     const found = aliases.find((alias) => text.includes(alias));
     if (found) {
@@ -231,7 +251,13 @@ export class AppComponent {
       return found;
     }
     const chinese = text.match(/[\u3400-\u9fff]+/g)?.join('') ?? '';
-    return chinese || text.replace(/\$\s*[\d,]+(?:\.\d+)?/g, '').trim().toUpperCase();
+    return (
+      chinese ||
+      text
+        .replace(/\$\s*[\d,]+(?:\.\d+)?/g, '')
+        .trim()
+        .toUpperCase()
+    );
   }
   private productKey(name: string): string {
     const code = this.productCode(name).toUpperCase();

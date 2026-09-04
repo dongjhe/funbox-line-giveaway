@@ -770,8 +770,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: '來玩聚-員林店',
       storeUrl: 'https://linevoom.line.me/user/_dar-0z1aYQPkB0W-BiwgwDp6XsDKAdehbmupEaI',
-      startTime: '抽選/購買時間 2026/09/04 10:00 - 2026/09/05 21:00',
-      items: [],
+      startTime: '抽選/購買時間:2026/09/04 10:00-2026/09/05 21:00',
+      items: [
+        { name: 'BX-00 蒼龍神劍3-60F V2（$350）', url: 'https://lin.ee/vuLmnJJ' },
+        { name: 'UX-20 榮耀武神LF（$595）', url: 'https://lin.ee/tIEVifl' },
+        { name: 'UX-21 惡魔冥界改造組（$895）', url: 'https://lin.ee/vJLGMpQ' },
+        { name: 'CX-13 龍王閃擊（$495）', url: 'https://lin.ee/ZKX159K' },
+      ],
     },
   ],
   雲林縣: [
@@ -814,7 +819,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'funbox 花蓮店',
       startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
-      items: [],
+      items: [{ name: '9/4 BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/PxecvZO' }],
     },
   ],
   台東縣: [
@@ -822,7 +827,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox 台東秀泰店',
       storeUrl: 'https://linevoom.line.me/user/_dWiMasxT4CrK1ogY11eoxXAVvwO-U9Fchsvba6o',
       startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
-      items: [],
+      items: [{ name: '9/4 BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/PxecvZO' }],
     },
     {
       store: '來玩聚-台東家樂福',

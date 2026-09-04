@@ -65,12 +65,12 @@
 ✅ OK 彰化縣 / 來玩聚-彰化店
 ✅ OK 彰化縣 / 來玩聚-員林店
 ✅ OK 雲林縣 / 來玩聚斗六店
+✅ OK 台北市 / Fun box忠孝SOGO
 
-SUMMARY: updated=0 unchanged=63 missing=3 ambiguous=0 auditErrors=0
+SUMMARY: updated=0 unchanged=64 missing=2 ambiguous=0 auditErrors=0
 
 ⚠️ DATA 尚未存在的主檔店家（交給 new-store sync；不亂配）：
 - 台東縣 / 來玩聚 台東店
 - 台中市 / Funbox 台中遠雄店
-- 台北市 / Fun box忠孝SOGO
 
 ✅ 已完成主檔一致性稽核。
