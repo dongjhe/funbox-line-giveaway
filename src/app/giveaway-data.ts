@@ -38,6 +38,22 @@ export const REGIONS: Region[] = [
 export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   台北市: [
     {
+      store: 'Funbox-台北大巨蛋',
+      startTime: '抽選/購買時間：2026/09/04 11:00 - 2026/09/05 21:00',
+      items: [
+        { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/X1pZee1' },
+        { name: 'UX-21 惡魔幽冥改造組', url: 'https://lin.ee/5IF5vF4' },
+        { name: 'BX-48 隨機強化組 Vol.9', url: 'https://lin.ee/w3866W7' },
+        { name: 'UX-18 隨機強化組 Vol.8', url: 'https://lin.ee/UcPmd8e' },
+        { name: 'CX-17 隨機強化組 Vol.10', url: 'https://lin.ee/yiJzLRM' },
+        { name: 'UX-20 榮耀戰神', url: 'https://lin.ee/Q0cOFTaU' },
+        { name: 'CX-04 極限衝擊對戰組U', url: 'https://lin.ee/8mOCdFk' },
+        { name: 'CX-11 帝王威能改造組', url: 'https://lin.ee/tuA7MnW' },
+        { name: 'CX-08 隨機強化組 Vol.7', url: 'https://lin.ee/TTGIk3a' },
+        { name: 'BX-37 雙重極限衝擊戰鬥盤豪華組', url: 'https://lin.ee/OduNmlj' },
+      ],
+    },
+    {
       store: 'Funbox-忠孝SOGO店',
       storeUrl: 'https://www.facebook.com/funboxsogo',
       startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
