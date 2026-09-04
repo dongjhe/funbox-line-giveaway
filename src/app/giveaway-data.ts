@@ -752,7 +752,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: '來玩聚-彰化店',
       storeUrl: 'https://linevoom.line.me/user/_deL1i2Bb8uUCbeQ10yCnEvVLz_iZbXwvFtNNTRM',
-      startTime: '抽籤時間：2026/09/04 12:00~2026/09/05 20:30',
+      startTime: '抽選/購買時間:2026/09/04 10:00-2026/09/05 21:00',
       items: [
         { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/7XcJJo4' },
         { name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/YR2xt1Z' },
