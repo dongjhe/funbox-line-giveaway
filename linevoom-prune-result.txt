@@ -3,16 +3,18 @@
 ✅ KEEP Funbox 高雄大立店：4 商品（9/1 後最新文章）
 ✅ KEEP funbox屏東太平洋：2 商品（9/1 後最新文章）
 ✅ KEEP Funbox 屏東環球店：3 商品（9/1 後最新文章）
-✅ KEEP funbox大魯閣新光：1 商品（9/1 後最新文章）
+🔧 RECONCILE funbox大魯閣新光：1 → 1 商品
+✅ KEEP 來玩聚-新楠店：1 商品（9/1 後最新文章）
 ✅ KEEP Funbox麗寶一期店：3 商品（9/1 後最新文章）
 ✅ KEEP Funbox 台中港三井：2 商品（9/1 後最新文章）
 ✅ KEEP Funbox 宜蘭新月店：10 商品（9/1 後最新文章）
-✅ KEEP Funbox-夢時代店：1 商品（9/1 後最新文章）
+🔧 RECONCILE Funbox-夢時代店：1 → 1 商品
 ✅ KEEP 來玩聚-北車地下街：5 商品（9/1 後最新文章）
 ✅ KEEP Funbox 竹北遠東店：7 商品（9/1 後最新文章）
-✅ KEEP Funbox-南港潤泰：7 商品（9/1 後最新文章）
+🔧 RECONCILE Funbox-南港潤泰：7 → 7 商品
 ✅ KEEP Funbox-信義A8店(陀螺販售)：4 商品（9/1 後最新文章）
-✅ KEEP Funbox 三越站前店：1 商品（9/1 後最新文章）
+🔧 RECONCILE Funbox 三越站前店：1 → 1 商品
+✅ KEEP Funbox天母三越店：6 商品（9/1 後最新文章）
 ✅ KEEP Funbox-中和環球店：4 商品（9/1 後最新文章）
 ✅ KEEP Funbox板橋遠東店：5 商品（9/1 後最新文章）
 ✅ KEEP Funbox 天母SOGO店：3 商品（9/1 後最新文章）
@@ -21,9 +23,10 @@
 ✅ KEEP Funbox樹林秀泰店：13 商品（9/1 後最新文章）
 ✅ KEEP Funbox-新竹遠東店：2 商品（9/1 後最新文章）
 ✅ KEEP Funbox 廣三SOGO店：7 商品（9/1 後最新文章）
+✅ KEEP Funbox新店誠品店：3 商品（9/1 後最新文章）
 ✅ KEEP 來玩聚-彰化店：9 商品（9/1 後最新文章）
 ✅ KEEP 來玩聚斗六店：3 商品（9/1 後最新文章）
 ✅ KEEP Fun box忠孝SOGO：3 商品（9/1 後最新文章）
 
-SUMMARY: reconciled=0 kept=26 cleared=0 missing=2 mismatch=0
+SUMMARY: reconciled=4 kept=25 cleared=0 missing=2 mismatch=0
 ✅ Parser 結果與 giveaway-data.ts 商品已完成一致性同步。

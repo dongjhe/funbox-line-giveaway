@@ -39,19 +39,19 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   台北市: [
     {
       store: 'Funbox-台北大巨蛋',
-      startTime: '抽選/購買時間：2026/09/04 11:00 - 2026/09/05 21:00',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox-忠孝SOGO店',
       storeUrl: 'https://www.facebook.com/funboxsogo',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox-南港潤泰',
       storeUrl: 'https://linevoom.line.me/user/_dSeRV-7dSwPAS21zhFTEZS9TU0cjb1gBLwEML9A',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/V2XrEqY' },
         { name: 'BX-26 獨角刺心', url: 'https://lin.ee/xrvbsaJ' },
@@ -65,19 +65,19 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox LaLaport南港',
       storeUrl: 'https://linevoom.line.me/user/_dVgaAWKsM1ofi6bVa7iJV1_zOspCOrdSv0vgXKw',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox Toys-大葉高島屋',
       storeUrl: 'https://linevoom.line.me/user/_dfhvm3-8_klezJkCHLv3-mEhPQWOR9DGFr40SPA',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: '來玩聚-北車地下街',
       storeUrl: 'https://linevoom.line.me/user/_dXjo38IGuVk3obdbWWB8DVc86lCei15_6UkRuW8',
-      startTime: '抽籤時間：2026/09/04 12:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'UX-21 惡魔幽冥改造組', url: 'https://lin.ee/YUyfSal' },
         { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/65obJEn' },
@@ -89,13 +89,20 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox天母三越店',
       storeUrl: 'https://linevoom.line.me/user/_dXYFKzVX-ldfgeUOor_McfFTE_yJP7d54nPjxpQ',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
-      items: [],
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
+      items: [
+        { name: 'CX-00 福音戰士改造組', url: 'https://lin.ee/rFVhsbI' },
+        { name: 'BX-00 暴風天馬', url: 'https://lin.ee/629xw4m' },
+        { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/WYNMaUp' },
+        { name: 'BX-00 蒼龍神劍V2', url: 'https://lin.ee/yxZblNk' },
+        { name: 'BX-26 獨角刺心', url: 'https://lin.ee/Pxw2I5hu' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/rU3f6Ng' },
+      ],
     },
     {
       store: 'Funbox-信義A8店(陀螺販售)',
       storeUrl: 'https://linevoom.line.me/user/_dfItqTWWpJgcZPNYg_b3_xlBeXDhlwTDTicnfSU',
-      startTime: '抽選/購買時間 2026/09/04 11:00 - 2026/09/05 21:00',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'CX-12 鳳凰閃焰', url: 'https://lin.ee/qtETM0Z' },
         { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/8ui3pQS' },
@@ -106,19 +113,19 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox 遠百信義A13',
       storeUrl: 'https://linevoom.line.me/user/_dZWTe6za3_22gXVkl46uAq37zC6nwkQQCwZnBoA',
-      startTime: '抽選/購買時間 2026/09/04 11:00 - 2026/09/05 21:00',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox 三越站前店',
       storeUrl: 'https://linevoom.line.me/user/_dTQ_Ar8kG3TZeWoB_i2PtLW_TclZiMtldppUzAQ',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [{ name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/wNVQFEw' }],
     },
     {
       store: 'Funbox 天母SOGO店',
       storeUrl: 'https://linevoom.line.me/user/_db3MM1gifrvefmBbBLPWOhPAw0aPUL9K3IvLDTk',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/y4j0PVB' },
         { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/sW8NexE' },
@@ -128,18 +135,19 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox 美麗華',
       storeUrl: 'https://linevoom.line.me/user/_dS6PecGuAayr8FMQ6NoCcETN1oXZ0zgwun4Uivc',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox 三越南西店',
       storeUrl: 'https://linevoom.line.me/user/_dXRCeNI62-wxECClrgjwMfi8HnY2ow5Onw6aC1A',
-      startTime: '抽選/購買時間 2026/09/04 11:00 - 2026/09/05 21:00',
+      startTime: '',
       items: [],
     },
     {
       store: 'Fun box忠孝SOGO',
       storeUrl: 'https://linevoom.line.me/user/_dZR3EbkBX6ugUrxVH_Qo47n8xYDp-95FYmhlIWM',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/Teeti1U' },
         { name: 'BX-00 蒼龍神劍', url: 'https://lin.ee/Q3x58xY' },
@@ -151,7 +159,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox樹林秀泰店',
       storeUrl: 'https://linevoom.line.me/user/_dSj7fhnsKdDEm1q2ehrYEJTOyrm4OuI2NFsN3I0',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/nMMo9F9' },
         { name: 'BX-25 專業收納包', url: 'https://lin.ee/vyKYuXu' },
@@ -171,13 +179,17 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox新店誠品店',
       storeUrl: 'https://linevoom.line.me/user/_dWQGqQnQTk4Tc7wJjzrBXKS145vBC93TlHkNG5E',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
-      items: [],
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
+      items: [
+        { name: 'BX-37 雙重極限衝擊戰鬥盤豪華組', url: 'https://lin.ee/RyYyWOo' },
+        { name: 'CX-12 鳳凰閃焰 Z9-80WW', url: 'https://lin.ee/vk3CI4g' },
+        { name: 'BX-00 蒼龍神劍 3-60F', url: 'https://lin.ee/r1IXPQE' },
+      ],
     },
     {
       store: 'FunBox Toys-汐止遠雄店',
       storeUrl: 'https://linevoom.line.me/user/_dXWlFT8AyCrEdtsk_fRRUYuqERc8rWDzx3c6DUA',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/UHqMK5X' },
         { name: 'BX-00暴風天馬3-70R', url: 'https://lin.ee/n6US1jV' },
@@ -192,7 +204,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox-中和環球店',
       storeUrl: 'https://linevoom.line.me/user/_dSg6slLn5Zg47l9CPlGC-LezlX4EP3fmltKvQRs',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'UX-21 惡魔幽冥', url: 'https://lin.ee/qro4Qkz' },
         { name: 'BX-00 蒼龍神劍V2', url: 'https://lin.ee/Sgnos11' },
@@ -203,13 +215,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox板橋大遠百',
       storeUrl: 'https://linevoom.line.me/user/_dblyPGfsKpebVOKvBaP8gs72hysvg-G0EVYLyv4',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox板橋遠東店',
       storeUrl: 'https://linevoom.line.me/user/_dUcATZnmDAam7Low6HB0-JXZC1DzUJEbh8hA8Gg',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/7Qp0lON' },
         { name: 'BX-00蒼龍神劍v2', url: 'https://lin.ee/p6Hm7YO' },
@@ -221,13 +233,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox淡水禮萊廣場店',
       storeUrl: 'https://linevoom.line.me/user/_dU6uuJLZc-sttPrdL6hfb8pOoMDCcgdNWEtYPKA',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'FUNBOX 比漾廣場店',
       storeUrl: 'https://linevoom.line.me/user/_dQbxr4jKpXDT3BtXULflBCgU9GujoUvNaAUOOZo',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
   ],
@@ -235,7 +247,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox-桃園站前三越',
       storeUrl: 'https://linevoom.line.me/user/_dQTwDiZdgoMiaxHmu-STwWJF69wlpmOwL0IjMoY',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/RyT9nk9' },
         { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/RcMEFmW' },
@@ -253,37 +265,37 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox Toy-桃園環球A8店',
       storeUrl: 'https://linevoom.line.me/user/_dWWqORTPgThK__JAqyRDK9PX4ReZqnOFc28vpaE',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox toys - 桃園台茂店',
       storeUrl: 'https://linevoom.line.me/user/_dZrp8IBATlHOFZaobLCYRrXE5m7abD4dD2ItWm8',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox-桃園遠東店',
       storeUrl: 'https://linevoom.line.me/user/_dZCpDMgUi2_f6JEnQze2nP22nJV-G1o8rHLmpFE',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox 中壢大江店',
       storeUrl: 'https://linevoom.line.me/user/_daOwg6Nz08TwGFzWoVR264J1CWj5Lp8g0Lgf-QM',
-      startTime: '抽選&購買時間 2026/09/04 11:00 - 2026/09/05 21:00',
+      startTime: '',
       items: [],
     },
     {
       store: 'FunBox-中壢SOGO店',
       storeUrl: 'https://linevoom.line.me/user/_dcSEo3ibPOyoQAAsta4srlSCIdiLnKQqsbk8mog',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'FunBox-桃園環球A19店',
       storeUrl: 'https://linevoom.line.me/user/_dQguBN50HV7T3jjTaZbJKVwoET6cJJH2Kj43Y2E',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
   ],
@@ -291,19 +303,19 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox-新竹遠雄店',
       storeUrl: 'https://linevoom.line.me/user/_dYdtj10kF6eWUWfcb0xr0dYExX6yYVDk1EksNTU',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox 新竹巨城店',
       storeUrl: 'https://linevoom.line.me/user/_dSYAGjN3DhBtiB8tU2pa3kl5yoRdBG7ucZNUZvo',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox-新竹遠東店',
       storeUrl: 'https://linevoom.line.me/user/_dYjgWm0vwMyoPEcmLUOBhOQ55A0WaB7EuLfW5Mw',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/Wyve9VK' },
         { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/ppQFtam' },
@@ -314,7 +326,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox 台中港三井',
       storeUrl: 'https://linevoom.line.me/user/_dXDniXt3Xu0U5lkXYliBBHGQRD2FtCUnVVbXPhY',
-      startTime: '抽籤時間&使用期限 2026/09/04 11:00 - 2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/7WCLpWq' },
         { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/9mQ9dqB' },
@@ -323,7 +335,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox麗寶一期店',
       storeUrl: 'https://linevoom.line.me/user/_dZD8OLWoBDH7CMfvg3nqfJoIb3wQMGpZ_V7DOOI',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'BX-00新福音戰士（改造組）', url: 'https://lin.ee/nFb30Ey' },
         { name: 'CX-13龍王閃擊', url: 'https://lin.ee/rnE5Hl5' },
@@ -333,25 +345,25 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox 豐原太平洋店',
       storeUrl: 'https://linevoom.line.me/user/_dWUEiTQIz0C550q-X-t3o65-r0CLa8-fBL6b6u8',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox 台中中友店',
       storeUrl: 'https://linevoom.line.me/user/_dVExgXo7x7ugfZBDIYzfRF8XR9geWiZncXXAkNM',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox 新光三越台中店',
       storeUrl: 'https://linevoom.line.me/user/_dcavY93jrqjYaLVO8JR44m7jxZNARF__lfYuyIo',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox 廣三SOGO店',
       storeUrl: 'https://linevoom.line.me/user/_dUpKOzSR_s9Wca-q8vJLgOSM-UGMJNMonlEK_Nw',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'CX-00新世紀福音戰士改造組(原價$1395)', url: 'https://lin.ee/8aMGnIR' },
         { name: 'UX-21惡魔冥界改造組(原價$895)', url: 'https://lin.ee/TFhnOX3' },
@@ -365,19 +377,19 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'FUNBOX 台中遠百店',
       storeUrl: 'https://linevoom.line.me/user/_ddG1EBaa4iGasgQdKDdnXo50Y24dW74VXnJuAro',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox 台中lalaport',
       storeUrl: 'https://linevoom.line.me/user/_dWbmVBOBVpcGPA3UWP953LsGWVx32VkrDcGrqRQ',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox 文心秀泰店',
       storeUrl: 'https://linevoom.line.me/user/_dVbUMDyduUeLgyWJWRb0k8o55Sa-xzXFMnCJxpE',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
   ],
@@ -385,7 +397,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox Toys-嘉義遠東店',
       storeUrl: 'https://linevoom.line.me/user/_dVzi6SpAv9EDTDhGlf38KyYzGRC3R0O0O6zxlno',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'BX-00 蒼龍神劍', url: 'https://lin.ee/Qls6R6V' },
         { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/pVfZbJ6' },
@@ -395,7 +407,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox 嘉義三越店',
       storeUrl: 'https://linevoom.line.me/user/_dVZ_jIBO92xnDLzsC9JfjVWMgA2TNLQ2hncb3Ok',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'BX-00蒼龍神劍3-60F V2', url: 'https://lin.ee/Olyo4pX' },
         { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/N4zI9Ue' },
@@ -406,25 +418,25 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: '義大世界購物廣場 fun box 義大2館',
       storeUrl: 'https://www.facebook.com/profile.php?id=100057653970900',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox-夢時代店',
       storeUrl: 'https://linevoom.line.me/user/_dVHpcOhwVrBQ3ZY1xQBHuGMcluZ-yMcOSsSnRfU',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [{ name: 'CX-00 新世紀福音戰士改造組 1395元', url: 'https://lin.ee/O1cMbf4' }],
     },
     {
       store: 'Funbox-漢神巨蛋店',
       storeUrl: 'https://linevoom.line.me/user/_dZuBlwRH9v-DXFkhIH9m1xAU7En6xl4R3qc363s',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox 高雄大立店',
       storeUrl: 'https://linevoom.line.me/user/_dQjEieF9ohNmyCT1yYbOpfT_jw3DHpatmfmuM5o',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'BX-00蒼龍神劍3-60F V2  350元', url: 'https://lin.ee/zMvVOQx' },
         { name: 'CX-00新世福音戰士改造組 1395元', url: 'https://lin.ee/wRBZy0v' },
@@ -435,43 +447,43 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox高雄sogo店',
       storeUrl: 'https://linevoom.line.me/user/_dV2_iZGnvicFJijn62vXHA57ANIeliHDGI7gnRo',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox 高雄大遠百店',
       storeUrl: 'https://linevoom.line.me/user/_dYOR2VczscGNCah5bglUoA62Gj_YR_lq2R-UoMs',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: '來玩聚-新楠店',
       storeUrl: 'https://linevoom.line.me/user/_deAwpKm1kymi62-wvUqTCvK1LpCSk5bvwxAubMQ',
-      startTime: '抽籤時間：2026/09/04 12:00~2026/09/05 20:30',
-      items: [],
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
+      items: [{ name: 'BX-00 蒼龍神劍V2 - 原價$350', url: 'https://lin.ee/oWeYBs8' }],
     },
     {
       store: 'funbox大魯閣新光',
       storeUrl: 'https://linevoom.line.me/user/_dQ0ecVMFJ6V-NPSlxQbE5hqjsBH-WOBO5HdSv4Q',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [{ name: 'CX-00 新世紀福音戰士改造組 售價1395元', url: 'https://lin.ee/XURwiUg' }],
     },
     {
       store: 'Funbox-高雄漢神店',
       storeUrl: 'https://linevoom.line.me/user/_dZFySf-_Iy1JFk7B9OJx3p-R8KIqsjXVk6wMx_s',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: '來玩聚鳳山店',
       storeUrl: 'https://linevoom.line.me/user/_dYHKZsEifm4hbpeUB6f8DAHE-NaYM-f4lmS_yxc',
-      startTime: '抽籤時間：2026/09/04 12:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: '來玩聚 楠梓店',
       storeUrl: 'https://linevoom.line.me/user/_dVPoSlHQT0aqmC-EZpckQXYHAMiL802BM23S7qk',
-      startTime: '抽籤時間：2026/09/04 12:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
   ],
@@ -479,7 +491,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox 宜蘭新月店',
       storeUrl: 'https://linevoom.line.me/user/_dTS4fzrnBtUOuG-T_J22hfcZSdxunoOsypVfgRg',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'BX-50 天堂日輪 隨機強化組', url: 'https://lin.ee/yp0yDSz' },
         { name: 'UX-20 榮耀武神LF', url: 'https://lin.ee/SG6VTOM' },
@@ -498,7 +510,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox 竹北遠東店',
       storeUrl: 'https://linevoom.line.me/user/_deu1wnG4xXho1I98-nH_PZKQ0gl-iAoehGDIHxA',
-      startTime: '抽選/購買時間 2026/09/04 11:00 - 2026/09/05 21:00',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/WZcKHxw' },
         { name: 'BX-26 獨角刺心', url: 'https://lin.ee/ylbms4i' },
@@ -512,7 +524,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'funbox 享平方店',
       storeUrl: 'https://linevoom.line.me/user/_dfuDiJPQBJn4ih1iarevDIEIB9XvR-_q44VI6bE',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
   ],
@@ -520,24 +532,24 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox Toys-台南南紡店',
       storeUrl: 'https://linevoom.line.me/user/_dZ41RU2UUbwJMwmDe4O30FG3iEb647ohcj6Txq4',
-      startTime: '抽選/購買時間 2026/09/04 11:00 - 2026/09/05 21:00',
+      startTime: '',
       items: [],
     },
     {
       store: 'funbox-台南新天地',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'Funbox 台南三井店',
       storeUrl: 'https://linevoom.line.me/user/_dTp06Slhdio7LDmd8xKxz3J2mw25-ZMRXZtXQ9I',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: 'FUNBOX 台南遠百',
       storeUrl: 'https://linevoom.line.me/user/_dWKgSOpFJ9bwQuysxkGH0jnCsb22vMfW7kuZDzU',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
   ],
@@ -545,7 +557,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox Toys-苗栗尚順店',
       storeUrl: 'https://linevoom.line.me/user/_dVHyXrJlEjwLilMjmYrRy8BYKPofyQgAgsWd8Xk',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
   ],
@@ -553,7 +565,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: '來玩聚-彰化店',
       storeUrl: 'https://linevoom.line.me/user/_deL1i2Bb8uUCbeQ10yCnEvVLz_iZbXwvFtNNTRM',
-      startTime: '抽選/購買時間:2026/09/04 10:00-2026/09/05 21:00',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/RjyQdUc' },
         { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/ptsOv5k' },
@@ -569,7 +581,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: '來玩聚-員林店',
       storeUrl: 'https://linevoom.line.me/user/_dar-0z1aYQPkB0W-BiwgwDp6XsDKAdehbmupEaI',
-      startTime: '抽選/購買時間:2026/09/04 10:00-2026/09/05 21:00',
+      startTime: '',
       items: [],
     },
   ],
@@ -577,7 +589,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: '來玩聚斗六店',
       storeUrl: 'https://linevoom.line.me/user/_ddu256ZXwJCBqOeIfKwY6QYdeIvbrVOmBRIOKfo',
-      startTime: '抽籤時間：2026/09/04 12:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/QXcuze1' },
         { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/qucHkZ1' },
@@ -589,16 +601,16 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'funbox屏東太平洋',
       storeUrl: 'https://linevoom.line.me/user/_dTnMNq0eoiZ5jnuQaFUz2oVpxylrT13ojfI_Ko8',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
-        { name: 'CX-00 新世紀福音戰士改造組 售價1395元', url: 'https://lin.ee/8F28eaV' },
+        { name: 'UX-00 新世紀福音戰士改造組 售價1395元', url: 'https://lin.ee/8F28eaV' },
         { name: 'BX-00 蒼龍神劍3-60F V2 售價350元', url: 'https://lin.ee/VYNow4o' },
       ],
     },
     {
       store: 'Funbox 屏東環球店',
       storeUrl: 'https://linevoom.line.me/user/_dfq4IRS_qaEaR4Svk0SKsB78xW9x2-lkU1wSpKU',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '抽籤時間：2026/09/11 11:00~2026/09/12 20:30',
       items: [
         { name: 'BX-00 蒼龍神劍3-60F V2 $350', url: 'https://lin.ee/rMFSI42' },
         { name: 'CX-13 龍王閃擊 $495', url: 'https://lin.ee/8Pp9KkQ' },
@@ -606,19 +618,17 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       ],
     },
   ],
-  花蓮縣: [
-    { store: 'funbox 花蓮店', startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30', items: [] },
-  ],
+  花蓮縣: [{ store: 'funbox 花蓮店', startTime: '', items: [] }],
   台東縣: [
     {
       store: 'Funbox 台東秀泰店',
       storeUrl: 'https://linevoom.line.me/user/_dWiMasxT4CrK1ogY11eoxXAVvwO-U9Fchsvba6o',
-      startTime: '抽籤時間：2026/09/04 11:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
     {
       store: '來玩聚-台東家樂福',
-      startTime: '抽籤時間：2026/09/04 12:00~2026/09/05 20:30',
+      startTime: '',
       items: [],
     },
   ],
