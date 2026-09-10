@@ -10,9 +10,12 @@ permissions:
   pages: write
   id-token: write
 
+# GitHub Pages only allows one active deployment at a time.
+# Queue newer runs instead of cancelling an active deployment, which can
+# leave the Pages deployment itself marked as in progress temporarily.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -24,10 +27,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
+          cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build
         run: npm run build:pages
