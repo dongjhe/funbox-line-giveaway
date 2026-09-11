@@ -422,9 +422,9 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       storeUrl: 'https://linevoom.line.me/user/_dZD8OLWoBDH7CMfvg3nqfJoIb3wQMGpZ_V7DOOI',
       startTime: '抽選時間：2026/09/11 11:00~2026/09/12 21:00',
       items: [
-        { name: 'BX-00新福音戰士（改造組）', url: 'https://lin.ee/nFb30Ey' },
-        { name: 'CX-13龍王閃擊', url: 'https://lin.ee/rnE5Hl5' },
-        { name: 'BX-00蒼龍神劍', url: 'https://lin.ee/UVyu6GN' },
+        { name: 'CX-00 新福音戰士（改造組）', url: 'https://lin.ee/nFb30Ey' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/rnE5Hl5' },
+        { name: 'BX-00 蒼龍神劍', url: 'https://lin.ee/UVyu6GN' },
       ],
     },
     {
