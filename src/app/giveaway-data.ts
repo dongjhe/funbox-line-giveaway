@@ -230,10 +230,10 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       storeUrl: 'https://linevoom.line.me/user/_dWQGqQnQTk4Tc7wJjzrBXKS145vBC93TlHkNG5E',
       startTime: '抽選時間：2026/09/11 11:00 起',
       items: [
-        { name: 'BX-00 蒼龍神劍 3-60F', url: 'https://lin.ee/r1IXPQE' },
         { name: 'BX-37 雙重極限衝擊戰鬥盤豪華組', url: 'https://lin.ee/RyYyWOo' },
         { name: 'CX-12 鳳凰閃焰 Z9-80WW', url: 'https://lin.ee/vk3CI4g' },
-        { name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/51lxU5K' },
+        { name: 'BX-00 蒼龍神劍 3-60F', url: 'https://lin.ee/r1IXPQE' },
+        { name: 'CX-00 新世紀福音戰士 戰鬥陀螺限定套組', url: 'https://lin.ee/51lxU5K' },
       ],
     },
     {
@@ -267,11 +267,11 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       storeUrl: 'https://linevoom.line.me/user/_dblyPGfsKpebVOKvBaP8gs72hysvg-G0EVYLyv4',
       startTime: '抽選時間：2026/09/11 11:00~2026/09/12 21:00',
       items: [
-        { name: '蒼龍神劍3-60F V2', url: 'https://lin.ee/8cArlJr' },
         { name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/nwZ8UAn' },
-        { name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/wzZcF5u' },
-        { name: 'CX-12 鳳凰閃焰', url: 'https://lin.ee/SLbhLeD' },
+        { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/wzZcF5u' },
         { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/7rYQ9mm' },
+        { name: 'BX-00 蒼龍神劍 3-60F V2', url: 'https://lin.ee/8cArlJr' },
+        { name: 'CX-12 鳳凰閃焰', url: 'https://lin.ee/SLbhLeD' },
       ],
     },
     {
@@ -530,8 +530,8 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       storeUrl: 'https://linevoom.line.me/user/_deAwpKm1kymi62-wvUqTCvK1LpCSk5bvwxAubMQ',
       startTime: '抽選時間：2026/09/11 10:00~2026/09/12 21:00',
       items: [
-        { name: 'BX-00 蒼龍神劍V2', url: 'https://lin.ee/oWeYBs8' },
-        { name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/SSZ0tUy' },
+        { name: 'BX-00 蒼龍神劍V2 - 原價$350', url: 'https://lin.ee/oWeYBs8' },
+        { name: 'CX-00 新世紀福音戰士改造組 - 原價$1395', url: 'https://lin.ee/SSZ0tUy' },
       ],
     },
     {
@@ -719,7 +719,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       ],
     },
   ],
-  花蓮縣: [{ store: 'funbox 花蓮店', startTime: '', items: [] }],
+  花蓮縣: [
+    {
+      store: 'funbox 花蓮店',
+      startTime: '',
+      items: [{ name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/PeKYB6U' }],
+    },
+  ],
   澎湖縣: [
     {
       store: 'Funbox澎湖3號港店',
@@ -742,7 +748,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox 台東秀泰店',
       storeUrl: 'https://linevoom.line.me/user/_dWiMasxT4CrK1ogY11eoxXAVvwO-U9Fchsvba6o',
       startTime: '',
-      items: [],
+      items: [{ name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/PeKYB6U' }],
     },
     {
       store: '來玩聚-台東家樂福',
