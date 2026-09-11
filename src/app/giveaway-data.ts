@@ -308,8 +308,12 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox Toy-桃園環球A8店',
       storeUrl: 'https://linevoom.line.me/user/_dWWqORTPgThK__JAqyRDK9PX4ReZqnOFc28vpaE',
-      startTime: '',
-      items: [],
+      startTime: '抽選時間 2026/09/11 11:00 - 2026/09/12 21:00',
+      items: [
+        { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/WN5WcJR' },
+        { name: 'BX-00 蒼龍神劍', url: 'https://lin.ee/9kinAbh' },
+        { name: 'BXG-04 銀牙烈虎', url: 'https://lin.ee/VjyP3Zs' },
+      ],
     },
     {
       store: 'Funbox toys - 桃園台茂店',
