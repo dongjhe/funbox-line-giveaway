@@ -171,7 +171,32 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox 美麗華',
       storeUrl: 'https://linevoom.line.me/user/_dS6PecGuAayr8FMQ6NoCcETN1oXZ0zgwun4Uivc',
       startTime: '抽選/購買時間 2026/09/04 11:00 - 2026/09/05 21:00',
-      items: [],
+      items: [
+        {
+          name: 'CX-00 新世紀福音戰士改造組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M25S72TQTXVGQ1S643TEB1Q3?q=auto_response',
+        },
+        {
+          name: 'UX-20 女武神',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M22MDSX3DCRDGJ254BK9SA02?q=auto_response',
+        },
+        {
+          name: 'CX-13 龍王閃擊',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M22MFC26SBQWNBY2P8SNBJ51?q=auto_response',
+        },
+        {
+          name: 'BX-37 雙重極限衝擊戰鬥盤豪華組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M22MT8W23KDP8FP6M7653A6W?q=auto_response',
+        },
+        {
+          name: 'BXG-04',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M22MBKJBXK1JFATVHWD3FNYN?q=auto_response',
+        },
+        {
+          name: 'BX-00 蒼龍神劍 3-60F V2',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M22M7GNM6D1GVTEPAJ453SJ6?q=auto_response',
+        },
+      ],
     },
     {
       store: 'Funbox 三越南西店',
