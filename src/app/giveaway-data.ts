@@ -89,13 +89,27 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox-南港潤泰',
       storeUrl: 'https://linevoom.line.me/user/_dSeRV-7dSwPAS21zhFTEZS9TU0cjb1gBLwEML9A',
       startTime: '抽選時間：2026/09/11 11:00~2026/09/12 21:00',
-      items: [],
+      items: [
+        { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/V2XrEqY' },
+        { name: 'BX-26 獨角刺心', url: 'https://lin.ee/xrvbsaJ' },
+        { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/8FfX2UL' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/x5H1ZjY' },
+        { name: 'BX-00 暴風天馬3-70RA', url: 'https://lin.ee/79aYEfH' },
+        { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/9ORwvJh' },
+      ],
     },
     {
       store: 'Funbox LaLaport南港',
       storeUrl: 'https://linevoom.line.me/user/_dVgaAWKsM1ofi6bVa7iJV1_zOspCOrdSv0vgXKw',
       startTime: '抽選/購買時間 2026/09/11 11:00 - 2026/09/12 21:00',
-      items: [],
+      items: [
+        { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/x1u6Knk' },
+        { name: 'BX-26 獨角刺心', url: 'https://lin.ee/ym2BGXG' },
+        { name: 'BX-37 雙重極限衝擊戰鬥盤 豪華組', url: 'https://lin.ee/xOtHEe4' },
+        { name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/pncsz8S' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/R1VlRfVq' },
+        { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/TxQ5gKs' },
+      ],
     },
     {
       store: 'Funbox Toys-大葉高島屋',
@@ -244,6 +258,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BX-37 雙重極限衝擊戰鬥盤豪華組', url: 'https://lin.ee/RyYyWOo' },
         { name: 'CX-12 鳳凰閃焰 Z9-80WW', url: 'https://lin.ee/vk3CI4g' },
         { name: 'BX-00 蒼龍神劍 3-60F', url: 'https://lin.ee/r1IXPQE' },
+        { name: 'CX-00 新世紀福音戰士 戰鬥陀螺限定套組', url: 'https://lin.ee/51lxU5K' },
       ],
     },
     {
@@ -281,6 +296,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/wzZcF5u' },
         { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/7rYQ9mm' },
         { name: 'CX-12 鳳凰閃焰', url: 'https://lin.ee/SLbhLeD' },
+        { name: 'BX-00 蒼龍神劍 3-60F V2', url: 'https://lin.ee/8cArlJr' },
       ],
     },
     {
@@ -344,7 +360,12 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox toys - 桃園台茂店',
       storeUrl: 'https://linevoom.line.me/user/_dZrp8IBATlHOFZaobLCYRrXE5m7abD4dD2ItWm8',
       startTime: '',
-      items: [],
+      items: [
+        { name: 'BX-37 雙重極限衝擊戰鬥盤 豪華組', url: 'https://lin.ee/UriwrYo' },
+        { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/8XsGAXt' },
+        { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/zttbMMn' },
+        { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/zlsVocK' },
+      ],
     },
     {
       store: 'Funbox-桃園遠東店',
@@ -413,7 +434,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       storeUrl: 'https://linevoom.line.me/user/_dZD8OLWoBDH7CMfvg3nqfJoIb3wQMGpZ_V7DOOI',
       startTime: '抽選時間：2026/09/11 11:00~2026/09/12 21:00',
       items: [
-        { name: 'BX-00新福音戰士（改造組）', url: 'https://lin.ee/nFb30Ey' },
+        { name: 'CX-00新福音戰士（改造組）', url: 'https://lin.ee/nFb30Ey' },
         { name: 'CX-13龍王閃擊', url: 'https://lin.ee/rnE5Hl5' },
         { name: 'BX-00蒼龍神劍', url: 'https://lin.ee/UVyu6GN' },
       ],
@@ -428,13 +449,25 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox 台中中友店',
       storeUrl: 'https://linevoom.line.me/user/_dVExgXo7x7ugfZBDIYzfRF8XR9geWiZncXXAkNM',
       startTime: '抽選時間：2026/09/11 10:30~2026/09/12 21:00',
-      items: [],
+      items: [
+        { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/WFVW7YW' },
+        { name: 'BX-26 獨角刺心', url: 'https://lin.ee/rtkxzaY' },
+        { name: 'BX-37 雙重極限衝擊戰鬥盤 豪華組', url: 'https://lin.ee/RT0Qmjj' },
+        { name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/NTdr548' },
+        { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/rWohN0Y' },
+      ],
     },
     {
       store: 'Funbox 新光三越台中店',
       storeUrl: 'https://linevoom.line.me/user/_dcavY93jrqjYaLVO8JR44m7jxZNARF__lfYuyIo',
       startTime: '',
-      items: [],
+      items: [
+        { name: 'CX-00新世紀福音戰士改造組', url: 'https://lin.ee/TD7feHx' },
+        { name: 'CX-13龍王閃擊', url: 'https://lin.ee/xBXRHTN' },
+        { name: 'CX-12鳳凰閃焰', url: 'https://lin.ee/5tprgOZ' },
+        { name: 'BX-00蒼龍神劍3-60F V2', url: 'https://lin.ee/nPFDpKX' },
+        { name: 'BX-37雙重極限衝擊戰鬥盤 豪華組', url: 'https://lin.ee/55h9bXF' },
+      ],
     },
     {
       store: 'Funbox 廣三SOGO店',
@@ -454,7 +487,16 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'FUNBOX 台中遠百店',
       storeUrl: 'https://linevoom.line.me/user/_ddG1EBaa4iGasgQdKDdnXo50Y24dW74VXnJuAro',
       startTime: '',
-      items: [],
+      items: [
+        { name: 'BX-00【蒼龍神劍3-60F V2】', url: 'https://lin.ee/qfTQm6t' },
+        { name: 'CX-13【龍王閃擊】', url: 'https://lin.ee/te5g1Xi' },
+        { name: 'BX-00【暴風天馬3-70RA】', url: 'https://lin.ee/VXvmMY9' },
+        { name: 'BX-37【雙重極限衝擊戰鬥盤豪華組】', url: 'https://lin.ee/Vsf2yCI' },
+        { name: 'BXG-01【烈焰飛鳳S】', url: 'https://lin.ee/sU4NcKu' },
+        { name: 'BXG-04【銀牙烈虎S】', url: 'https://lin.ee/pj1KJb7' },
+        { name: 'UX-02【惡魔戰錘】', url: 'https://lin.ee/W36U3CS' },
+        { name: 'CX-00【新世紀福音戰士改造組】', url: 'https://lin.ee/7GeMM36' },
+      ],
     },
     {
       store: 'Funbox 台中lalaport',
@@ -539,7 +581,10 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: '來玩聚-新楠店',
       storeUrl: 'https://linevoom.line.me/user/_deAwpKm1kymi62-wvUqTCvK1LpCSk5bvwxAubMQ',
       startTime: '抽選時間：2026/09/11 10:00~2026/09/12 21:00',
-      items: [{ name: 'BX-00 蒼龍神劍V2 - 原價$350', url: 'https://lin.ee/oWeYBs8' }],
+      items: [
+        { name: 'BX-00 蒼龍神劍V2 - 原價$350', url: 'https://lin.ee/oWeYBs8' },
+        { name: 'CX-00 新世紀福音戰士改造組 - 原價$1395', url: 'https://lin.ee/SSZ0tUy' },
+      ],
     },
     {
       store: 'funbox大魯閣新光',
@@ -551,7 +596,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox-高雄漢神店',
       storeUrl: 'https://linevoom.line.me/user/_dZFySf-_Iy1JFk7B9OJx3p-R8KIqsjXVk6wMx_s',
       startTime: '抽選時間：2026/09/11 11:00~2026/09/12 21:00',
-      items: [],
+      items: [{ name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/5Hmgk7n' }],
     },
     {
       store: '來玩聚鳳山店',
@@ -636,19 +681,29 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'funbox-台南新天地',
       startTime: '抽選時間：2026/09/11 11:00 起',
-      items: [],
+      items: [
+        { name: 'BX-00 暴風天馬', url: 'https://lin.ee/5qNDcSm' },
+        { name: 'BX-00 蒼龍神劍 V2', url: 'https://lin.ee/woB8P70' },
+        { name: 'BX-37 雙重極限衝擊對戰盤 豪華組', url: 'https://lin.ee/Tr0WPEo' },
+        { name: 'UX-02 惡魔戰錘', url: 'https://lin.ee/PvtI2o9' },
+        { name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/qaOyNTU' },
+        { name: 'CX-12 鳳凰閃焰', url: 'https://lin.ee/PlUKQ05' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/TyeYaDm' },
+        { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/Ot7kqeL' },
+        { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/9FSOqCd' },
+      ],
     },
     {
       store: 'Funbox 台南三井店',
       storeUrl: 'https://linevoom.line.me/user/_dTp06Slhdio7LDmd8xKxz3J2mw25-ZMRXZtXQ9I',
       startTime: '抽選時間：2026/09/11 11:00~2026/09/12 20:30',
-      items: [],
+      items: [{ name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/PX6pbXI' }],
     },
     {
       store: 'FUNBOX 台南遠百',
       storeUrl: 'https://linevoom.line.me/user/_dWKgSOpFJ9bwQuysxkGH0jnCsb22vMfW7kuZDzU',
       startTime: '抽選時間：2026/09/11 11:00 起',
-      items: [{ name: '9/11 CX-00新世紀福音戰士改造組', url: 'https://lin.ee/Wu5v4s6' }],
+      items: [{ name: 'CX-00新世紀福音戰士改造組', url: 'https://lin.ee/Wu5v4s6' }],
     },
   ],
   苗栗縣: [
@@ -680,7 +735,12 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: '來玩聚-員林店',
       storeUrl: 'https://linevoom.line.me/user/_dar-0z1aYQPkB0W-BiwgwDp6XsDKAdehbmupEaI',
       startTime: '抽選/購買時間 2026/09/11 10:00 - 2026/09/12 21:00',
-      items: [],
+      items: [
+        { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/qt2mNAf' },
+        { name: 'UX-21 惡魔翼界改造組', url: 'https://lin.ee/WnOwOyV' },
+        { name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/YA2pGeD' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/WgFn0sO' },
+      ],
     },
   ],
   雲林縣: [
@@ -701,7 +761,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       storeUrl: 'https://linevoom.line.me/user/_dTnMNq0eoiZ5jnuQaFUz2oVpxylrT13ojfI_Ko8',
       startTime: '抽選時間：2026/09/11 11:00~2026/09/12 21:00',
       items: [
-        { name: 'UX-00 新世紀福音戰士改造組 售價1395元', url: 'https://lin.ee/8F28eaV' },
+        { name: 'CX-00 新世紀福音戰士改造組 售價1395元', url: 'https://lin.ee/8F28eaV' },
         { name: 'BX-00 蒼龍神劍3-60F V2 售價350元', url: 'https://lin.ee/VYNow4o' },
       ],
     },
@@ -745,7 +805,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox 台東秀泰店',
       storeUrl: 'https://linevoom.line.me/user/_dWiMasxT4CrK1ogY11eoxXAVvwO-U9Fchsvba6o',
       startTime: '',
-      items: [{ name: '9/11 CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/PeKYB6U' }],
+      items: [{ name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/PeKYB6U' }],
     },
     {
       store: '來玩聚-台東家樂福',
