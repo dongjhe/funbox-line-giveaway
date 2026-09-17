@@ -227,6 +227,24 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       ],
     },
   ],
+  桃園市: [
+    {
+      store: 'Funbox Toys 桃園新光站前店',
+      storeUrl: 'https://www.facebook.com/share/p/1BwVdTcFYL/?mibextid=wwXIfr',
+      startTime: '抽選時間：2026/09/18 11:00~2026/09/19 21:00',
+      items: [
+        { name: 'UX-03 魔導神杖', url: 'https://lin.ee/PGDpUEa' },
+        { name: 'BX-00 暴風天馬 3-70RA', url: 'https://lin.ee/oXO4TcJ' },
+        { name: 'UX-20 榮耀武神 LF', url: 'https://lin.ee/WIzFmuL' },
+        { name: 'BX-50 天堂日輪隨機強化組', url: 'https://lin.ee/QrjgXGs' },
+        { name: 'BXG-01 烈焰飛鳳 S', url: 'https://lin.ee/xTdIfyQ' },
+        { name: 'CX-00 迪卡狂怒 FT3-60T', url: 'https://lin.ee/tpEbhvw' },
+        { name: 'BX-00 蒼龍神劍 3-60F V2', url: 'https://lin.ee/rvdJRHY' },
+        { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/qigt4V2' },
+        { name: 'BXG-04 銀牙烈虎 S', url: 'https://lin.ee/yM7y5pM' },
+      ],
+    },
+  ],
   新竹市: [
     {
       store: 'Funbox 新竹遠東店',
