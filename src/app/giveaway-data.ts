@@ -152,6 +152,21 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       ],
     },
     {
+      store: 'Funbox 美麗華',
+      storeUrl: 'https://linevoom.line.me/user/_dS6PecGuAayr8FMQ6NoCcETN1oXZ0zgwun4Uivc',
+      startTime: '抽選時間：2026/09/18 11:00~2026/09/19 21:00',
+      items: [
+        {
+          name: 'UX-03 魔導神杖',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2Q9QTXAARVS1FS4E61SG8MV?q=auto_response',
+        },
+        {
+          name: 'CX-00 迪卡狂怒 FT3-60T',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2MJ2JVPBZWBYJDETV19KYW5?q=auto_response',
+        },
+      ],
+    },
+    {
       store: 'Funbox 天母三越店',
       storeUrl: 'https://linevoom.line.me/user/_dXYFKzVX-ldfgeUOor_McfFTE_yJP7d54nPjxpQ',
       startTime: '抽選時間：2026/09/18 11:00~2026/09/19 21:00',
