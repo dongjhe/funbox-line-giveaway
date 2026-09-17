@@ -511,7 +511,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   private productKey(name: string): string {
     const code = this.productCode(name).toUpperCase();
-    return code === 'BX-00' ? `${code}|${this.productIdentity(name)}` : code;
+    return code === 'BX-00' || code === 'CX-00' ? `${code}|${this.productIdentity(name)}` : code;
   }
   private productLabel(name: string): string {
     const code = this.productCode(name).toUpperCase();
