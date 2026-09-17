@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GIVEAWAYS, REGIONS, GiveawayItem } from './giveaway-data';
 
@@ -8,6 +8,13 @@ interface SelectedGiveaway {
   item: GiveawayItem;
 }
 
+interface ContinuousDrawSession {
+  sequenceUrls: string[];
+  pendingUrl: string | null;
+  selectedRegions: string[];
+  selectedProductOrder: string[];
+}
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -15,8 +22,12 @@ interface SelectedGiveaway {
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   private readonly clickedStorageKey = 'funbox-line-giveaway-clicked';
+  private readonly continuousSessionStorageKey = 'funbox-line-giveaway-continuous-session';
+  private readonly continuousDelayMs = 2000;
+  private continuousNextTimer: number | null = null;
+  private continuousCountdownTimer: number | null = null;
   readonly regions = REGIONS;
   readonly giveaways = GIVEAWAYS;
   clickedGiveaways = new Set<string>();
@@ -25,9 +36,34 @@ export class AppComponent {
   selectedProductOrder: string[] = [];
   continuousMode = false;
   continuousIndex = 0;
+  continuousCountdown = 0;
+  continuousStatus = '按「開始自動連抽」後，返回本頁會在 2 秒後自動找下一個沒灰底的項目。';
 
   constructor() {
     this.loadClickedGiveaways();
+  }
+
+  ngOnInit(): void {
+    this.resumeContinuousDraw();
+  }
+
+  ngOnDestroy(): void {
+    this.clearContinuousTimers();
+  }
+
+  @HostListener('window:pageshow')
+  handlePageShow(): void {
+    this.resumeContinuousDraw();
+  }
+
+  @HostListener('window:focus')
+  handleWindowFocus(): void {
+    this.resumeContinuousDraw();
+  }
+
+  @HostListener('document:visibilitychange')
+  handleVisibilityChange(): void {
+    if (!document.hidden) this.resumeContinuousDraw();
   }
 
   @HostListener('document:click', ['$event'])
@@ -154,36 +190,63 @@ export class AppComponent {
     this.resetContinuousDraw();
   }
   clearClickedGiveaways(): void {
+    this.resetContinuousDraw();
     localStorage.removeItem(this.clickedStorageKey);
     this.clickedGiveaways = new Set<string>();
   }
   get currentContinuousGiveaway(): SelectedGiveaway | null {
-    return this.selectedGiveaways[this.continuousIndex] ?? null;
+    const index = this.findNextUnclickedIndex(this.continuousIndex);
+    return index >= 0 ? this.selectedGiveaways[index] : null;
   }
   get continuousCountText(): string {
     const total = this.selectedGiveaways.length;
-    return total ? `第 ${this.continuousIndex + 1} / ${total} 個` : '第 0 / 0 個';
+    const currentIndex = this.findNextUnclickedIndex(this.continuousIndex);
+    if (!total) return '第 0 / 0 個';
+    return currentIndex >= 0
+      ? `第 ${currentIndex + 1} / ${total} 個`
+      : `已完成 ${total} / ${total} 個`;
   }
   triggerContinuousDraw(): void {
-    const current = this.currentContinuousGiveaway;
-    if (!current) return;
-    this.markGiveawayClicked(current.item.url);
-    const popup = window.open(current.item.url, '_blank', 'noopener,noreferrer');
-    if (popup) popup.opener = null;
-    if (!this.continuousMode) {
-      this.continuousMode = true;
-      if (this.selectedGiveaways.length > 1) this.continuousIndex = 1;
+    if (this.continuousMode) return;
+
+    const currentIndex = this.findNextUnclickedIndex(this.continuousIndex);
+    const current = currentIndex >= 0 ? this.selectedGiveaways[currentIndex] : null;
+    if (!current) {
+      this.continuousStatus = '目前沒有尚未抽選的項目。';
       return;
     }
-    if (this.continuousIndex < this.selectedGiveaways.length - 1) {
-      this.continuousIndex += 1;
-      return;
-    }
-    this.resetContinuousDraw();
+
+    this.continuousIndex = currentIndex;
+    const session: ContinuousDrawSession = {
+      sequenceUrls: this.selectedGiveaways.map(({ item }) => item.url),
+      pendingUrl: current.item.url,
+      selectedRegions: [...this.selectedRegions],
+      selectedProductOrder: [...this.selectedProductOrder],
+    };
+
+    this.continuousMode = true;
+    this.continuousStatus = '已開啟抽選，返回本頁後會自動繼續。';
+    this.writeContinuousSession(session);
+    window.location.assign(current.item.url);
   }
   resetContinuousDraw(): void {
+    this.clearContinuousTimers();
+    this.clearContinuousSession();
     this.continuousMode = false;
     this.continuousIndex = 0;
+    this.continuousCountdown = 0;
+    this.continuousStatus = '按「開始自動連抽」後，返回本頁會在 2 秒後自動找下一個沒灰底的項目。';
+  }
+  stopContinuousDraw(): void {
+    if (!this.continuousMode) {
+      this.resetContinuousDraw();
+      return;
+    }
+    this.clearContinuousTimers();
+    this.clearContinuousSession();
+    this.continuousMode = false;
+    this.continuousCountdown = 0;
+    this.continuousStatus = '已停止自動連抽；灰底紀錄與目前進度已保留。';
   }
   filteredItems(giveaway: { items: GiveawayItem[] }): GiveawayItem[] {
     if (!this.selectedProducts.size) return giveaway.items;
@@ -209,6 +272,158 @@ export class AppComponent {
   markGiveawayClicked(url: string): void {
     this.clickedGiveaways.add(url);
     localStorage.setItem(this.clickedStorageKey, JSON.stringify([...this.clickedGiveaways]));
+  }
+  private findNextUnclickedIndex(startIndex: number, sequence = this.selectedGiveaways): number {
+    for (let index = Math.max(0, startIndex); index < sequence.length; index += 1) {
+      if (!this.isGiveawayClicked(sequence[index].item.url)) return index;
+    }
+    return -1;
+  }
+  private restoreContinuousFilters(session: ContinuousDrawSession): void {
+    this.selectedRegions = new Set(session.selectedRegions);
+    this.selectedProductOrder = [...session.selectedProductOrder];
+    this.selectedProducts = new Set(session.selectedProductOrder);
+  }
+  private resumeContinuousDraw(): void {
+    if (document.hidden || this.continuousNextTimer !== null) return;
+
+    const session = this.readContinuousSession();
+    if (!session?.pendingUrl) return;
+
+    this.restoreContinuousFilters(session);
+    const completedIndex = session.sequenceUrls.indexOf(session.pendingUrl);
+    if (completedIndex < 0) {
+      this.finishContinuousDraw('找不到上一筆抽選資料，已停止自動連抽。');
+      return;
+    }
+
+    this.markGiveawayClicked(session.pendingUrl);
+    session.pendingUrl = null;
+    this.writeContinuousSession(session);
+
+    const nextUrl = session.sequenceUrls
+      .slice(completedIndex + 1)
+      .find((url) => !this.isGiveawayClicked(url) && this.findGiveawayByUrl(url));
+
+    if (!nextUrl) {
+      this.finishContinuousDraw('已到目前清單最後一筆，自動連抽完成。');
+      return;
+    }
+
+    const nextIndex = this.selectedGiveaways.findIndex(({ item }) => item.url === nextUrl);
+    if (nextIndex < 0) {
+      this.finishContinuousDraw('下一筆已不在目前清單中，已停止自動連抽。');
+      return;
+    }
+
+    this.continuousIndex = nextIndex;
+    this.continuousMode = true;
+    this.scheduleNextContinuousDraw(nextUrl, session);
+  }
+  private scheduleNextContinuousDraw(url: string, session: ContinuousDrawSession): void {
+    this.clearContinuousTimers();
+    this.continuousCountdown = Math.ceil(this.continuousDelayMs / 1000);
+    this.continuousStatus = `上一筆已完成；${this.continuousCountdown} 秒後開啟下一個（可按停止）。`;
+
+    this.continuousCountdownTimer = window.setInterval(() => {
+      this.continuousCountdown -= 1;
+      if (this.continuousCountdown > 0) {
+        this.continuousStatus = `上一筆已完成；${this.continuousCountdown} 秒後開啟下一個（可按停止）。`;
+      }
+    }, 1000);
+
+    this.continuousNextTimer = window.setTimeout(() => {
+      this.clearContinuousTimers();
+      const latestSession = this.readContinuousSession();
+      if (
+        !latestSession ||
+        latestSession.sequenceUrls.join('|') !== session.sequenceUrls.join('|')
+      ) {
+        this.continuousMode = false;
+        return;
+      }
+
+      const next = this.findGiveawayByUrl(url);
+      if (!next || this.isGiveawayClicked(url)) {
+        this.resumeFromNextAvailable(url, latestSession);
+        return;
+      }
+
+      latestSession.pendingUrl = url;
+      this.writeContinuousSession(latestSession);
+      this.continuousStatus = '正在開啟下一個抽選…';
+      window.location.assign(url);
+    }, this.continuousDelayMs);
+  }
+  private resumeFromNextAvailable(skippedUrl: string, session: ContinuousDrawSession): void {
+    const skippedIndex = session.sequenceUrls.indexOf(skippedUrl);
+    const nextUrl = session.sequenceUrls
+      .slice(skippedIndex + 1)
+      .find((url) => !this.isGiveawayClicked(url) && this.findGiveawayByUrl(url));
+
+    if (!nextUrl) {
+      this.finishContinuousDraw('已到目前清單最後一筆，自動連抽完成。');
+      return;
+    }
+
+    const nextIndex = this.selectedGiveaways.findIndex(({ item }) => item.url === nextUrl);
+    if (nextIndex >= 0) this.continuousIndex = nextIndex;
+    this.scheduleNextContinuousDraw(nextUrl, session);
+  }
+  private finishContinuousDraw(status: string): void {
+    this.clearContinuousTimers();
+    this.clearContinuousSession();
+    this.continuousMode = false;
+    this.continuousCountdown = 0;
+    this.continuousIndex = this.selectedGiveaways.length;
+    this.continuousStatus = status;
+  }
+  private findGiveawayByUrl(url: string): SelectedGiveaway | null {
+    for (const region of this.regionOptions) {
+      for (const giveaway of this.giveaways[region] ?? []) {
+        const item = giveaway.items.find((candidate) => candidate.url === url);
+        if (item) return { region, store: giveaway.store, item };
+      }
+    }
+    return null;
+  }
+  private clearContinuousTimers(): void {
+    if (this.continuousNextTimer !== null) {
+      window.clearTimeout(this.continuousNextTimer);
+      this.continuousNextTimer = null;
+    }
+    if (this.continuousCountdownTimer !== null) {
+      window.clearInterval(this.continuousCountdownTimer);
+      this.continuousCountdownTimer = null;
+    }
+  }
+  private readContinuousSession(): ContinuousDrawSession | null {
+    const saved = sessionStorage.getItem(this.continuousSessionStorageKey);
+    if (!saved) return null;
+    try {
+      const session: unknown = JSON.parse(saved);
+      if (
+        typeof session === 'object' &&
+        session !== null &&
+        Array.isArray((session as ContinuousDrawSession).sequenceUrls) &&
+        ((session as ContinuousDrawSession).pendingUrl === null ||
+          typeof (session as ContinuousDrawSession).pendingUrl === 'string') &&
+        Array.isArray((session as ContinuousDrawSession).selectedRegions) &&
+        Array.isArray((session as ContinuousDrawSession).selectedProductOrder)
+      ) {
+        return session as ContinuousDrawSession;
+      }
+    } catch {
+      // Invalid or stale session data is discarded below.
+    }
+    this.clearContinuousSession();
+    return null;
+  }
+  private writeContinuousSession(session: ContinuousDrawSession): void {
+    sessionStorage.setItem(this.continuousSessionStorageKey, JSON.stringify(session));
+  }
+  private clearContinuousSession(): void {
+    sessionStorage.removeItem(this.continuousSessionStorageKey);
   }
   private productCode(name: string): string {
     const match = name.toUpperCase().match(/\b(?:BXG|BX|CX|UX)-?\d+\b/);

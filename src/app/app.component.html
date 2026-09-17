@@ -70,17 +70,24 @@
     aria-live="polite"
   >
     <div class="continuous-panel">
-      <h2>連續抽選模式</h2>
+      <h2>自動連抽模式</h2>
       <div class="continuous-progress">{{ continuousCountText }}</div>
       <div class="continuous-meta">
         {{ currentContinuousGiveaway?.region ?? '' }}{{ currentContinuousGiveaway?.store ?? '' }}
-        <!-- <br />（{{ selectedGiveaways.length }}個抽選） -->
       </div>
       <div class="continuous-item">{{ currentContinuousGiveaway?.item?.name ?? '' }}</div>
-      <button class="continuous-primary" type="button" (click)="triggerContinuousDraw()">
-        {{ continuousMode ? '完成並開啟下一個' : '開啟抽選' }}
+      <p class="continuous-status">{{ continuousStatus }}</p>
+      <button
+        class="continuous-primary"
+        type="button"
+        [disabled]="continuousMode || !currentContinuousGiveaway"
+        (click)="triggerContinuousDraw()"
+      >
+        {{ continuousMode ? '自動連抽進行中' : '開始自動連抽' }}
       </button>
-      <button class="continuous-reset" type="button" (click)="resetContinuousDraw()">重設</button>
+      <button class="continuous-reset" type="button" (click)="stopContinuousDraw()">
+        {{ continuousMode ? '停止自動連抽' : '重設' }}
+      </button>
     </div>
   </section>
 

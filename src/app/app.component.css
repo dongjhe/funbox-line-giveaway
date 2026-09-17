@@ -156,11 +156,19 @@
   font-weight: 600;
 }
 .continuous-item {
-  margin-bottom: 22px;
+  margin-bottom: 10px;
   color: #000;
   font-size: clamp(26px, 2.8vw, 54px);
   font-weight: 900;
   line-height: 1.2;
+}
+.continuous-status {
+  min-height: 24px;
+  margin: 0 0 22px;
+  color: #526170;
+  font-size: clamp(14px, 1.2vw, 18px);
+  font-weight: 700;
+  line-height: 1.5;
 }
 .continuous-primary,
 .continuous-reset {
@@ -178,6 +186,10 @@
   margin-bottom: 12px;
   background: linear-gradient(180deg, #28c25e 0%, #1fa649 100%);
   color: #fff;
+}
+.continuous-primary:disabled {
+  background: #9aa5ad;
+  cursor: not-allowed;
 }
 .continuous-reset {
   background: linear-gradient(180deg, #0c78d3 0%, #0e5ea8 100%);
