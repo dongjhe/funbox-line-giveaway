@@ -125,6 +125,34 @@
   font-weight: 800;
   white-space: nowrap;
 }
+.time-filter {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  min-height: 44px;
+}
+.time-filter-label {
+  color: #1f4f80;
+  font-weight: 800;
+}
+.time-filter button {
+  padding: 10px 13px;
+  border: 1px solid #d9e0e6;
+  border-radius: 9px;
+  background: #fff;
+  color: #1f4f80;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+}
+.time-filter button.active {
+  border-color: #255587;
+  background: #255587;
+  color: #fff;
+}
 .continuous-draw {
   max-width: 980px;
   margin: 0 auto 24px;
@@ -315,6 +343,9 @@
     width: 100%;
     padding: 9px 11px;
     font-size: 14px;
+  }
+  .time-filter {
+    width: 100%;
   }
   .store-card {
     padding: 17px 14px 0;

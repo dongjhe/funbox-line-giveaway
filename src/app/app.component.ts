@@ -13,6 +13,7 @@ interface ContinuousDrawSession {
   pendingUrl: string | null;
   selectedRegions: string[];
   selectedProductOrder: string[];
+  selectedStartTime: string | null;
 }
 
 @Component({
@@ -34,6 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
   selectedRegions = new Set<string>();
   selectedProducts = new Set<string>();
   selectedProductOrder: string[] = [];
+  selectedStartTime: string | null = null;
   continuousMode = false;
   continuousIndex = 0;
   continuousCountdown = 0;
@@ -86,12 +88,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   regionStoreCount(region: string): number {
-    if (region === '全部') {
-      return Object.values(this.giveaways)
-        .flat()
-        .filter((g) => g.items.length > 0).length;
-    }
-    return (this.giveaways[region] ?? []).filter((g) => g.items.length > 0).length;
+    const stores =
+      region === '全部' ? Object.values(this.giveaways).flat() : (this.giveaways[region] ?? []);
+    return stores.filter((g) => g.items.length > 0 && this.matchesSelectedStartTime(g)).length;
   }
 
   get regionOptions(): string[] {
@@ -118,9 +117,28 @@ export class AppComponent implements OnInit, OnDestroy {
   clearSelectedRegions(): void {
     this.selectedRegions = new Set<string>();
   }
+  get timeOptions(): string[] {
+    const times = new Set<string>();
+    Object.values(this.giveaways)
+      .flat()
+      .filter((giveaway) => giveaway.items.length > 0)
+      .forEach((giveaway) => {
+        const time = this.startTimeKey(giveaway.startTime);
+        if (time) times.add(time);
+      });
+    return [...times].sort((a, b) => this.timeToMinutes(a) - this.timeToMinutes(b));
+  }
+  isStartTimeSelected(time: string | null): boolean {
+    return this.selectedStartTime === time;
+  }
+  selectStartTime(time: string | null): void {
+    this.selectedStartTime = time;
+    this.resetContinuousDraw();
+  }
   resetAllFilters(productFilter?: HTMLDetailsElement, regionFilter?: HTMLDetailsElement): void {
     this.clearSelectedRegions();
     this.clearSelectedProducts();
+    this.selectedStartTime = null;
     this.resetContinuousDraw();
     if (productFilter) productFilter.open = false;
     if (regionFilter) regionFilter.open = false;
@@ -152,9 +170,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   get selectedGiveaways(): SelectedGiveaway[] {
     const results = this.visibleRegions.flatMap((region) =>
-      (this.giveaways[region] ?? []).flatMap((g) =>
-        this.filteredItems(g).map((item) => ({ region, store: g.store, item })),
-      ),
+      (this.giveaways[region] ?? [])
+        .filter((g) => this.matchesSelectedStartTime(g))
+        .flatMap((g) => this.filteredItems(g).map((item) => ({ region, store: g.store, item }))),
     );
     const order = new Map(this.selectedProductOrder.map((c, i) => [c, i]));
     return results.sort(
@@ -222,6 +240,7 @@ export class AppComponent implements OnInit, OnDestroy {
       pendingUrl: current.item.url,
       selectedRegions: [...this.selectedRegions],
       selectedProductOrder: [...this.selectedProductOrder],
+      selectedStartTime: this.selectedStartTime,
     };
 
     this.continuousMode = true;
@@ -283,6 +302,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.selectedRegions = new Set(session.selectedRegions);
     this.selectedProductOrder = [...session.selectedProductOrder];
     this.selectedProducts = new Set(session.selectedProductOrder);
+    this.selectedStartTime = session.selectedStartTime;
   }
   private resumeContinuousDraw(): void {
     if (document.hidden || this.continuousNextTimer !== null) return;
@@ -379,7 +399,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.continuousStatus = status;
   }
   private findGiveawayByUrl(url: string): SelectedGiveaway | null {
-    for (const region of this.regionOptions) {
+    for (const region of this.regions.map(({ name }) => name).filter((name) => name !== '全部')) {
       for (const giveaway of this.giveaways[region] ?? []) {
         const item = giveaway.items.find((candidate) => candidate.url === url);
         if (item) return { region, store: giveaway.store, item };
@@ -409,7 +429,9 @@ export class AppComponent implements OnInit, OnDestroy {
         ((session as ContinuousDrawSession).pendingUrl === null ||
           typeof (session as ContinuousDrawSession).pendingUrl === 'string') &&
         Array.isArray((session as ContinuousDrawSession).selectedRegions) &&
-        Array.isArray((session as ContinuousDrawSession).selectedProductOrder)
+        Array.isArray((session as ContinuousDrawSession).selectedProductOrder) &&
+        ((session as ContinuousDrawSession).selectedStartTime === null ||
+          typeof (session as ContinuousDrawSession).selectedStartTime === 'string')
       ) {
         return session as ContinuousDrawSession;
       }
@@ -424,6 +446,19 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   private clearContinuousSession(): void {
     sessionStorage.removeItem(this.continuousSessionStorageKey);
+  }
+  matchesSelectedStartTime(giveaway: { startTime?: string }): boolean {
+    return (
+      !this.selectedStartTime || this.startTimeKey(giveaway.startTime) === this.selectedStartTime
+    );
+  }
+  private startTimeKey(startTime?: string): string {
+    const match = startTime?.match(/\d{4}[/-]\d{1,2}[/-]\d{1,2}\s+(\d{1,2}):(\d{2})(?!\d)/);
+    return match ? `${match[1].padStart(2, '0')}:${match[2]}` : '';
+  }
+  private timeToMinutes(time: string): number {
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours * 60 + minutes;
   }
   private productCode(name: string): string {
     const match = name.toUpperCase().match(/\b(?:BXG|BX|CX|UX)-?\d+\b/);

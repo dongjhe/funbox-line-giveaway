@@ -54,10 +54,29 @@
       </div>
     </details>
 
+    <div class="time-filter" *ngIf="timeOptions.length > 0">
+      <span class="time-filter-label">時間篩選：</span>
+      <button
+        type="button"
+        [class.active]="isStartTimeSelected(null)"
+        (click)="selectStartTime(null)"
+      >
+        全部時間
+      </button>
+      <button
+        *ngFor="let time of timeOptions"
+        type="button"
+        [class.active]="isStartTimeSelected(time)"
+        (click)="selectStartTime(time)"
+      >
+        {{ time }}
+      </button>
+    </div>
+
     <button
       class="clear-products"
       type="button"
-      *ngIf="selectedRegions.size > 0 || selectedProducts.size > 0"
+      *ngIf="selectedRegions.size > 0 || selectedProducts.size > 0 || selectedStartTime"
       (click)="resetAllFilters(productFilter, regionFilter)"
     >
       清除選擇
@@ -122,7 +141,10 @@
         <ng-container *ngIf="hasVisibleGiveaways(region)">
           <h2>{{ region }}</h2>
           <ng-container *ngFor="let giveaway of giveaways[region]">
-            <article class="store-card" *ngIf="giveaway.items.length > 0">
+            <article
+              class="store-card"
+              *ngIf="giveaway.items.length > 0 && matchesSelectedStartTime(giveaway)"
+            >
               <h3>
                 <a
                   *ngIf="giveaway.storeUrl"
