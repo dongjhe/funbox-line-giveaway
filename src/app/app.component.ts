@@ -26,7 +26,7 @@ interface ContinuousDrawSession {
 export class AppComponent implements OnInit, OnDestroy {
   private readonly clickedStorageKey = 'funbox-line-giveaway-clicked';
   private readonly continuousSessionStorageKey = 'funbox-line-giveaway-continuous-session';
-  private readonly continuousDelayMs = 1500;
+  private readonly continuousDelayMs = 1000;
   private continuousNextTimer: number | null = null;
   private continuousCountdownTimer: number | null = null;
   readonly regions = REGIONS;
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
   continuousMode = false;
   continuousIndex = 0;
   continuousCountdown = 0;
-  continuousStatus = '按「開始自動連抽」後，返回本頁會在 1.5 秒後自動找下一個沒灰底的項目。';
+  continuousStatus = '按「開始自動連抽」後，返回本頁會在 1 秒後自動找下一個沒灰底的項目。';
 
   constructor() {
     this.loadClickedGiveaways();
@@ -254,7 +254,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.continuousMode = false;
     this.continuousIndex = 0;
     this.continuousCountdown = 0;
-    this.continuousStatus = '按「開始自動連抽」後，返回本頁會在 2 秒後自動找下一個沒灰底的項目。';
+    this.continuousStatus = '按「開始自動連抽」後，返回本頁會在 1 秒後自動找下一個沒灰底的項目。';
   }
   stopContinuousDraw(): void {
     if (!this.continuousMode) {
