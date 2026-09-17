@@ -13,64 +13,68 @@
   </header>
 
   <div class="filter-controls">
-    <details #regionFilter class="select-filter region-select-filter">
-      <summary>
-        選擇縣市{{ selectedRegions.size ? '（已選 ' + selectedRegions.size + ' 個）' : '' }}
-      </summary>
-      <div class="filter-options region-options">
-        <label
-          *ngFor="let region of regionOptions"
-          [class.option-selected]="isRegionSelected(region)"
-        >
-          <input
-            type="checkbox"
-            [checked]="isRegionSelected(region)"
-            (change)="toggleRegion(region, $any($event.target).checked)"
-          />
-          <span>{{ region }}（{{ regionStoreCount(region) }}）</span>
-        </label>
-      </div>
-    </details>
+    <div class="filter-primary-row">
+      <details #regionFilter class="select-filter region-select-filter">
+        <summary>
+          選擇縣市{{ selectedRegions.size ? '（已選 ' + selectedRegions.size + ' 個）' : '' }}
+        </summary>
+        <div class="filter-options region-options">
+          <label
+            *ngFor="let region of regionOptions"
+            [class.option-selected]="isRegionSelected(region)"
+          >
+            <input
+              type="checkbox"
+              [checked]="isRegionSelected(region)"
+              (change)="toggleRegion(region, $any($event.target).checked)"
+            />
+            <span>{{ region }}（{{ regionStoreCount(region) }}）</span>
+          </label>
+        </div>
+      </details>
 
-    <details #productFilter class="select-filter product-filter">
-      <summary>
-        選擇商品{{ selectedProducts.size ? '（已選 ' + selectedProducts.size + ' 項）' : '' }}
-      </summary>
-      <div class="filter-options product-options">
-        <label
-          *ngFor="let product of orderedProductOptions"
-          [class.option-selected]="isProductSelected(product)"
-        >
-          <input
-            type="checkbox"
-            [checked]="isProductSelected(product)"
-            (change)="toggleProduct(product, $any($event.target).checked)"
-          />
-          <span class="selection-number" *ngIf="productSelectionNumber(product) as number">{{
-            number
-          }}</span>
-          <span>{{ product }}</span>
-        </label>
-      </div>
-    </details>
+      <details #productFilter class="select-filter product-filter">
+        <summary>
+          選擇商品{{ selectedProducts.size ? '（已選 ' + selectedProducts.size + ' 項）' : '' }}
+        </summary>
+        <div class="filter-options product-options">
+          <label
+            *ngFor="let product of orderedProductOptions"
+            [class.option-selected]="isProductSelected(product)"
+          >
+            <input
+              type="checkbox"
+              [checked]="isProductSelected(product)"
+              (change)="toggleProduct(product, $any($event.target).checked)"
+            />
+            <span class="selection-number" *ngIf="productSelectionNumber(product) as number">{{
+              number
+            }}</span>
+            <span>{{ product }}</span>
+          </label>
+        </div>
+      </details>
+    </div>
 
-    <div class="time-filter" *ngIf="timeOptions.length > 0">
+    <div class="time-filter-row" *ngIf="timeOptions.length > 0">
       <span class="time-filter-label">時間篩選：</span>
-      <button
-        type="button"
-        [class.active]="isStartTimeSelected(null)"
-        (click)="selectStartTime(null)"
-      >
-        全部時間
-      </button>
-      <button
-        *ngFor="let time of timeOptions"
-        type="button"
-        [class.active]="isStartTimeSelected(time)"
-        (click)="selectStartTime(time)"
-      >
-        {{ time }}
-      </button>
+      <div class="time-filter-buttons">
+        <button
+          type="button"
+          [class.active]="isStartTimeSelected(null)"
+          (click)="selectStartTime(null)"
+        >
+          全部時間
+        </button>
+        <button
+          *ngFor="let time of timeOptions"
+          type="button"
+          [class.active]="isStartTimeSelected(time)"
+          (click)="selectStartTime(time)"
+        >
+          {{ time }}
+        </button>
+      </div>
     </div>
 
     <button
