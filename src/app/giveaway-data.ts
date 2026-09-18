@@ -259,6 +259,25 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BXG-04 銀牙烈虎 S', url: 'https://lin.ee/yM7y5pM' },
       ],
     },
+    {
+      store: 'Funbox 桃園環球A8',
+      storeUrl: 'https://line.me/R/ti/p/@lae4656h',
+      startTime: '抽選時間：2026/09/18 11:00~2026/09/19 21:00',
+      items: [
+        {
+          name: 'CX-00 迪卡狂怒 FT3-60T',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2N0BVSYJMT7QFE6CRZ7KQZ4',
+        },
+        {
+          name: 'UX-03 魔導神杖',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2N0QHB3NMTCCTQ0R5DNVK00',
+        },
+        {
+          name: 'BXG-04 銀牙烈虎',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2N0W8AV7JD9D830CV2ZY1V0',
+        },
+      ],
+    },
   ],
   新竹市: [
     {
@@ -417,6 +436,19 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-03 魔導神杖', url: 'https://lin.ee/81U8a1c' },
         { name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/nrA4IEk' },
         { name: 'CX-00 迪卡狂怒 FT3-60T', url: 'https://lin.ee/v6CyhBE' },
+      ],
+    },
+  ],
+  嘉義市: [
+    {
+      store: 'Funbox 嘉義遠東',
+      storeUrl: 'https://line.me/R/ti/p/@gno1826d',
+      startTime: '抽選時間：未解析',
+      items: [
+        {
+          name: 'BX-00 蒼龍神劍3-60F V2',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2CWXSZV0GYZS2BYKG1B1605',
+        },
       ],
     },
   ],
