@@ -297,6 +297,20 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/TOoH1GY' },
       ],
     },
+    {
+      store: 'Funbox 享平方店',
+      startTime: '抽選時間：2026/09/18 11:00~2026/09/19（依原公告）',
+      items: [
+        { name: 'BX-00 暴風天馬3-70RA', url: 'https://lin.ee/7b2igo6' },
+        { name: 'BX-00 蒼龍神劍3-60F', url: 'https://lin.ee/71FGNku' },
+        { name: 'UX-03 魔導神杖', url: 'https://lin.ee/5oDWBbG' },
+        { name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/PIGl57D' },
+        { name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/WmJoUS8' },
+        { name: 'CX-00 迪卡狂怒', url: 'https://lin.ee/n7vHmJn' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/QYXC2jO' },
+        { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/8L5bEuT' },
+      ],
+    },
   ],
   台中市: [
     {
@@ -422,6 +436,41 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       startTime: '抽選時間：2026/09/18 11:00~2026/09/19 20:30',
       items: [{ name: 'CX-00 迪卡狂怒', url: 'https://lin.ee/QOenjHO' }],
     },
+    {
+      store: 'Funbox 南紡購物中心店',
+      startTime: '抽選時間：2026/09/18 11:00~2026/09/19 21:00',
+      items: [
+        { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/N9xT18Y' },
+        { name: 'BX-26 獨角刺心', url: 'https://lin.ee/qPpBg8T' },
+        { name: 'BX-37 雙重極限衝擊戰鬥盤 豪華組', url: 'https://lin.ee/9yMBcwM' },
+        { name: 'UX-03 魔導神杖', url: 'https://lin.ee/R5Wvqu8' },
+        { name: 'UX-19 子彈獅鷲H', url: 'https://lin.ee/9uLvzN9' },
+        { name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/PosArcs' },
+        { name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/U9tqjfR' },
+        { name: 'CX-00 迪卡狂怒 FT3-60T', url: 'https://lin.ee/oMoH3gA' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/ttu0Mv9' },
+      ],
+    },
+    {
+      store: '來玩聚 新仁店',
+      startTime: '抽選時間：2026/09/18 11:00~2026/09/19 20:00',
+      items: [
+        { name: 'UX-03 魔導神杖', url: 'https://lin.ee/sksPn3f' },
+        { name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/PluK8ZL' },
+        { name: 'CX-00 迪卡狂怒 FT3-60T', url: 'https://lin.ee/oJvAA2l' },
+      ],
+    },
+    {
+      store: 'Funbox 台南新天地店',
+      startTime: '抽選時間：2026/09/18 11:00~2026/09/19 21:00',
+      items: [
+        { name: 'BX-00 蒼龍神劍V2', url: 'https://lin.ee/Wzb933k' },
+        { name: 'UX-03 魔導神杖', url: 'https://lin.ee/89IKLoW' },
+        { name: 'CX-00 迪卡狂怒 FT3-60T', url: 'https://lin.ee/qp5uKNV' },
+        { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/OY1mOAD' },
+        { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/uz1SO3X' },
+      ],
+    },
   ],
   高雄市: [
     {
@@ -508,6 +557,14 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'CX-00 迪卡狂怒 FT3-60T', url: 'https://lin.ee/rA8731l' },
       ],
     },
+    {
+      store: '來玩聚 楠梓店',
+      startTime: '抽選時間：2026/09/18 10:00~2026/09/19 21:00',
+      items: [
+        { name: 'UX-03 魔導神杖', url: 'https://lin.ee/riOHMC5' },
+        { name: 'CX-00 迪卡狂怒 FT3-60T', url: 'https://lin.ee/p2bwfmK' },
+      ],
+    },
   ],
   屏東縣: [
     {
@@ -519,6 +576,15 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'UX-03 魔導神杖', url: 'https://lin.ee/trbzNRXa' },
         { name: 'CX-00 新世紀福音戰士陀螺套組', url: 'https://lin.ee/728oraL' },
         { name: 'CX-00 迪卡狂怒 FT3-60T', url: 'https://lin.ee/v1L6Xj5' },
+      ],
+    },
+    {
+      store: 'Funbox 屏東環球店',
+      startTime: '抽選時間：2026/09/18 11:00~2026/09/19 21:00',
+      items: [
+        { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/UYeL73Y' },
+        { name: 'CX-00 迪卡狂怒 FT3-60T', url: 'https://lin.ee/xrUrNkP' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/pnlGQaz' },
       ],
     },
   ],
@@ -562,6 +628,14 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'CX-00 迪卡狂怒 FT3-60T', url: 'https://lin.ee/Q3yV2j1' },
         { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/sQxMS1Z' },
         { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/vuiF90t' },
+      ],
+    },
+    {
+      store: '來玩聚 台東家樂福店',
+      startTime: '抽選時間：2026/09/18 11:00~2026/09/19 20:00',
+      items: [
+        { name: 'UX-03 魔導神杖', url: 'https://lin.ee/ZzDKhAy' },
+        { name: 'CX-00 迪卡狂怒 FT3-60T', url: 'https://lin.ee/ZmlaPIV' },
       ],
     },
   ],
