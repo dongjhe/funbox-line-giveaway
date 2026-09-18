@@ -278,6 +278,25 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         },
       ],
     },
+    {
+      store: 'Funbox 桃園台茂店',
+      storeUrl: 'https://line.me/R/ti/p/@504tdsbb',
+      startTime: '抽選時間：2026/09/18 11:00~2026/09/19 21:30',
+      items: [
+        {
+          name: 'CX-00 迪卡狂怒 FT3-60T',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2MNRD0H32GP4N269YJ6CHQD',
+        },
+        {
+          name: 'UX-03 魔導神杖',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2MP0133K01X2DMJ0V4Q2B3A',
+        },
+        {
+          name: 'BX-37 雙重極限衝擊戰鬥盤 豪華組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2MP5KF346YZNWZ8SX6NWW8G',
+        },
+      ],
+    },
   ],
   新竹市: [
     {
@@ -299,6 +318,25 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'CX-00 迪卡狂怒', url: 'https://lin.ee/rYcoJis' },
         { name: 'BXG-01 烈焰飛鳳S', url: 'https://lin.ee/zmlQC1A' },
         { name: 'BXG-04 銀牙烈虎S', url: 'https://lin.ee/oHs7FAH' },
+      ],
+    },
+    {
+      store: 'Funbox 新竹遠雄湳雅',
+      storeUrl: 'https://line.me/R/ti/p/@agl4214l',
+      startTime: '抽選時間：2026/09/18 11:00~2026/09/19 21:00',
+      items: [
+        {
+          name: 'CX-00 迪卡狂怒 FT3-60T',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2S3HAY2WB8WRMDG12XWJFTK',
+        },
+        {
+          name: 'CX-13 龍王閃擊',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2Q6YK9ABTF2VSAH0AC3KC8Z',
+        },
+        {
+          name: 'BX-00 蒼龍神劍 3-60F',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2Q6VVNQ35VA1XDAHFXNTEG6',
+        },
       ],
     },
   ],
