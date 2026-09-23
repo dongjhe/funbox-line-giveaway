@@ -60,7 +60,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       ],
     },
     {
-      store: 'Funbox-信義A8店(陀螺販售)',
+      store: 'Funbox 信義A8',
       storeUrl: 'https://linevoom.line.me/user/_dfItqTWWpJgcZPNYg_b3_xlBeXDhlwTDTicnfSU',
       startTime: '抽選/購買時間 2026/09/24 11:00 - 2026/09/25 21:00',
       items: [
@@ -96,13 +96,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       ],
     },
     {
-      store: 'Funbox-南港潤泰',
+      store: 'Funbox 南港潤泰',
       storeUrl: 'https://linevoom.line.me/user/_dSeRV-7dSwPAS21zhFTEZS9TU0cjb1gBLwEML9A',
       startTime: '抽選時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [],
     },
     {
-      store: 'Funbox 台北大巨蛋店',
+      store: 'Funbox 台北大巨蛋',
       storeUrl: 'https://www.facebook.com/profile.php?id=61593737335376',
       startTime: '抽選時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [
@@ -169,7 +169,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'Funbox LaLaport南港',
+      store: 'Funbox 南港LaLaport',
       storeUrl: 'https://linevoom.line.me/user/_dVgaAWKsM1ofi6bVa7iJV1_zOspCOrdSv0vgXKw',
       startTime: '抽選/購買時間 2026/09/11 11:00 - 2026/09/12 21:00',
       items: [],
@@ -231,7 +231,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   新北市: [
     {
-      store: 'FunBox Toys-汐止遠雄店',
+      store: 'Funbox 汐科遠雄',
       storeUrl: 'https://linevoom.line.me/user/_dXWlFT8AyCrEdtsk_fRRUYuqERc8rWDzx3c6DUA',
       startTime: '抽選時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [],
@@ -243,13 +243,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'Funbox-中和環球店',
+      store: 'Funbox 中和環球店',
       storeUrl: 'https://linevoom.line.me/user/_dSg6slLn5Zg47l9CPlGC-LezlX4EP3fmltKvQRs',
       startTime: '抽選時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [],
     },
     {
-      store: 'Funbox樹林秀泰店',
+      store: 'Funbox 樹林秀泰店',
       storeUrl: 'https://linevoom.line.me/user/_dSj7fhnsKdDEm1q2ehrYEJTOyrm4OuI2NFsN3I0',
       startTime: '抽選/販售時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [
@@ -291,7 +291,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   桃園市: [
     {
-      store: 'Funbox Toys 桃園新光站前店',
+      store: 'Funbox 桃園新光站前店',
       storeUrl: 'https://www.facebook.com/share/p/1BwVdTcFYL/?mibextid=wwXIfr',
       startTime: '抽選時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [
@@ -325,7 +325,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'FunBox-桃園環球A19店',
+      store: 'Funbox 環球桃園A19',
       storeUrl: 'https://linevoom.line.me/user/_dQguBN50HV7T3jjTaZbJKVwoET6cJJH2Kj43Y2E',
       startTime: '抽選時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [],
@@ -345,7 +345,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'Funbox 新竹遠雄湳雅',
+      store: 'Funbox 新竹遠雄',
       storeUrl: 'https://line.me/R/ti/p/@agl4214l',
       startTime: '抽選時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [
@@ -403,13 +403,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   台中市: [
     {
-      store: 'Funbox 台中港三井',
+      store: 'Funbox 台中港三井店',
       storeUrl: 'https://linevoom.line.me/user/_dXDniXt3Xu0U5lkXYliBBHGQRD2FtCUnVVbXPhY',
       startTime: '抽籤時間&使用期限 2026/09/24 11:00 - 2026/09/25 20:30',
       items: [],
     },
     {
-      store: 'Funbox 廣三SOGO店',
+      store: 'Funbox 廣三SOGO',
       storeUrl: 'https://linevoom.line.me/user/_dUpKOzSR_s9Wca-q8vJLgOSM-UGMJNMonlEK_Nw',
       startTime: '抽選/販售時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [],
@@ -421,13 +421,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'Funbox麗寶一期店',
+      store: 'Funbox 麗寶一期',
       storeUrl: 'https://linevoom.line.me/user/_dZD8OLWoBDH7CMfvg3nqfJoIb3wQMGpZ_V7DOOI',
       startTime: '抽選時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [],
     },
     {
-      store: 'Funbox 新光三越台中店',
+      store: 'Funbox 新光三越台中中港店',
       storeUrl: 'https://linevoom.line.me/user/_dcavY93jrqjYaLVO8JR44m7jxZNARF__lfYuyIo',
       startTime: '抽選時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [],
@@ -453,7 +453,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   彰化縣: [
     {
-      store: '來玩聚-彰化店',
+      store: '來玩聚 彰化店',
       storeUrl: 'https://linevoom.line.me/user/_deL1i2Bb8uUCbeQ10yCnEvVLz_iZbXwvFtNNTRM',
       startTime: '抽選時間：2026/09/24 10:00~2026/09/25 21:00',
       items: [
@@ -471,7 +471,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       ],
     },
     {
-      store: '來玩聚-員林店',
+      store: '來玩聚 員林店',
       storeUrl: 'https://linevoom.line.me/user/_dar-0z1aYQPkB0W-BiwgwDp6XsDKAdehbmupEaI',
       startTime: '抽選/購買時間 2026/09/24 10:00 - 2026/09/25 21:00',
       items: [],
@@ -479,7 +479,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   雲林縣: [
     {
-      store: '來玩聚斗六店',
+      store: '來玩聚 斗六店',
       storeUrl: 'https://linevoom.line.me/user/_ddu256ZXwJCBqOeIfKwY6QYdeIvbrVOmBRIOKfo',
       startTime: '抽選時間：2026/09/24 10:00~2026/09/25 21:00',
       items: [
@@ -502,7 +502,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   嘉義市: [
     {
-      store: 'Funbox Toys-嘉義遠東店',
+      store: 'Funbox 嘉義遠東',
       storeUrl: 'https://linevoom.line.me/user/_dVzi6SpAv9EDTDhGlf38KyYzGRC3R0O0O6zxlno',
       startTime:
         '抽選資格：2026/09/24 11:00~2026/09/25 20:30｜中籤購買：9/24 11:00~21:30、9/25 11:00~20:30',
@@ -515,7 +515,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'Funbox 嘉義三越店',
+      store: 'Funbox 嘉義三越',
       storeUrl: 'https://linevoom.line.me/user/_dVZ_jIBO92xnDLzsC9JfjVWMgA2TNLQ2hncb3Ok',
       startTime:
         '抽選開放：2026/09/24 11:00｜購買資格券有效：2026/09/24 11:00~22:00、2026/09/25 11:00~21:00',
@@ -530,7 +530,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'Funbox 台南三井店',
+      store: 'Funbox 台南三井',
       storeUrl: 'https://linevoom.line.me/user/_dTp06Slhdio7LDmd8xKxz3J2mw25-ZMRXZtXQ9I',
       startTime: '抽選/購買資格時間：2026/09/24 11:00~2026/09/25 20:30',
       items: [],
@@ -564,13 +564,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   高雄市: [
     {
-      store: '來玩聚鳳山店',
+      store: '鳳山來玩聚',
       storeUrl: 'https://linevoom.line.me/user/_dYHKZsEifm4hbpeUB6f8DAHE-NaYM-f4lmS_yxc',
       startTime: '戰鬥陀螺X抽籤及販售時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [],
     },
     {
-      store: 'Funbox高雄sogo店',
+      store: 'Funbox 高雄SOGO店',
       storeUrl: 'https://linevoom.line.me/user/_dV2_iZGnvicFJijn62vXHA57ANIeliHDGI7gnRo',
       startTime: '抽選時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [],
@@ -582,7 +582,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'Funbox-夢時代店',
+      store: 'Funbox 夢時代店',
       storeUrl: 'https://linevoom.line.me/user/_dVHpcOhwVrBQ3ZY1xQBHuGMcluZ-yMcOSsSnRfU',
       startTime: '抽選時間：2026/09/24 10:30~2026/09/25 21:00',
       items: [
@@ -597,7 +597,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       ],
     },
     {
-      store: 'Funbox-高雄漢神店',
+      store: 'Funbox 高雄漢神店',
       storeUrl: 'https://linevoom.line.me/user/_dZFySf-_Iy1JFk7B9OJx3p-R8KIqsjXVk6wMx_s',
       startTime: '抽選時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [],
@@ -609,7 +609,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'funbox大魯閣新光',
+      store: 'Funbox 大魯閣新光',
       storeUrl: 'https://linevoom.line.me/user/_dQ0ecVMFJ6V-NPSlxQbE5hqjsBH-WOBO5HdSv4Q',
       startTime: '抽選時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [],
@@ -647,13 +647,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   屏東縣: [
     {
-      store: 'funbox屏東太平洋',
+      store: 'Funbox 屏東太平洋店',
       storeUrl: 'https://linevoom.line.me/user/_dTnMNq0eoiZ5jnuQaFUz2oVpxylrT13ojfI_Ko8',
       startTime: '抽選時間 2026/09/11 11:00 - 2026/09/12 21:00',
       items: [],
     },
     {
-      store: 'Funbox 屏東環球店',
+      store: 'Funbox 屏東環球',
       storeUrl: 'https://linevoom.line.me/user/_dfq4IRS_qaEaR4Svk0SKsB78xW9x2-lkU1wSpKU',
       startTime: '抽選時間 2026/09/11 11:00 - 2026/09/12 21:00',
       items: [],
@@ -661,7 +661,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   宜蘭縣: [
     {
-      store: 'Funbox 新月廣場店',
+      store: 'Funbox 宜蘭新月店',
       storeUrl: 'https://line.me/R/ti/p/@027iendl',
       startTime:
         '抽選開放：2026/09/24 11:00｜購買資格券有效：2026/09/24 11:00~22:00、2026/09/25 11:00~21:00',
