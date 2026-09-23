@@ -251,12 +251,12 @@ module.exports = [
   ],
   [
     '台南市',
-    'FUNBOX 台南遠百',
+    'Funbox 台南遠百店',
     'https://linevoom.line.me/user/_dWKgSOpFJ9bwQuysxkGH0jnCsb22vMfW7kuZDzU',
   ],
   [
     '台南市',
-    'Funbox Toys-台南南紡店',
+    'Funbox 台南南紡店',
     'https://linevoom.line.me/user/_dZ41RU2UUbwJMwmDe4O30FG3iEb647ohcj6Txq4',
   ],
   [
@@ -301,7 +301,7 @@ module.exports = [
   ],
   [
     '高雄市',
-    '來玩聚-新楠店',
+    '來玩聚 新楠店',
     'https://linevoom.line.me/user/_deAwpKm1kymi62-wvUqTCvK1LpCSk5bvwxAubMQ',
   ],
   [
