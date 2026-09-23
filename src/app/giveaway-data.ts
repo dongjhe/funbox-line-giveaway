@@ -209,10 +209,63 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'Funbox天母三越店',
-      storeUrl: 'https://linevoom.line.me/user/_dXYFKzVX-ldfgeUOor_McfFTE_yJP7d54nPjxpQ',
-      startTime: '抽選時間：2026/09/18 11:00~2026/09/19 21:00',
-      items: [],
+      store: 'Funbox 天母三越店',
+      storeUrl: 'https://line.me/R/ti/p/@237annfd',
+      startTime: '抽選時間：2026/09/24(11:00)-2026/09/25(21:00',
+      items: [
+        {
+          name: 'BX-37 雙重極限衝擊戰鬥盤豪華組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M329ATKTY8W80MN3BKVNYWDQ',
+        },
+        {
+          name: 'CX-00 新世紀福音戰士改造組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M329DVAPY6XZ62WT0FA9XBCT',
+        },
+        {
+          name: 'UX-03 魔導神杖',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M33HDH1XMQ02ZJ473JFSW57D',
+        },
+        {
+          name: 'BX-09 戰鬥陀螺X通行證',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M33HG0KTYMXE6EAAH31SNJWB',
+        },
+        {
+          name: 'UX-19 子彈獅鷲',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M33HJNKKEDH9G3JCNM3TV0AH',
+        },
+        {
+          name: 'CX-19 鱷魚裂甲',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M33JB56A1GEQY11VT3ZTPQXJ',
+        },
+        {
+          name: 'UX-15 鮫鯊狂鱗改造組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M33JKTTPJ0R3BPT9FKC3FZY9',
+        },
+        {
+          name: 'CX-11 帝王威能',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M33KHHZBD4EYVD5VDRSF4DDY',
+        },
+        {
+          name: 'UX-20 榮耀武神LF',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M33KN8A2VBAH6B3FBVY8Q2TF',
+        },
+        {
+          name: 'CX-16 極限對戰組C',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M33N65YF0DEB1DRXYZ6FXSA8',
+        },
+        {
+          name: 'BXG-04 銀牙烈虎S',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2MFAJH5Q05WXTW5E5H08ZXQ',
+        },
+        {
+          name: 'CX-13 龍王閃擊',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2MF50GF24ABV42C59R9MGED',
+        },
+        {
+          name: 'CX-00 迪卡狂怒',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M2MEY0Q6AKKHTKP8W7AYATCG',
+        },
+      ],
     },
     {
       store: 'Funbox 三越南西店',
