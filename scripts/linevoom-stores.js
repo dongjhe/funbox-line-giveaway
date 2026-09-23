@@ -56,12 +56,12 @@ module.exports = [
   ],
   [
     '台北市',
-    'Fun box忠孝SOGO',
+    'Funbox 忠孝SOGO店',
     'https://linevoom.line.me/user/_dZR3EbkBX6ugUrxVH_Qo47n8xYDp-95FYmhlIWM',
   ],
   [
     '新北市',
-    'Funbox板橋大遠百',
+    'Funbox 板橋大遠百',
     'https://linevoom.line.me/user/_dblyPGfsKpebVOKvBaP8gs72hysvg-G0EVYLyv4',
   ],
   [
@@ -211,7 +211,7 @@ module.exports = [
   ],
   [
     '台中市',
-    'Funbox 台中中友店',
+    'Funbox 台中中友',
     'https://linevoom.line.me/user/_dVExgXo7x7ugfZBDIYzfRF8XR9geWiZncXXAkNM',
   ],
   [
@@ -276,7 +276,7 @@ module.exports = [
   ],
   [
     '高雄市',
-    'Funbox 高雄大遠百店',
+    'Funbox 高雄大遠百',
     'https://linevoom.line.me/user/_dYOR2VczscGNCah5bglUoA62Gj_YR_lq2R-UoMs',
   ],
   [
