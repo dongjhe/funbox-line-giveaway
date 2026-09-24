@@ -76,7 +76,7 @@ module.exports = [
   ],
   [
     '新北市',
-    'Funbox板橋遠東店',
+    'Funbox 板橋遠百中山店',
     'https://linevoom.line.me/user/_dUcATZnmDAam7Low6HB0-JXZC1DzUJEbh8hA8Gg',
   ],
   [
@@ -261,7 +261,7 @@ module.exports = [
   ],
   [
     '高雄市',
-    'Funbox-漢神巨蛋店',
+    'Funbox 漢神巨蛋店',
     'https://linevoom.line.me/user/_dZuBlwRH9v-DXFkhIH9m1xAU7En6xl4R3qc363s',
   ],
   [
