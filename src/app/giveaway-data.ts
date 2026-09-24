@@ -465,10 +465,67 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       ],
     },
     {
-      store: 'Funbox Toy-桃園環球A8店',
-      storeUrl: 'https://linevoom.line.me/user/_dWWqORTPgThK__JAqyRDK9PX4ReZqnOFc28vpaE',
-      startTime: '抽選時間 2026/09/18 11:00 - 2026/09/19 21:00',
-      items: [],
+      store: 'Funbox 桃園環球A8',
+      storeUrl: 'https://lin.ee/sWtYTIo',
+      startTime: '戰鬥陀螺X抽籤及販售時間：2026/09/24 11:00~2026/09/25 21:00',
+      items: [
+        {
+          name: 'UX-03 魔導神杖',
+          url: 'https://lin.ee/tzSxsn6',
+        },
+        {
+          name: 'CX-00 新世紀福音戰士改造組',
+          url: 'https://lin.ee/vKF8f0b',
+        },
+        {
+          name: 'UX-19 子彈獅鷲H',
+          url: 'https://lin.ee/SyOwr0E',
+        },
+        {
+          name: 'CX-19 鱷魚裂甲',
+          url: 'https://lin.ee/uLS7PYx',
+        },
+        {
+          name: 'UX-15 鮫鯊狂鱗改造組',
+          url: 'https://lin.ee/Y4P9FVt',
+        },
+        {
+          name: 'BX-09 戰鬥陀螺X通行證',
+          url: 'https://lin.ee/UM9BL7I',
+        },
+        {
+          name: 'CX-11 帝王威能',
+          url: 'https://lin.ee/rtaY68A',
+        },
+        {
+          name: 'UX-20 榮耀武神LF',
+          url: 'https://lin.ee/qms7c7d',
+        },
+        {
+          name: 'UX-14 天蠍長矛0-70Z',
+          url: 'https://lin.ee/RCtkQXl',
+        },
+        {
+          name: 'CX-14 騎士堡壘',
+          url: 'https://lin.ee/r6zDIpR',
+        },
+        {
+          name: 'CX-01 蒼龍勇氣',
+          url: 'https://lin.ee/8kJ56Jz',
+        },
+        {
+          name: 'CX-17 隨機強化組 Vol.10',
+          url: 'https://lin.ee/TUEGNnc',
+        },
+        {
+          name: 'CX-16 極限衝擊對戰組C',
+          url: 'https://lin.ee/ostwMDV',
+        },
+        {
+          name: 'BX-37 雙重極限衝擊戰鬥盤 豪華組',
+          url: 'https://lin.ee/shmluZw',
+        },
+      ],
     },
     {
       store: 'Funbox toys - 桃園台茂店',
