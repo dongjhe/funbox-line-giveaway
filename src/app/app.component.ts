@@ -37,6 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   selectedProductOrder: string[] = [];
   selectedStartTime: string | null = null;
   continuousMode = false;
+  continuousSequence: SelectedGiveaway[] | null = null;
   continuousIndex = 0;
   continuousCountdown = 0;
   continuousStatus = '按「開始自動連抽」後，返回本頁會在 1 秒後自動找下一個沒灰底的項目。';
@@ -181,6 +182,9 @@ export class AppComponent implements OnInit, OnDestroy {
         (order.get(this.productKey(b.item.name)) ?? 9999),
     );
   }
+  get continuousGiveaways(): SelectedGiveaway[] {
+    return this.continuousSequence ?? this.selectedGiveaways;
+  }
   toggleProduct(product: string, checked: boolean): void {
     const key = this.productKey(product),
       next = new Set(this.selectedProducts);
@@ -213,30 +217,41 @@ export class AppComponent implements OnInit, OnDestroy {
     this.clickedGiveaways = new Set<string>();
   }
   get currentContinuousGiveaway(): SelectedGiveaway | null {
-    const index = this.findNextUnclickedIndex(this.continuousIndex);
-    return index >= 0 ? this.selectedGiveaways[index] : null;
+    const sequence = this.continuousGiveaways;
+    const index = this.findNextUnclickedIndex(this.continuousIndex, sequence);
+    return index >= 0 ? sequence[index] : null;
   }
   get continuousCountText(): string {
-    const total = this.selectedGiveaways.length;
-    const currentIndex = this.findNextUnclickedIndex(this.continuousIndex);
+    const sequence = this.continuousGiveaways;
+    const total = sequence.length;
+    const currentIndex = this.findNextUnclickedIndex(this.continuousIndex, sequence);
     if (!total) return '第 0 / 0 個';
     return currentIndex >= 0
       ? `第 ${currentIndex + 1} / ${total} 個`
       : `已完成 ${total} / ${total} 個`;
   }
   triggerContinuousDraw(): void {
+    this.startContinuousDraw(this.selectedGiveaways);
+  }
+  triggerStoreContinuousDraw(region: string, store: string, items: GiveawayItem[]): void {
+    this.resetContinuousDraw();
+    this.continuousSequence = items.map((item) => ({ region, store, item }));
+    this.startContinuousDraw(this.continuousSequence);
+  }
+  private startContinuousDraw(sequence: SelectedGiveaway[]): void {
     if (this.continuousMode) return;
 
-    const currentIndex = this.findNextUnclickedIndex(this.continuousIndex);
-    const current = currentIndex >= 0 ? this.selectedGiveaways[currentIndex] : null;
+    const currentIndex = this.findNextUnclickedIndex(this.continuousIndex, sequence);
+    const current = currentIndex >= 0 ? sequence[currentIndex] : null;
     if (!current) {
       this.continuousStatus = '目前沒有尚未抽選的項目。';
       return;
     }
 
+    this.continuousSequence = sequence;
     this.continuousIndex = currentIndex;
     const session: ContinuousDrawSession = {
-      sequenceUrls: this.selectedGiveaways.map(({ item }) => item.url),
+      sequenceUrls: sequence.map(({ item }) => item.url),
       pendingUrl: current.item.url,
       selectedRegions: [...this.selectedRegions],
       selectedProductOrder: [...this.selectedProductOrder],
@@ -252,6 +267,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.clearContinuousTimers();
     this.clearContinuousSession();
     this.continuousMode = false;
+    this.continuousSequence = null;
     this.continuousIndex = 0;
     this.continuousCountdown = 0;
     this.continuousStatus = '按「開始自動連抽」後，返回本頁會在 1 秒後自動找下一個沒灰底的項目。';
@@ -311,6 +327,9 @@ export class AppComponent implements OnInit, OnDestroy {
     if (!session?.pendingUrl) return;
 
     this.restoreContinuousFilters(session);
+    this.continuousSequence = session.sequenceUrls
+      .map((url) => this.findGiveawayByUrl(url))
+      .filter((giveaway): giveaway is SelectedGiveaway => giveaway !== null);
     const completedIndex = session.sequenceUrls.indexOf(session.pendingUrl);
     if (completedIndex < 0) {
       this.finishContinuousDraw('找不到上一筆抽選資料，已停止自動連抽。');
@@ -330,7 +349,7 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const nextIndex = this.selectedGiveaways.findIndex(({ item }) => item.url === nextUrl);
+    const nextIndex = this.continuousGiveaways.findIndex(({ item }) => item.url === nextUrl);
     if (nextIndex < 0) {
       this.finishContinuousDraw('下一筆已不在目前清單中，已停止自動連抽。');
       return;
@@ -386,7 +405,7 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const nextIndex = this.selectedGiveaways.findIndex(({ item }) => item.url === nextUrl);
+    const nextIndex = this.continuousGiveaways.findIndex(({ item }) => item.url === nextUrl);
     if (nextIndex >= 0) this.continuousIndex = nextIndex;
     this.scheduleNextContinuousDraw(nextUrl, session);
   }
@@ -395,7 +414,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.clearContinuousSession();
     this.continuousMode = false;
     this.continuousCountdown = 0;
-    this.continuousIndex = this.selectedGiveaways.length;
+    this.continuousIndex = this.continuousGiveaways.length;
     this.continuousStatus = status;
   }
   private findGiveawayByUrl(url: string): SelectedGiveaway | null {
