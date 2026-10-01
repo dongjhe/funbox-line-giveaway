@@ -1475,7 +1475,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
           url: 'https://lin.ee/UnOJO5m1',
         },
         {
-          name: '超人力霸王聯名款',
+          name: 'CX-00 迪卡狂怒 FT3-60T',
           url: 'https://lin.ee/zjtf56P',
         },
       ],
@@ -3147,7 +3147,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       startTime: '抽選&購買資格時間：2026/10/02 11:00~2026/10/03 21:00',
       items: [
         {
-          name: 'UX-00 新世紀福音戰士改造組',
+          name: 'CX-00 新世紀福音戰士改造組',
           url: 'https://lin.ee/oyKH4wQ',
         },
         {

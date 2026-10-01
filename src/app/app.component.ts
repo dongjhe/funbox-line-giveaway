@@ -491,6 +491,9 @@ export class AppComponent implements OnInit, OnDestroy {
       '子彈獅鷲',
       '旋風發射器',
       '雙重極限衝擊戰鬥盤',
+      '新世紀福音戰士改造組',
+      '福音戰士改造組',
+      '新世紀福音',
     ];
     const found = aliases.find((alias) => text.includes(alias));
     if (found) {
@@ -498,6 +501,9 @@ export class AppComponent implements OnInit, OnDestroy {
       if (found === '惡魔冥界改造組') return '惡魔幽冥改造組';
       if (found === '榮耀戰神') return '榮耀武神';
       if (found === '惡魔戰鎚') return '惡魔戰錘';
+      if (found === '福音戰士改造組' || found === '新世紀福音') {
+        return '新世紀福音戰士改造組';
+      }
       return found;
     }
     const chinese = text.match(/[\u3400-\u9fff]+/g)?.join('') ?? '';
@@ -516,6 +522,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private productLabel(name: string): string {
     const code = this.productCode(name).toUpperCase();
     const identity = this.productIdentity(name);
+    if (code === name.trim().toUpperCase()) return identity || name.trim();
     return identity ? `${code} ${identity}` : code;
   }
   private loadClickedGiveaways(): void {
