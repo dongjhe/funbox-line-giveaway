@@ -1659,22 +1659,197 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'Funbox 桃園環球A8',
-      storeUrl: 'https://lin.ee/sWtYTIo',
-      startTime: '戰鬥陀螺X抽籤及販售時間：2026/09/24 11:00~2026/09/25 21:00',
-      items: [],
+      store: 'Funbox 桃園環球A8店',
+      storeUrl: 'https://line.me/R/ti/p/@lae4656h',
+      startTime: '抽選時間：2026/10/02 11:00~ 2026/10/03 21:00',
+      items: [
+        {
+          name: 'UX-03 魔導神杖',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V9GS4T8KZ1FTG4SSZH3DJC',
+        },
+        {
+          name: 'CX-00 新世紀福音戰士改造組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V9012RFCS2BABCT2FD3XQ4',
+        },
+        {
+          name: 'UX-19 子彈獅鷲H',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V99ZREPK97V9ARZMB7RDAC',
+        },
+        {
+          name: 'UX-15 鮫鯊狂鱗改造組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V9BBPE5DNY5HGZKVB9YHYE',
+        },
+        {
+          name: 'CX-11 帝王威能',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V91J0S4Z4SYFKGCEQV14WK',
+        },
+        {
+          name: 'UX-14 天蠍長矛0-70Z',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V9F5SMPFXBTK7XNN4GHXV6',
+        },
+        {
+          name: 'CX-14 騎士堡壘',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V8TT5H7ACG7H73W74G26WS',
+        },
+        {
+          name: 'CX-01 蒼龍勇氣',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V8X6DM3XKS9HHHC3RKEA7G',
+        },
+        {
+          name: 'CX-17 隨機強化組 Vol.10',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V8YHC9RMB6M5JKCQY4NY16',
+        },
+        {
+          name: 'CX-08 隨機強化組 Vol.7',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V8B5YMHK26TZJ4EZXVCT56',
+        },
+        {
+          name: 'CX-05 隨機強化組 Vol.6',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V87B0E24QDZ0BF4NWD9V1F',
+        },
+        {
+          name: 'CX-13 龍王閃擊',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V8FJSDG0ZGQVJZEQGAN5CG',
+        },
+        {
+          name: 'CX-02 魔導至尊',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V8HA0MD6SFQ4NYX1FMK99D',
+        },
+        {
+          name: 'CX-15 邪神狂怒',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3V8K3C93RQ2ZGA57CAD61MK',
+        },
+        {
+          name: 'CX-03 英仙幽冥',
+          url: 'https://lin.ee/Rz5',
+        },
+      ],
     },
     {
-      store: 'Funbox Toys 桃園台茂店',
-      storeUrl: 'https://lin.ee/RawWy0S',
-      startTime: '戰鬥陀螺X抽籤及販售時間：2026/09/24 11:00~2026/09/25 21:30',
-      items: [],
+      store: 'Funbox 台茂購物中心店',
+      storeUrl: 'https://line.me/R/ti/p/@504tdsbb',
+      startTime: '抽選時間：2026/10/01 11:00~2026/10/01 21:00',
+      items: [
+        {
+          name: 'UX-03 魔導神杖',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RG206Z5MXR9RQ5KQGWYN8K',
+        },
+        {
+          name: 'CX-00 新世紀福音戰士改造組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RG7JPNTTXZ0AE7JDPHN7K7',
+        },
+        {
+          name: 'CX-13 龍王閃擊',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RGAS9R986162PSA446ZJH4',
+        },
+        {
+          name: 'CX-02 魔導至尊',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RGDC09QARM3Z87BPDVNSTY',
+        },
+        {
+          name: 'UX-17 隕星龍騎士',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RGG47GNGKD8WXRV6FWY1AJ',
+        },
+        {
+          name: 'UX-01 蒼龍爆刃',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RGHR7ZN24GS1N8MFD3KJBZ',
+        },
+        {
+          name: 'CX-05 隨機強化組 Vol.6',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RGMQD0VYKGZ6EGG5S543FW',
+        },
+        {
+          name: 'UX-13 魔像奇岩',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RGP6GVW31M3XEA9ZQQSGCS',
+        },
+        {
+          name: 'CX-03 英仙幽冥',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RGW6YZCZT1MMWS606SPCQN',
+        },
+        {
+          name: 'CX-08 隨機強化組 Vol.7',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RGY9F7VER77CT68RHS25RN',
+        },
+        {
+          name: 'CX-15 邪神狂怒',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RH0GHK60MAWZ2QXR5KNAEW',
+        },
+      ],
     },
     {
-      store: 'Funbox 環球桃園A19',
-      storeUrl: 'https://linevoom.line.me/user/_dQguBN50HV7T3jjTaZbJKVwoET6cJJH2Kj43Y2E',
-      startTime: '抽選/購買時間：2026/09/24 11:00~2026/09/25 21:00',
-      items: [],
+      store: 'Funbox 桃園環球A19店',
+      storeUrl: 'https://line.me/R/ti/p/@403qwxdn',
+      startTime: '抽選時間：2026/10/02 (11:00',
+      items: [
+        {
+          name: 'UX-03 魔導神杖',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RV2R8YYW7P85DT11G361A9',
+        },
+        {
+          name: 'CX-05 隨機強化組 Vol.6',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RVCWRPJVH63HC6161KNXQ7',
+        },
+        {
+          name: 'CX-15 邪神狂怒',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RVGBS01W6RDZ28DBZMYD1D',
+        },
+        {
+          name: 'CX-03 英仙幽冥',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RVHXN7EHJ5SR2ZRYTP1XVR',
+        },
+        {
+          name: 'UX-01 蒼龍爆刃',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RVK99R9P44ZWVPNWNABJC2',
+        },
+        {
+          name: 'CX-13 龍王閃擊',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RVME3FV2D9QP2A6J1J2GTF',
+        },
+        {
+          name: 'UX-13 魔像奇岩',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RVNWEFE92RHXE00EVCAVJ8',
+        },
+        {
+          name: 'CX-17 隨機強化組 Vol.10',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RVQVNJZSE6BP3BBNT4MHV5',
+        },
+        {
+          name: 'CX-02 魔導至尊',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RVV43ZVTZWGGDJD2R5WC10',
+        },
+        {
+          name: 'CX-08 隨機強化組 Vol.7',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RVWFY8J25NAGVZKZM9FJM3',
+        },
+        {
+          name: 'CX-11 帝王威能',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RVZ1G40P3R3GR6954H7WB6',
+        },
+        {
+          name: 'CX-00 新世紀福音戰士改造組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RW2WGHV5TFYTMKJJPKQN86',
+        },
+        {
+          name: 'UX-19 子彈獅鷲',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RW41K75XDG40P6VZ88WE6G',
+        },
+        {
+          name: 'CX-01 蒼龍勇氣',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RW59XT5JVST8QDKSCX3W3W',
+        },
+        {
+          name: 'CX-14 騎士堡壘',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RW64ZY0022C60H85Q3N65N',
+        },
+        {
+          name: 'UX-16 時鐘幻象 隨機強化組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RW7QEMGN633P5DVDQ2960A',
+        },
+        {
+          name: 'UX-17 隕星龍騎士',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M3RWA3H2PG9HJ6KCFZ94M0G4',
+        },
+      ],
     },
   ],
   新竹市: [
@@ -3414,7 +3589,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox 夢時代店',
       storeUrl: 'https://linevoom.line.me/user/_dVHpcOhwVrBQ3ZY1xQBHuGMcluZ-yMcOSsSnRfU',
-      startTime: '抽選/購買時間：2026/09/24 10:30~2026/09/25 21:00',
+      startTime: '抽選/購買時間：2026/09/24 11:00~2026/09/25 21:00',
       items: [
         {
           name: 'UX-03 魔導神杖 $295元',
