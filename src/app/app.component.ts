@@ -27,8 +27,8 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly clickedStorageKey = 'funbox-line-giveaway-clicked';
   private readonly continuousSessionStorageKey = 'funbox-line-giveaway-continuous-session';
   private readonly continuousDelayMs = 1000;
-  readonly syncActionUrl =
-    'https://github.com/dongjhe/funbox-line-giveaway/actions/workflows/sync-online-giveaways.yml';
+  private readonly syncPassword = '8787';
+  private readonly syncWorkerUrl = 'https://funbox-line-sync.tim800830.workers.dev/sync';
   private continuousNextTimer: number | null = null;
   private continuousCountdownTimer: number | null = null;
   readonly regions = REGIONS;
@@ -43,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
   continuousIndex = 0;
   continuousCountdown = 0;
   continuousStatus = '按「開始自動連抽」後，返回本頁會在 1 秒後自動找下一個沒灰底的項目。';
+  onlineSyncStatus = '輸入密碼後會觸發 Cloudflare Worker，同步 uxux11 線上商品到 main。';
 
   constructor() {
     this.loadClickedGiveaways();
@@ -217,6 +218,29 @@ export class AppComponent implements OnInit, OnDestroy {
     this.resetContinuousDraw();
     localStorage.removeItem(this.clickedStorageKey);
     this.clickedGiveaways = new Set<string>();
+  }
+  async triggerOnlineSync(): Promise<void> {
+    const password = window.prompt('請輸入更新商品密碼');
+    if (password === null) {
+      this.onlineSyncStatus = '已取消更新商品。';
+      return;
+    }
+    if (password !== this.syncPassword) {
+      this.onlineSyncStatus = '密碼錯誤，沒有觸發同步。';
+      return;
+    }
+
+    this.onlineSyncStatus = '密碼正確，正在背景觸發同步…';
+    try {
+      const response = await fetch(`${this.syncWorkerUrl}?key=${encodeURIComponent(password)}`, {
+        method: 'POST',
+      });
+      const message = await response.text();
+      if (!response.ok) throw new Error(message || `同步觸發失敗：${response.status}`);
+      this.onlineSyncStatus = message || '已觸發同步，請稍等 GitHub Actions 跑完後重新整理。';
+    } catch (error) {
+      this.onlineSyncStatus = error instanceof Error ? error.message : '同步觸發失敗，請稍後再試。';
+    }
   }
   get currentContinuousGiveaway(): SelectedGiveaway | null {
     const sequence = this.continuousGiveaways;
