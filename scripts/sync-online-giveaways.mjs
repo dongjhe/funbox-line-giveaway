@@ -230,6 +230,9 @@ const onlineStores = parseOnlineStores(await response.text());
 if (!onlineStores.length) throw new Error(`No stores were parsed from ${sourceUrl}`);
 
 const local = parseLocalStores(await readFile(dataFile, 'utf8'));
+const existingStoreKeys = new Set(
+  [...local.values()].flat().map((store) => normalizeStoreName(store.store)),
+);
 const index = new Map();
 for (const [region, stores] of local) {
   stores.forEach((store, position) => {
@@ -262,6 +265,13 @@ for (const online of onlineStores) {
 
 const syncedStores = [...local.values()].flat();
 const syncedItemCount = syncedStores.reduce((sum, store) => sum + store.items.length, 0);
+const syncedStoreKeys = new Set(syncedStores.map((store) => normalizeStoreName(store.store)));
+const missingExistingStores = [...existingStoreKeys].filter((key) => !syncedStoreKeys.has(key));
+if (missingExistingStores.length > 0) {
+  throw new Error(
+    `Refusing destructive sync. ${missingExistingStores.length} existing stores would disappear: ${missingExistingStores.join(', ')}`,
+  );
+}
 if (!syncedStores.length || syncedItemCount === 0) {
   throw new Error('Refusing to write empty giveaway data. Parsed result has no synced items.');
 }
