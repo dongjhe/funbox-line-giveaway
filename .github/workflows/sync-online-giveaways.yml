@@ -23,8 +23,11 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Refresh latest main
-        run: git pull --ff-only origin main
+      - name: Force latest main
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
+          echo "Running sync from $(git rev-parse HEAD)"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -55,5 +58,12 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/app/giveaway-data.ts
           git commit -m "Sync online giveaway data"
-          git pull --rebase origin main
-          git push
+
+          # Do not rebase a generated data commit onto a newer main: rerun instead.
+          git fetch origin main
+          if [ "$(git rev-parse HEAD^)" != "$(git rev-parse origin/main)" ]; then
+            echo "main changed while sync was running; refusing stale sync commit."
+            exit 1
+          fi
+
+          git push origin HEAD:main
