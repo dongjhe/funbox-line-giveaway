@@ -234,7 +234,6 @@ const index = new Map();
 for (const [region, stores] of local) {
   stores.forEach((store, position) => {
     index.set(normalizeStoreName(store.store), { region, position });
-    store.items = [];
   });
 }
 
@@ -260,12 +259,6 @@ for (const online of onlineStores) {
   added += 1;
 }
 
-for (const [region, stores] of local) {
-  local.set(
-    region,
-    stores.filter((store) => store.items.length > 0),
-  );
-}
 
 const syncedStores = [...local.values()].flat();
 const syncedItemCount = syncedStores.reduce((sum, store) => sum + store.items.length, 0);
