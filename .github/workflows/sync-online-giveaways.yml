@@ -10,7 +10,7 @@ permissions:
 
 concurrency:
   group: sync-online-giveaways
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   sync:
@@ -20,6 +20,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+          fetch-depth: 0
+
+      - name: Refresh latest main
+        run: git pull --ff-only origin main
 
       - name: Setup Node
         uses: actions/setup-node@v4
