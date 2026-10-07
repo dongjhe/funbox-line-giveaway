@@ -267,6 +267,12 @@ for (const [region, stores] of local) {
   );
 }
 
+const syncedStores = [...local.values()].flat();
+const syncedItemCount = syncedStores.reduce((sum, store) => sum + store.items.length, 0);
+if (!syncedStores.length || syncedItemCount === 0) {
+  throw new Error('Refusing to write empty giveaway data. Parsed result has no synced items.');
+}
+
 if (!dryRun) await writeFile(dataFile, renderData(local));
 
 const totalItems = onlineStores.reduce((sum, store) => sum + store.items.length, 0);
