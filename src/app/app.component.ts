@@ -27,6 +27,8 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly clickedStorageKey = 'funbox-line-giveaway-clicked';
   private readonly continuousSessionStorageKey = 'funbox-line-giveaway-continuous-session';
   private readonly continuousDelayMs = 1000;
+  readonly syncActionUrl =
+    'https://github.com/dongjhe/funbox-line-giveaway/actions/workflows/sync-online-giveaways.yml';
   private continuousNextTimer: number | null = null;
   private continuousCountdownTimer: number | null = null;
   readonly regions = REGIONS;

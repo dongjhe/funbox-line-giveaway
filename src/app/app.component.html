@@ -12,6 +12,14 @@
     </button>
   </header>
 
+  <section class="sync-panel" aria-live="polite">
+    <div>
+      <strong>線上商品同步</strong>
+      <p>開啟 GitHub Actions 後按 Run workflow，會抓 uxux11 線上商品並自動更新 main。</p>
+    </div>
+    <a [href]="syncActionUrl" target="_blank" rel="noopener">更新商品</a>
+  </section>
+
   <div class="filter-controls">
     <div class="filter-primary-row">
       <details #regionFilter class="select-filter region-select-filter">
