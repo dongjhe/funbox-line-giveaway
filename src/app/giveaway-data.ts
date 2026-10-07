@@ -36,7 +36,25 @@ export const REGIONS: Region[] = [
 ];
 
 export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
-  台北市: [],
+  台北市: [
+    {
+      store: 'Funbox 新光三越站前店',
+      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
+      items: [
+        { name: 'UX-03 魔導神杖', url: 'https://lin.ee/oJulAO6' },
+        { name: 'UX-16 時鐘幻象 隨機強化組', url: 'https://lin.ee/nXrKCAI' },
+        { name: 'UX-19 子彈獅鷲', url: 'https://lin.ee/rxjmMb4' },
+        { name: 'CX-01 蒼龍勇氣', url: 'https://lin.ee/5saSA6r' },
+        { name: 'CX-02 魔導至尊', url: 'https://lin.ee/sIuem9x' },
+        { name: 'CX-03 英仙幽冥', url: 'https://lin.ee/zGiC84W' },
+        { name: 'CX-08 隨機強化組 Vol.7', url: 'https://lin.ee/nsZ79zb' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/ZIhzBi0' },
+        { name: 'CX-14 騎士堡壘', url: 'https://lin.ee/qHPJ7wO' },
+        { name: 'CX-15 邪神狂怒', url: 'https://lin.ee/SA9oRXnn' },
+        { name: 'CX-17 隨機強化組 Vol.10', url: 'https://lin.ee/yFQHFqj' },
+      ],
+    },
+  ],
   新北市: [
     {
       store: 'Funbox 樹林秀泰店',
