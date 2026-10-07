@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Validate online page has products
+        run: npm run sync:online -- --dry-run
+
       - name: Sync from online page
         run: npm run sync:online
 

@@ -280,4 +280,8 @@ console.log(
   `${dryRun ? 'Parsed' : 'Synced'} ${onlineStores.length} stores and ${totalItems} items from ${sourceUrl}`,
 );
 console.log(`Updated ${updated} existing stores, added ${added} stores.`);
+console.log('Stores parsed from online page:');
+for (const store of onlineStores) {
+  console.log(`- ${store.region} / ${store.store} (${store.items.length} items)`);
+}
 if (dryRun) console.log('Dry run only; giveaway-data.ts was not changed.');
