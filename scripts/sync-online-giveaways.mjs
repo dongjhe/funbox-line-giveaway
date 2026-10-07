@@ -130,35 +130,26 @@ function parseOnlineStores(html) {
 
 function parseLocalStores(source) {
   const data = new Map(regionOrder.map((region) => [region, []]));
-  let region = '';
-  let collecting = false;
-  let depth = 0;
-  let block = [];
 
-  for (const line of source.split('\n')) {
-    const regionMatch = line.match(/^\s{2}([^:\n]+): \[$/);
-    if (regionMatch) {
-      region = regionMatch[1];
-      if (!data.has(region)) data.set(region, []);
-      continue;
-    }
+  for (let regionIndex = 0; regionIndex < regionOrder.length; regionIndex += 1) {
+    const region = regionOrder[regionIndex];
+    const nextRegion = regionOrder[regionIndex + 1];
+    const regionStart = source.indexOf(`  ${region}: [`);
+    if (regionStart < 0) continue;
 
-    if (region && /^\s{4}\{/.test(line)) {
-      collecting = true;
-      depth = (line.match(/\{/g) ?? []).length - (line.match(/\}/g) ?? []).length;
-      block = [line];
-      continue;
-    }
+    const regionEnd = nextRegion
+      ? source.indexOf(`  ${nextRegion}: [`, regionStart)
+      : source.indexOf('\n};', regionStart);
+    const section = source.slice(regionStart, regionEnd < 0 ? source.length : regionEnd);
 
-    if (!collecting) continue;
+    const storeStarts = [...section.matchAll(/^    \{\n      store:/gm)].map((match) => match.index);
+    for (let i = 0; i < storeStarts.length; i += 1) {
+      const storeStart = storeStarts[i];
+      const storeEnd = storeStarts[i + 1] ?? section.length;
+      const text = section.slice(storeStart, storeEnd);
+      const store = text.match(/store:\s*'([^']*)'/);
+      if (!store) continue;
 
-    block.push(line);
-    depth += (line.match(/\{/g) ?? []).length - (line.match(/\}/g) ?? []).length;
-    if (depth !== 0) continue;
-
-    const text = block.join('\n');
-    const store = text.match(/store:\s*'([^']*)'/);
-    if (store) {
       data.get(region).push({
         region,
         store: store[1],
@@ -169,8 +160,6 @@ function parseLocalStores(source) {
         ].map((match) => ({ name: match[1], url: match[2] })),
       });
     }
-
-    collecting = false;
   }
 
   return data;
