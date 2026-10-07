@@ -218,10 +218,17 @@ if (!response.ok) throw new Error(`Failed to fetch ${sourceUrl}: ${response.stat
 const onlineStores = parseOnlineStores(await response.text());
 if (!onlineStores.length) throw new Error(`No stores were parsed from ${sourceUrl}`);
 
-const local = parseLocalStores(await readFile(dataFile, 'utf8'));
-const existingStoreKeys = new Set(
-  [...local.values()].flat().map((store) => normalizeStoreName(store.store)),
-);
+const originalSource = await readFile(dataFile, 'utf8');
+const local = parseLocalStores(originalSource);
+const existingStores = [...local.values()].flat();
+const existingStoreKeys = new Set(existingStores.map((store) => normalizeStoreName(store.store)));
+const declaredStoreCount = (originalSource.match(/^      store:\s*'/gm) ?? []).length;
+
+if (declaredStoreCount !== existingStores.length) {
+  throw new Error(
+    `Local parser validation failed: file declares ${declaredStoreCount} stores but parser read ${existingStores.length}. Refusing to sync.`,
+  );
+}
 const index = new Map();
 for (const [region, stores] of local) {
   stores.forEach((store, position) => {
@@ -264,14 +271,41 @@ if (missingExistingStores.length > 0) {
 if (!syncedStores.length || syncedItemCount === 0) {
   throw new Error('Refusing to write empty giveaway data. Parsed result has no synced items.');
 }
+if (syncedStores.length < existingStores.length) {
+  throw new Error(
+    `Refusing destructive sync: store count would drop from ${existingStores.length} to ${syncedStores.length}.`,
+  );
+}
 
-if (!dryRun) await writeFile(dataFile, renderData(local));
+const rendered = renderData(local);
+const verified = parseLocalStores(rendered);
+const verifiedStores = [...verified.values()].flat();
+const verifiedStoreKeys = new Set(verifiedStores.map((store) => normalizeStoreName(store.store)));
+const verifiedItemCount = verifiedStores.reduce((sum, store) => sum + store.items.length, 0);
+const renderedDeclaredStoreCount = (rendered.match(/^      store:\s*'/gm) ?? []).length;
+
+if (
+  verifiedStores.length !== syncedStores.length ||
+  renderedDeclaredStoreCount !== syncedStores.length ||
+  verifiedItemCount !== syncedItemCount ||
+  [...existingStoreKeys].some((key) => !verifiedStoreKeys.has(key))
+) {
+  throw new Error(
+    `Rendered data validation failed: expected ${syncedStores.length} stores/${syncedItemCount} items, verified ${verifiedStores.length} stores/${verifiedItemCount} items. Refusing to write.`,
+  );
+}
+
+if (!dryRun) {
+  await writeFile(dataFile, rendered);
+  const written = await readFile(dataFile, 'utf8');
+  if (written !== rendered) throw new Error('Post-write verification failed: file content differs.');
+}
 
 const totalItems = onlineStores.reduce((sum, store) => sum + store.items.length, 0);
 console.log(
   `${dryRun ? 'Parsed' : 'Synced'} ${onlineStores.length} stores and ${totalItems} items from ${sourceUrl}`,
 );
-console.log(`Updated ${updated} existing stores, added ${added} stores.`);
+console.log(`Local before: ${existingStores.length} stores. Online: ${onlineStores.length} stores/${totalItems} items. Final: ${syncedStores.length} stores/${syncedItemCount} items.`);\nconsole.log(`Updated ${updated} existing stores, added ${added} stores.`);
 console.log('Stores parsed from online page:');
 for (const store of onlineStores) {
   console.log(`- ${store.region} / ${store.store} (${store.items.length} items)`);
