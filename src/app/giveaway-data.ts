@@ -219,7 +219,26 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
   ],
   台南市: [],
-  高雄市: [],
+  高雄市: [
+    {
+      store: 'Funbox 高雄漢神店',
+      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
+      items: [
+        { name: 'UX-01 蒼龍爆刃', url: 'https://lin.ee/6f0ugqD' },
+        { name: 'UX-15 鮫鯊狂鱗改造組', url: 'https://lin.ee/suXnYQf' },
+        { name: 'UX-16 時鐘幻象 隨機強化組', url: 'https://lin.ee/8owp6OH' },
+        { name: 'UX-20 榮耀武神', url: 'https://lin.ee/XOMEcwe' },
+        { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/R56KO2Z' },
+        { name: 'CX-02 魔導至尊', url: 'https://lin.ee/tx7lDbN' },
+        { name: 'CX-03 英仙幽冥', url: 'https://lin.ee/wsDrV9oR' },
+        { name: 'CX-05 隨機強化組 Vol.6', url: 'https://lin.ee/UB4i6Ku' },
+        { name: 'CX-08 隨機強化組 Vol.7', url: 'https://lin.ee/saBn7sJ' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/8Gza00g' },
+        { name: 'CX-14 騎士堡壘', url: 'https://lin.ee/rcaTs8W' },
+        { name: 'CX-15 邪神狂怒', url: 'https://lin.ee/61S32QT' },
+      ],
+    },
+  ],
   屏東縣: [
     {
       store: '來玩聚-新屏店',
