@@ -305,7 +305,8 @@ const totalItems = onlineStores.reduce((sum, store) => sum + store.items.length,
 console.log(
   `${dryRun ? 'Parsed' : 'Synced'} ${onlineStores.length} stores and ${totalItems} items from ${sourceUrl}`,
 );
-console.log(`Local before: ${existingStores.length} stores. Online: ${onlineStores.length} stores/${totalItems} items. Final: ${syncedStores.length} stores/${syncedItemCount} items.`);\nconsole.log(`Updated ${updated} existing stores, added ${added} stores.`);
+console.log(`Local before: ${existingStores.length} stores. Online: ${onlineStores.length} stores/${totalItems} items. Final: ${syncedStores.length} stores/${syncedItemCount} items.`);
+console.log(`Updated ${updated} existing stores, added ${added} stores.`);
 console.log('Stores parsed from online page:');
 for (const store of onlineStores) {
   console.log(`- ${store.region} / ${store.store} (${store.items.length} items)`);
