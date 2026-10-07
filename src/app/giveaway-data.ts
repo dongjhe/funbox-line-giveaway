@@ -240,5 +240,17 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   花蓮縣: [],
   台東縣: [],
-  澎湖縣: [],
+  澎湖縣: [
+    {
+      store: 'Funbox 澎湖3號港店',
+      startTime: '抽選/購買時間：2026/10/08 10:00~2026/10/09 20:30',
+      items: [
+        { name: 'BX-00 蒼龍神劍3-60F V2', url: 'https://lin.ee/WYUiS2fV' },
+        { name: 'BX-00 暴風天馬3-70RA', url: 'https://lin.ee/QDubEC5' },
+        { name: 'UX-21 惡魔冥界改造組', url: 'https://lin.ee/RWpyBQu' },
+        { name: 'CX-00 迪卡狂怒 FT3-60T', url: 'https://lin.ee/o9dkuJ0' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/W9qLf9v' },
+      ],
+    },
+  ],
 };
