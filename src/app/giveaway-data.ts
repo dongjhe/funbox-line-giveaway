@@ -483,6 +483,30 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'CX-15 邪神狂怒', url: 'https://lin.ee/wDHRpOQ' },
       ],
     },
+    {
+      store: 'Funbox 桃園環球A19',
+      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
+      items: [
+        { name: 'UX-01 蒼龍爆刃', url: 'https://lin.ee/QuLC2DD' },
+        { name: 'UX-03 魔導神杖', url: 'https://lin.ee/8wfD9Sc' },
+        { name: 'UX-13 魔像奇岩', url: 'https://lin.ee/oh27L3a' },
+        {
+          name: 'UX-16 時鐘幻象 隨機強化組（此品項總數量11，最後一位取貨者無法直接購買三顆，請留意）',
+          url: 'https://lin.ee/QxT9EQJ',
+        },
+        { name: 'UX-17 隕星龍騎士', url: 'https://lin.ee/oYSEHQZ' },
+        { name: 'UX-19 子彈獅鷲', url: 'https://lin.ee/TDQEDzP' },
+        { name: 'UX-20 榮耀武神', url: 'https://lin.ee/5ndTC55' },
+        { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/On94ki8' },
+        { name: 'CX-01 蒼龍勇氣', url: 'https://lin.ee/87VxLz0' },
+        { name: 'CX-02 魔導至尊', url: 'https://lin.ee/q8mCnfe' },
+        { name: 'CX-03 英仙幽冥', url: 'https://lin.ee/YKP8JdB' },
+        { name: 'CX-05 隨機強化組 Vol.6', url: 'https://lin.ee/uMLaCnx1' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/83VDHx9' },
+        { name: 'CX-14 騎士堡壘', url: 'https://lin.ee/XCZQ3z5' },
+        { name: 'CX-15 邪神狂怒', url: 'https://lin.ee/saxoy0B' },
+      ],
+    },
   ],
   新竹市: [
     {
