@@ -801,7 +801,19 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
   ],
   花蓮縣: [],
-  台東縣: [],
+  台東縣: [
+    {
+      store: '來玩聚-台東家樂福',
+      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 20:00',
+      items: [
+        { name: 'CX-00 新世紀福音戰士改造組', url: 'https://lin.ee/Xieez6W' },
+        { name: 'CX-02 魔導至尊', url: 'https://lin.ee/S9Bc2Q3' },
+        { name: 'CX-03 英仙幽冥', url: 'https://lin.ee/5xmA7Ne' },
+        { name: 'CX-13 龍王閃擊', url: 'https://lin.ee/Wp21yvC' },
+        { name: 'CX-15 邪神狂怒', url: 'https://lin.ee/wzFFKdb' },
+      ],
+    },
+  ],
   澎湖縣: [
     {
       store: 'Funbox 澎湖3號港店',
