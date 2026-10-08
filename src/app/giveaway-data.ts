@@ -383,7 +383,21 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       ],
     },
   ],
-  桃園市: [],
+  桃園市: [
+    {
+      store: 'Funbox 桃園新光站前店',
+      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
+      items: [
+        { name: 'BX-37 雙重極限衝擊戰鬥盤 豪華組', url: 'https://lin.ee/wlp0rnft' },
+        { name: 'UX-14 天蠍長矛0-70Z', url: 'https://lin.ee/7d46WM6' },
+        { name: 'CX-01 蒼龍勇氣', url: 'https://lin.ee/7neHduN' },
+        { name: 'CX-02 魔導至尊', url: 'https://lin.ee/uvF70u7' },
+        { name: 'CX-14 騎士堡壘', url: 'https://lin.ee/zBQdBRc' },
+        { name: 'CX-15 邪神狂怒', url: 'https://lin.ee/tYL540r' },
+        { name: 'CX-16 極限衝擊對戰組C', url: 'https://lin.ee/6agWt2E' },
+      ],
+    },
+  ],
   新竹市: [
     {
       store: 'Funbox 新竹遠東店',
