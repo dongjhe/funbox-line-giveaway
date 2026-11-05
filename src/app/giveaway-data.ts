@@ -59,8 +59,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox 天母SOGO店',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      startTime: '抽選時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [
+        {
+          name: 'BX-53 極限衝擊對戰組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M6NHY8M8B43ZBJGXVDS19EKM',
+        },
+      ],
     },
     {
       store: 'Funbox 高島屋百貨店',
@@ -131,8 +136,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox 新店誠品店',
-      startTime: '抽選/購買時間：2026/10/08 11:00起',
-      items: [],
+      startTime: '抽選開始：2026/11/06 11:00｜兌獎：11/06 11:00~22:00、11/07 11:00~21:00',
+      items: [
+        {
+          name: 'BX-53 極限衝擊對戰組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M6NHXZMQJ1TNY3YMGV5HP6ZR',
+        },
+      ],
     },
     {
       store: 'Funbox 淡水禮萊廣場店',
@@ -146,8 +156,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox 板橋遠東',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      startTime: '抽選時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [
+        {
+          name: 'BX-53 極限衝擊對戰組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M6NK9VWMK7GE30K484E8G6DV',
+        },
+      ],
     },
     {
       store: 'Funbox 比漾廣場',
@@ -268,8 +283,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox 新光三越台中中港店',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      startTime: '抽選時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [
+        {
+          name: 'BX-53 極限衝擊對戰組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M6NKGHMY1H3KVXA4H1BQEBZ3',
+        },
+      ],
     },
     {
       store: 'Funbox 台中遠東',
@@ -290,6 +310,17 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: 'Funbox 台中漢神洲際',
       startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
       items: [],
+    },
+    {
+      store: 'Funbox 豐原太平洋店',
+      storeUrl: 'https://line.me/R/ti/p/@094mvrhb',
+      startTime: '抽選時間：2026/11/06 各店開店時間~2026/11/07 各店閉店前1小時',
+      items: [
+        {
+          name: 'BX-53 極限衝擊對戰組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M6N79DNYBHG8J7J3TBA1YRJM',
+        },
+      ],
     },
   ],
   彰化縣: [
@@ -325,8 +356,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox 嘉義三越',
-      startTime: '抽選/購買時間：2026/10/08 11:00~22:00；2026/10/09 11:00~21:00',
-      items: [],
+      startTime: '抽選開始：2026/11/06 11:00｜兌獎：11/06 11:00~22:00、11/07 11:00~21:00',
+      items: [
+        {
+          name: 'BX-53 極限衝擊對戰組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M6K3H5ZEFQ208DMG97689160',
+        },
+      ],
     },
   ],
   台南市: [
@@ -374,13 +410,23 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox 夢時代店',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      startTime: '抽選時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [
+        {
+          name: 'BX-53 極限衝擊對戰組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M6GPC6Q25E89K5VAETQENJFH',
+        },
+      ],
     },
     {
       store: 'Funbox 大魯閣新光店',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      startTime: '抽選時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [
+        {
+          name: 'BX-53 極限衝擊對戰組',
+          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M6K2HRRZTXYKM6F1PABC107M',
+        },
+      ],
     },
     {
       store: 'Funbox 崇光高雄店',
