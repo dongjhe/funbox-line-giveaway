@@ -11,39 +11,545 @@ const DATA_FILE = path.resolve(__dirname, '../src/app/giveaway-data.ts');
 const OUTPUT_FILE = path.resolve(__dirname, '../linevoom-parser-v2-result.txt');
 const SYNC = process.argv.includes('--sync');
 const XIZHI_ID = '_dXWlFT8AyCrEdtsk_fRRUYuqERc8rWDzx3c6DUA';
-const KEYWORDS = ['陀螺','抽選','抽籤','購買券','購買資格','抽獎連結','抽選連結'];
+const KEYWORDS = ['陀螺', '抽選', '抽籤', '購買券', '購買資格', '抽獎連結', '抽選連結'];
 const PRODUCT = /(?:BXG|BX|UX|CX)-?\d+/i;
 const LINE = /https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i;
-const output=[];
-const stats={match:0,different:0,cleared:0,pending:0,skip:0,newStore:0,error:0};
-const pendingStores=[];
-function log(...args){const text=args.map(x=>typeof x==='string'?x:JSON.stringify(x)).join(' ');console.log(text);output.push(text);}
-function saveOutput(){fs.writeFileSync(OUTPUT_FILE,output.join('\n')+'\n','utf8');}
-function parseCutoffInput(value){const m=value.trim().match(/^(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})$/);if(!m)return null;const y=+m[1],mo=+m[2],d=+m[3];const dt=new Date(`${String(y).padStart(4,'0')}-${String(mo).padStart(2,'0')}-${String(d).padStart(2,'0')}T00:00:00+08:00`);if(Number.isNaN(dt.getTime())||dt.getFullYear()!==y||dt.getMonth()+1!==mo||dt.getDate()!==d)return null;return{date:dt,label:`${String(y).padStart(4,'0')}/${String(mo).padStart(2,'0')}/${String(d).padStart(2,'0')}`};}
-async function configureCutoff(){const arg=process.argv.find(x=>x.startsWith('--after='));if(arg){const parsed=parseCutoffInput(arg.slice('--after='.length));if(!parsed)throw new Error('無效的 --after 日期，請使用 YYYY/MM/DD 或 YYYY-MM-DD');CUTOFF=parsed.date;cutoffLabel=parsed.label;return true;}if(!SYNC)return true;const rl=readline.createInterface({input:process.stdin,output:process.stdout});try{let parsed=null;while(!parsed){const input=(await rl.question(`📅 請輸入要抓取幾號以後的文章（YYYY/MM/DD）[${DEFAULT_CUTOFF}]：\n> `)).trim()||DEFAULT_CUTOFF;parsed=parseCutoffInput(input);if(!parsed)console.log('⚠️ 日期格式錯誤，請輸入例如 2026/09/17');}CUTOFF=parsed.date;cutoffLabel=parsed.label;const answer=(await rl.question(`確認同步 ${cutoffLabel} 00:00 之後的文章？(Y/n)\n> `)).trim().toLowerCase();if(answer==='n'||answer==='no'){console.log('⏹️ 已取消同步');return false;}return true;}finally{rl.close();}}
-function code(s=''){return(s.match(/\b(BXG|BX|UX|CX)-?\d+\b/i)?.[0]||'').toUpperCase().replace(/^(BXG|BX|UX|CX)(\d+)/,'$1-$2');}
-function clean(s=''){return s.replace(/[\uE000-\uF8FF]/g,'').replace(/^\s*[⭐️★☆◆♦️▪︎●•‼️❇️.\-–—]+\s*/u,'').replace(/\s*[⭐️★☆◆♦️▪︎●•‼️❇️]+\s*$/u,'').replace(/^\d+[.、]\s*/,'').replace(/\s*[:：\-–—]+\s*$/,'').replace(/\s+(?:購買資格|優惠券|抽選|抽籤)[\s\S]*$/i,'').replace(/\s*\|.*$/,'').trim();}
-function valid(item){return code(item.name)&&/^https:\/\/lin\.ee\/[A-Za-z0-9_-]+$/i.test(item.url)&&!/https?:\/\//i.test(item.name)&&item.name.length<120;}
-function dedupe(items){const m=new Map();for(const x of items){const item={name:clean(x.name),url:x.url};if(valid(item))m.set(`${code(item.name)}|${item.url}`,item);}return[...m.values()];}
-function parseNormal(text=''){const lines=text.split('\n').map(x=>x.trim()).filter(Boolean),out=[];for(let i=0;i<lines.length;i++){const line=lines[i];const url=line.match(LINE)?.[0];if(url){const at=line.indexOf(url);const before=line.slice(0,at).trim();if(PRODUCT.test(before)){out.push({name:before,url});continue;}if(i>0&&PRODUCT.test(lines[i-1])&&/^(?:🔗\s*)?(?:(?:抽籤|抽選|抽獎)(?:連結|網址)|網址)?\s*[:：]?\s*🔗?\s*https:\/\/lin\.ee\//i.test(line)){out.push({name:lines[i-1],url});continue;}continue;}if(!PRODUCT.test(line))continue;if(i+1<lines.length&&new RegExp(`^${LINE.source}$`,'i').test(lines[i+1])){out.push({name:line,url:lines[i+1]});continue;}if(i+2<lines.length&&/^(?:抽籤|抽選|抽獎)?(?:連結|網址)\s*[:：]?$/i.test(lines[i+1])&&new RegExp(`^${LINE.source}$`,'i').test(lines[i+2]))out.push({name:line,url:lines[i+2]});}return dedupe(out);}
-function parseXizhi(text=''){const lines=text.split('\n').map(x=>x.trim()).filter(Boolean),out=[];for(let i=0;i<lines.length;i++){const same=lines[i].match(new RegExp(`^(${LINE.source})\\s+([^\\n]*${PRODUCT.source}[^\\n]*)$`,'i'));if(same){out.push({url:same[1],name:same[2]});continue;}if(new RegExp(`^${LINE.source}$`,'i').test(lines[i])&&i+1<lines.length&&PRODUCT.test(lines[i+1]))out.push({url:lines[i],name:lines[i+1]});}return dedupe(out);}
-function parseTime(label,now=new Date()){const d=new Date(now);let m;if((m=label.match(/^(\d+)分鐘前$/))){d.setMinutes(d.getMinutes()-+m[1]);return d;}if((m=label.match(/^(\d+)小時前$/))){d.setHours(d.getHours()-+m[1]);return d;}if((m=label.match(/^昨天\s*(\d{1,2}):(\d{2})$/))){d.setDate(d.getDate()-1);d.setHours(+m[1],+m[2],0,0);return d;}if((m=label.match(/^前天\s*(\d{1,2}):(\d{2})$/))){d.setDate(d.getDate()-2);d.setHours(+m[1],+m[2],0,0);return d;}if((m=label.match(/^(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/)))return new Date(now.getFullYear(),+m[1]-1,+m[2],+m[3],+m[4]);if((m=label.match(/^(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/)))return new Date(+m[1],+m[2]-1,+m[3],+m[4],+m[5]);return null;}
-async function mark(page){const raw=await page.evaluate(()=>{const re=/^(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})$/;const a=[];for(const el of document.querySelectorAll('body *')){if(el.children.length>3)continue;const t=(el.innerText||el.textContent||'').trim();if(!re.test(t))continue;let p=el;for(let i=0;i<8&&p.parentElement;i++){p=p.parentElement;const s=(p.innerText||'');if(s.includes('Public')&&(s.includes('Like')||s.includes('Comment')||s.includes('Share')))break;}if(!p||p===document.body)continue;if(!p.dataset.voomV2)p.dataset.voomV2=`v2-${a.length}-${Math.random().toString(36).slice(2)}`;a.push({id:p.dataset.voomV2,label:t});}return a;});const now=new Date(),seen=new Set();return raw.map(x=>({...x,date:parseTime(x.label,now)})).filter(x=>x.date&&x.date>=CUTOFF&&!seen.has(x.id)&&seen.add(x.id)).sort((a,b)=>b.date-a.date);}
-async function expand(page){const ps=await mark(page);let n=0;for(const p of ps){const root=page.locator(`[data-voom-v2="${p.id}"]`);for(let r=0;r<5;r++){const xs=root.getByText('顯示更多',{exact:false});let ok=false;for(let i=0;i<await xs.count();i++){try{if(!(await xs.nth(i).isVisible()))continue;await xs.nth(i).click({timeout:1200});await page.waitForTimeout(200);n++;ok=true;break;}catch{}}if(!ok)break;}}if(n)log(`🔓 展開 ${n} 個「顯示更多」`);}
-async function posts(page){const recent=await mark(page);const rows=await page.evaluate(()=>[...document.querySelectorAll('[data-voom-v2]')].map(p=>({id:p.dataset.voomV2,text:((p.querySelector('.text_viewer.page_feed')||p).innerText||'').trim()})));const m=new Map(rows.map(x=>[x.id,x.text]));return recent.map(x=>({...x,text:m.get(x.id)||''}));}
-async function anchorItems(page,p){const data=await page.locator(`[data-voom-v2="${p.id}"]`).evaluate(post=>{const lineRe=/https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i;const productRe=/(?:BXG|BX|UX|CX)-?\d+/i;const anchors=[...post.querySelectorAll('a')].map((a,index)=>({index,raw:a.getAttribute('href')||'',href:a.href||'',text:(a.innerText||a.textContent||'').trim(),aria:a.getAttribute('aria-label')||'',title:a.getAttribute('title')||'',parent:(a.parentElement?.innerText||'').trim(),prev:(a.parentElement?.previousElementSibling?.innerText||'').trim(),next:(a.parentElement?.nextElementSibling?.innerText||'').trim()})).filter(a=>[a.raw,a.href,a.text,a.parent].some(x=>lineRe.test(x||'')));const viewer=post.querySelector('.text_viewer.page_feed')||post;const productLines=(viewer.innerText||'').split('\n').map(x=>x.trim()).filter(x=>productRe.test(x)&&!lineRe.test(x));return{anchors,productLines};});const anchors=[];for(const a of data.anchors){const url=[a.raw,a.href,a.text,a.parent].map(x=>(x||'').match(LINE)?.[0]).find(Boolean);if(url&&!anchors.some(x=>x.url===url))anchors.push({...a,url});}const products=data.productLines.map(clean).filter(x=>PRODUCT.test(x)&&!LINE.test(x));const out=[];for(const a of anchors){const candidates=[a.text,a.aria,a.title,a.prev,a.next];let hit='';for(const t of candidates){const lines=(t||'').split('\n').map(x=>clean(x)).filter(Boolean);const matches=lines.filter(x=>PRODUCT.test(x)&&!LINE.test(x));if(matches.length===1){hit=matches[0];break;}}if(hit)out.push({name:hit,url:a.url});}if(out.length===anchors.length&&out.length)return dedupe(out);if(anchors.length>1&&products.length===anchors.length){log(`🔗 多連結順序配對：${products.length} 商品 / ${anchors.length} LINE 連結`);return dedupe(anchors.map((a,i)=>({name:products[i],url:a.url})));}if(anchors.length===1){const a=anchors[0];const parentLines=(a.parent||'').split('\n').map(x=>clean(x)).filter(x=>PRODUCT.test(x)&&!LINE.test(x));const unique=[...new Set(parentLines)];if(unique.length===1)return dedupe([{name:unique[0],url:a.url}]);if(products.length===1)return dedupe([{name:products[0],url:a.url}]);}return dedupe(out);}
-async function pendingDiagnostic(page,p){return page.locator(`[data-voom-v2="${p.id}"]`).evaluate(post=>{const viewer=post.querySelector('.text_viewer.page_feed')||post;const anchors=[...post.querySelectorAll('a')].filter(a=>/lin\.ee\//i.test([a.getAttribute('href'),a.href,a.innerText,a.parentElement?.innerText].filter(Boolean).join(' '))).slice(0,30).map(a=>({href:a.getAttribute('href')||a.href||'',text:(a.innerText||'').trim().slice(0,160),aria:(a.getAttribute('aria-label')||'').slice(0,160),title:(a.getAttribute('title')||'').slice(0,160),parent:(a.parentElement?.innerText||'').trim().slice(0,500),prev:(a.parentElement?.previousElementSibling?.innerText||'').trim().slice(0,300),next:(a.parentElement?.nextElementSibling?.innerText||'').trim().slice(0,300)}));return{text:(viewer.innerText||'').trim().slice(0,5000),anchors};});}
-async function latest(page,mode){const ps=await posts(page);const p=ps.find(x=>KEYWORDS.some(k=>x.text.includes(k)));if(!p)return null;let items=mode==='xizhi'?parseXizhi(p.text):parseNormal(p.text);if(!items.length)items=await anchorItems(page,p);return{...p,items,pending:!items.length};}
-function parseData(src){const stores=[];const re=/\{\s*store:\s*'([^']+)'[\s\S]*?storeUrl:\s*'([^']*)'[\s\S]*?items:\s*\[([\s\S]*?)\]\s*,?\s*\}/g;for(const m of src.matchAll(re)){const items=[...m[3].matchAll(/\{\s*name:\s*'([^']+)',\s*url:\s*'(https:\/\/lin\.ee\/[^']+)'\s*\}/g)].map(x=>({name:x[1],url:x[2]}));stores.push({name:m[1],url:m[2],items});}return stores;}
-function norm(s=''){return s.toLowerCase().replace(/funbox|toys|sanrio/g,'').replace(/[\s&\-－_()（）]/g,'');}
-function findStore(master,data){return data.find(x=>(x.url||'').replace(/[?#].*$/,'')===master.url.replace(/[?#].*$/,''))||data.find(x=>norm(x.name)===norm(master.name));}
-function compare(a,b){const A=new Map(a.map(x=>[`${code(x.name)}|${x.url}`,x])),B=new Map(b.map(x=>[`${code(x.name)}|${x.url}`,x]));const d=[];for(const[k,x]of B)if(!A.has(k))d.push(`➕ ${code(x.name)} ${x.name} ${x.url}`);for(const[k,x]of A)if(!B.has(k))d.push(`➖ ${code(x.name)} DATA only ${x.url}`);return d;}
-function esc(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
-function replaceItems(src,store,items){const name=store.name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');const re=new RegExp(`(\\{\\s*store:\\s*'${name}'[\\s\\S]*?items:\\s*\\[)([\\s\\S]*?)(\\]\\s*,?\\s*\\})`);return src.replace(re,(_,a,b,c)=>`${a}\n${items.map(x=>`        { name: '${esc(x.name)}', url: '${esc(x.url)}' },`).join('\n')}${items.length?'\n      ':''}${c}`);}
-function syncItems(src,ds,items,reason){const before=ds.items.length;const next=replaceItems(src,ds,items);if(next===src){log(`⚠️ 無法更新 DATA：${ds.name}`);return{src,changed:false};}log(`💾 ${reason}：${before} → ${items.length}`);return{src:next,changed:true};}
-function summary(){log('\n================ SUMMARY ================');log(`MATCH: ${stats.match}`);log(`DIFFERENT: ${stats.different}`);log(`CLEARED: ${stats.cleared}`);log(`PENDING: ${stats.pending}`);log(`NEW STORE: ${stats.newStore}`);log(`SKIP: ${stats.skip}`);log(`ERROR: ${stats.error}`);if(pendingStores.length){log('\nPENDING/CLEARED STORES:');for(const s of pendingStores)log(`- ${s}`);}log('=========================================');}
-(async()=>{if(!(await configureCutoff()))return;let src=fs.readFileSync(DATA_FILE,'utf8'),data=parseData(src),changed=0;log(`🧪 LINE VOOM Parser V2 ${SYNC?'SYNC':'AUDIT'} — ${STORES.length} 間`);log(`📅 規則：只取 ${cutoffLabel} 00:00 之後最新一則相關文章；沒有商品則清空 DATA items`);log(`📄 完整結果：${OUTPUT_FILE}`);const browser=await chromium.launch({headless:false});const ctx=await browser.newContext({locale:'zh-TW',timezoneId:'Asia/Taipei'});const page=await ctx.newPage();for(let i=0;i<STORES.length;i++){const s=STORES[i];const mode=s.url.includes(XIZHI_ID)?'xizhi':'normal';log(`\n[${i+1}/${STORES.length}] ${s.region} / ${s.name}`);log(`MODE: ${mode}`);try{await page.goto(s.url,{waitUntil:'domcontentloaded',timeout:60000});await page.waitForTimeout(2200);await expand(page);const ds=findStore(s,data);const v=await latest(page,mode);
-if(!v){stats.skip++;log(`⏭️ ${cutoffLabel} 後沒有相關文章`);if(SYNC&&ds&&ds.items.length){const r=syncItems(src,ds,[],`CLEARED（${cutoffLabel} 後沒有相關文章）`);src=r.src;if(r.changed){changed++;stats.cleared++;data=parseData(src);}}continue;}
-log(`🕐 最新相關文章：${v.label}`);
-if(v.pending){stats.pending++;pendingStores.push(`${s.region} / ${s.name}`);log('🕒 最新文章沒有解析到商品');try{const d=await pendingDiagnostic(page,v);log('🔬 PENDING DIAGNOSTIC');log(`ARTICLE:\n${d.text}`);for(const [j,a] of d.anchors.entries())log(`ANCHOR ${j+1}: ${JSON.stringify(a)}`);}catch(e){log(`🔬 diagnostic error: ${e.message}`);}if(SYNC&&ds&&ds.items.length){const r=syncItems(src,ds,[],'CLEARED（最新文章沒有商品）');src=r.src;if(r.changed){changed++;stats.cleared++;data=parseData(src);}}continue;}
-log(`📦 VOOM ${v.items.length} / DATA ${ds?.items.length??0}`);for(const x of v.items)log(`  ${x.name} -> ${x.url}`);if(!ds){stats.newStore++;log('🆕 NEW STORE（交由 new-store sync 新增）');continue;}const diff=compare(ds.items,v.items);if(!diff.length){stats.match++;log('✅ MATCH（已是最新文章商品）');continue;}stats.different++;log('⚠️ DIFFERENT → 最新文章將取代舊 DATA');for(const d of diff)log(`  ${d}`);if(SYNC){const r=syncItems(src,ds,v.items,'SYNCED（只保留最新文章商品）');src=r.src;if(r.changed){changed++;data=parseData(src);}}}catch(e){stats.error++;log(`❌ ERROR: ${e.message}`);}}await browser.close();if(SYNC&&changed)fs.writeFileSync(DATA_FILE,src,'utf8');if(SYNC)log(`\n💾 已更新/清空 ${changed} 間店家`);summary();saveOutput();log('\n✅ V2 完成');saveOutput();})().catch(e=>{log(`\n💥 FATAL: ${e.stack||e.message}`);saveOutput();process.exit(1);});
+const output = [];
+const stats = { match: 0, different: 0, cleared: 0, pending: 0, skip: 0, newStore: 0, error: 0 };
+const pendingStores = [];
+function log(...args) {
+  const text = args.map((x) => (typeof x === 'string' ? x : JSON.stringify(x))).join(' ');
+  console.log(text);
+  output.push(text);
+}
+function saveOutput() {
+  fs.writeFileSync(OUTPUT_FILE, output.join('\n') + '\n', 'utf8');
+}
+function parseCutoffInput(value) {
+  const m = value.trim().match(/^(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})$/);
+  if (!m) return null;
+  const y = +m[1],
+    mo = +m[2],
+    d = +m[3];
+  const dt = new Date(
+    `${String(y).padStart(4, '0')}-${String(mo).padStart(2, '0')}-${String(d).padStart(2, '0')}T00:00:00+08:00`,
+  );
+  if (
+    Number.isNaN(dt.getTime()) ||
+    dt.getFullYear() !== y ||
+    dt.getMonth() + 1 !== mo ||
+    dt.getDate() !== d
+  )
+    return null;
+  return {
+    date: dt,
+    label: `${String(y).padStart(4, '0')}/${String(mo).padStart(2, '0')}/${String(d).padStart(2, '0')}`,
+  };
+}
+async function configureCutoff() {
+  const arg = process.argv.find((x) => x.startsWith('--after='));
+  if (arg) {
+    const parsed = parseCutoffInput(arg.slice('--after='.length));
+    if (!parsed) throw new Error('無效的 --after 日期，請使用 YYYY/MM/DD 或 YYYY-MM-DD');
+    CUTOFF = parsed.date;
+    cutoffLabel = parsed.label;
+    return true;
+  }
+  if (!SYNC) return true;
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  try {
+    let parsed = null;
+    while (!parsed) {
+      const input =
+        (
+          await rl.question(`📅 請輸入要抓取幾號以後的文章（YYYY/MM/DD）[${DEFAULT_CUTOFF}]：\n> `)
+        ).trim() || DEFAULT_CUTOFF;
+      parsed = parseCutoffInput(input);
+      if (!parsed) console.log('⚠️ 日期格式錯誤，請輸入例如 2026/09/17');
+    }
+    CUTOFF = parsed.date;
+    cutoffLabel = parsed.label;
+    const answer = (await rl.question(`確認同步 ${cutoffLabel} 00:00 之後的文章？(Y/n)\n> `))
+      .trim()
+      .toLowerCase();
+    if (answer === 'n' || answer === 'no') {
+      console.log('⏹️ 已取消同步');
+      return false;
+    }
+    return true;
+  } finally {
+    rl.close();
+  }
+}
+function code(s = '') {
+  return (s.match(/\b(BXG|BX|UX|CX)-?\d+\b/i)?.[0] || '')
+    .toUpperCase()
+    .replace(/^(BXG|BX|UX|CX)(\d+)/, '$1-$2');
+}
+function clean(s = '') {
+  return s
+    .replace(/[\uE000-\uF8FF]/g, '')
+    .replace(/^\s*[⭐️★☆◆♦️▪︎●•‼️❇️.\-–—]+\s*/u, '')
+    .replace(/\s*[⭐️★☆◆♦️▪︎●•‼️❇️]+\s*$/u, '')
+    .replace(/^\d+[.、]\s*/, '')
+    .replace(/\s*[:：\-–—]+\s*$/, '')
+    .replace(/\s+(?:購買資格|優惠券|抽選|抽籤)[\s\S]*$/i, '')
+    .replace(/\s*\|.*$/, '')
+    .trim();
+}
+function valid(item) {
+  return (
+    code(item.name) &&
+    /^https:\/\/lin\.ee\/[A-Za-z0-9_-]+$/i.test(item.url) &&
+    !/https?:\/\//i.test(item.name) &&
+    item.name.length < 120
+  );
+}
+function dedupe(items) {
+  const m = new Map();
+  for (const x of items) {
+    const item = { name: clean(x.name), url: x.url };
+    if (valid(item)) m.set(`${code(item.name)}|${item.url}`, item);
+  }
+  return [...m.values()];
+}
+function parseNormal(text = '') {
+  const lines = text
+      .split('\n')
+      .map((x) => x.trim())
+      .filter(Boolean),
+    out = [];
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const url = line.match(LINE)?.[0];
+    if (url) {
+      const at = line.indexOf(url);
+      const before = line.slice(0, at).trim();
+      if (PRODUCT.test(before)) {
+        out.push({ name: before, url });
+        continue;
+      }
+      if (
+        i > 0 &&
+        PRODUCT.test(lines[i - 1]) &&
+        /^(?:🔗\s*)?(?:(?:抽籤|抽選|抽獎)(?:連結|網址)|網址)?\s*[:：]?\s*🔗?\s*https:\/\/lin\.ee\//i.test(
+          line,
+        )
+      ) {
+        out.push({ name: lines[i - 1], url });
+        continue;
+      }
+      continue;
+    }
+    if (!PRODUCT.test(line)) continue;
+    if (i + 1 < lines.length && new RegExp(`^${LINE.source}$`, 'i').test(lines[i + 1])) {
+      out.push({ name: line, url: lines[i + 1] });
+      continue;
+    }
+    if (
+      i + 2 < lines.length &&
+      /^(?:抽籤|抽選|抽獎)?(?:連結|網址)\s*[:：]?$/i.test(lines[i + 1]) &&
+      new RegExp(`^${LINE.source}$`, 'i').test(lines[i + 2])
+    )
+      out.push({ name: line, url: lines[i + 2] });
+  }
+  return dedupe(out);
+}
+function parseXizhi(text = '') {
+  const lines = text
+      .split('\n')
+      .map((x) => x.trim())
+      .filter(Boolean),
+    out = [];
+  for (let i = 0; i < lines.length; i++) {
+    const same = lines[i].match(
+      new RegExp(`^(${LINE.source})\\s+([^\\n]*${PRODUCT.source}[^\\n]*)$`, 'i'),
+    );
+    if (same) {
+      out.push({ url: same[1], name: same[2] });
+      continue;
+    }
+    if (
+      new RegExp(`^${LINE.source}$`, 'i').test(lines[i]) &&
+      i + 1 < lines.length &&
+      PRODUCT.test(lines[i + 1])
+    )
+      out.push({ url: lines[i], name: lines[i + 1] });
+  }
+  return dedupe(out);
+}
+function parseTime(label, now = new Date()) {
+  const d = new Date(now);
+  let m;
+  if ((m = label.match(/^(\d+)分鐘前$/))) {
+    d.setMinutes(d.getMinutes() - +m[1]);
+    return d;
+  }
+  if ((m = label.match(/^(\d+)小時前$/))) {
+    d.setHours(d.getHours() - +m[1]);
+    return d;
+  }
+  if ((m = label.match(/^昨天\s*(\d{1,2}):(\d{2})$/))) {
+    d.setDate(d.getDate() - 1);
+    d.setHours(+m[1], +m[2], 0, 0);
+    return d;
+  }
+  if ((m = label.match(/^前天\s*(\d{1,2}):(\d{2})$/))) {
+    d.setDate(d.getDate() - 2);
+    d.setHours(+m[1], +m[2], 0, 0);
+    return d;
+  }
+  if ((m = label.match(/^(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/)))
+    return new Date(now.getFullYear(), +m[1] - 1, +m[2], +m[3], +m[4]);
+  if ((m = label.match(/^(\d{4})年\s*(\d{1,2})月\s*(\d{1,2})日\s*(\d{1,2}):(\d{2})$/)))
+    return new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]);
+  return null;
+}
+async function mark(page) {
+  const raw = await page.evaluate(() => {
+    const re =
+      /^(?:\d+分鐘前|\d+小時前|昨天\s*\d{1,2}:\d{2}|前天\s*\d{1,2}:\d{2}|\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2}|\d{4}年\s*\d{1,2}月\s*\d{1,2}日\s*\d{1,2}:\d{2})$/;
+    const a = [];
+    for (const el of document.querySelectorAll('body *')) {
+      if (el.children.length > 3) continue;
+      const t = (el.innerText || el.textContent || '').trim();
+      if (!re.test(t)) continue;
+      let p = el;
+      for (let i = 0; i < 8 && p.parentElement; i++) {
+        p = p.parentElement;
+        const s = p.innerText || '';
+        if (
+          s.includes('Public') &&
+          (s.includes('Like') || s.includes('Comment') || s.includes('Share'))
+        )
+          break;
+      }
+      if (!p || p === document.body) continue;
+      if (!p.dataset.voomV2)
+        p.dataset.voomV2 = `v2-${a.length}-${Math.random().toString(36).slice(2)}`;
+      a.push({ id: p.dataset.voomV2, label: t });
+    }
+    return a;
+  });
+  const now = new Date(),
+    seen = new Set();
+  return raw
+    .map((x) => ({ ...x, date: parseTime(x.label, now) }))
+    .filter((x) => x.date && x.date >= CUTOFF && !seen.has(x.id) && seen.add(x.id))
+    .sort((a, b) => b.date - a.date);
+}
+async function expand(page) {
+  const ps = await mark(page);
+  let n = 0;
+  for (const p of ps) {
+    const root = page.locator(`[data-voom-v2="${p.id}"]`);
+    for (let r = 0; r < 5; r++) {
+      const xs = root.getByText('顯示更多', { exact: false });
+      let ok = false;
+      for (let i = 0; i < (await xs.count()); i++) {
+        try {
+          if (!(await xs.nth(i).isVisible())) continue;
+          await xs.nth(i).click({ timeout: 1200 });
+          await page.waitForTimeout(200);
+          n++;
+          ok = true;
+          break;
+        } catch {}
+      }
+      if (!ok) break;
+    }
+  }
+  if (n) log(`🔓 展開 ${n} 個「顯示更多」`);
+}
+async function posts(page) {
+  const recent = await mark(page);
+  const rows = await page.evaluate(() =>
+    [...document.querySelectorAll('[data-voom-v2]')].map((p) => ({
+      id: p.dataset.voomV2,
+      text: ((p.querySelector('.text_viewer.page_feed') || p).innerText || '').trim(),
+    })),
+  );
+  const m = new Map(rows.map((x) => [x.id, x.text]));
+  return recent.map((x) => ({ ...x, text: m.get(x.id) || '' }));
+}
+async function anchorItems(page, p) {
+  const data = await page.locator(`[data-voom-v2="${p.id}"]`).evaluate((post) => {
+    const lineRe = /https:\/\/lin\.ee\/[A-Za-z0-9_-]+/i;
+    const productRe = /(?:BXG|BX|UX|CX)-?\d+/i;
+    const anchors = [...post.querySelectorAll('a')]
+      .map((a, index) => ({
+        index,
+        raw: a.getAttribute('href') || '',
+        href: a.href || '',
+        text: (a.innerText || a.textContent || '').trim(),
+        aria: a.getAttribute('aria-label') || '',
+        title: a.getAttribute('title') || '',
+        parent: (a.parentElement?.innerText || '').trim(),
+        prev: (a.parentElement?.previousElementSibling?.innerText || '').trim(),
+        next: (a.parentElement?.nextElementSibling?.innerText || '').trim(),
+      }))
+      .filter((a) => [a.raw, a.href, a.text, a.parent].some((x) => lineRe.test(x || '')));
+    const viewer = post.querySelector('.text_viewer.page_feed') || post;
+    const productLines = (viewer.innerText || '')
+      .split('\n')
+      .map((x) => x.trim())
+      .filter((x) => productRe.test(x) && !lineRe.test(x));
+    return { anchors, productLines };
+  });
+  const anchors = [];
+  for (const a of data.anchors) {
+    const url = [a.raw, a.href, a.text, a.parent]
+      .map((x) => (x || '').match(LINE)?.[0])
+      .find(Boolean);
+    if (url && !anchors.some((x) => x.url === url)) anchors.push({ ...a, url });
+  }
+  const products = data.productLines.map(clean).filter((x) => PRODUCT.test(x) && !LINE.test(x));
+  const out = [];
+  for (const a of anchors) {
+    const candidates = [a.text, a.aria, a.title, a.prev, a.next];
+    let hit = '';
+    for (const t of candidates) {
+      const lines = (t || '')
+        .split('\n')
+        .map((x) => clean(x))
+        .filter(Boolean);
+      const matches = lines.filter((x) => PRODUCT.test(x) && !LINE.test(x));
+      if (matches.length === 1) {
+        hit = matches[0];
+        break;
+      }
+    }
+    if (hit) out.push({ name: hit, url: a.url });
+  }
+  if (out.length === anchors.length && out.length) return dedupe(out);
+  if (anchors.length > 1 && products.length === anchors.length) {
+    log(`🔗 多連結順序配對：${products.length} 商品 / ${anchors.length} LINE 連結`);
+    return dedupe(anchors.map((a, i) => ({ name: products[i], url: a.url })));
+  }
+  if (anchors.length === 1) {
+    const a = anchors[0];
+    const parentLines = (a.parent || '')
+      .split('\n')
+      .map((x) => clean(x))
+      .filter((x) => PRODUCT.test(x) && !LINE.test(x));
+    const unique = [...new Set(parentLines)];
+    if (unique.length === 1) return dedupe([{ name: unique[0], url: a.url }]);
+    if (products.length === 1) return dedupe([{ name: products[0], url: a.url }]);
+  }
+  return dedupe(out);
+}
+async function pendingDiagnostic(page, p) {
+  return page.locator(`[data-voom-v2="${p.id}"]`).evaluate((post) => {
+    const viewer = post.querySelector('.text_viewer.page_feed') || post;
+    const anchors = [...post.querySelectorAll('a')]
+      .filter((a) =>
+        /lin\.ee\//i.test(
+          [a.getAttribute('href'), a.href, a.innerText, a.parentElement?.innerText]
+            .filter(Boolean)
+            .join(' '),
+        ),
+      )
+      .slice(0, 30)
+      .map((a) => ({
+        href: a.getAttribute('href') || a.href || '',
+        text: (a.innerText || '').trim().slice(0, 160),
+        aria: (a.getAttribute('aria-label') || '').slice(0, 160),
+        title: (a.getAttribute('title') || '').slice(0, 160),
+        parent: (a.parentElement?.innerText || '').trim().slice(0, 500),
+        prev: (a.parentElement?.previousElementSibling?.innerText || '').trim().slice(0, 300),
+        next: (a.parentElement?.nextElementSibling?.innerText || '').trim().slice(0, 300),
+      }));
+    return { text: (viewer.innerText || '').trim().slice(0, 5000), anchors };
+  });
+}
+async function latest(page, mode) {
+  const ps = await posts(page);
+  const p = ps.find((x) => KEYWORDS.some((k) => x.text.includes(k)));
+  if (!p) return null;
+  let items = mode === 'xizhi' ? parseXizhi(p.text) : parseNormal(p.text);
+  if (!items.length) items = await anchorItems(page, p);
+  return { ...p, items, pending: !items.length };
+}
+function parseData(src) {
+  const stores = [];
+  const re =
+    /\{\s*store:\s*'([^']+)'[\s\S]*?storeUrl:\s*'([^']*)'[\s\S]*?items:\s*\[([\s\S]*?)\]\s*,?\s*\}/g;
+  for (const m of src.matchAll(re)) {
+    const items = [
+      ...m[3].matchAll(/\{\s*name:\s*'([^']+)',\s*url:\s*'(https:\/\/lin\.ee\/[^']+)'\s*\}/g),
+    ].map((x) => ({ name: x[1], url: x[2] }));
+    stores.push({ name: m[1], url: m[2], items });
+  }
+  return stores;
+}
+function norm(s = '') {
+  return s
+    .toLowerCase()
+    .replace(/funbox|toys|sanrio/g, '')
+    .replace(/[\s&\-－_()（）]/g, '');
+}
+function findStore(master, data) {
+  return (
+    data.find((x) => (x.url || '').replace(/[?#].*$/, '') === master.url.replace(/[?#].*$/, '')) ||
+    data.find((x) => norm(x.name) === norm(master.name))
+  );
+}
+function compare(a, b) {
+  const A = new Map(a.map((x) => [`${code(x.name)}|${x.url}`, x])),
+    B = new Map(b.map((x) => [`${code(x.name)}|${x.url}`, x]));
+  const d = [];
+  for (const [k, x] of B) if (!A.has(k)) d.push(`➕ ${code(x.name)} ${x.name} ${x.url}`);
+  for (const [k, x] of A) if (!B.has(k)) d.push(`➖ ${code(x.name)} DATA only ${x.url}`);
+  return d;
+}
+function esc(s) {
+  return s.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+function replaceItems(src, store, items) {
+  const name = store.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(
+    `(\\{\\s*store:\\s*'${name}'[\\s\\S]*?items:\\s*\\[)([\\s\\S]*?)(\\]\\s*,?\\s*\\})`,
+  );
+  return src.replace(
+    re,
+    (_, a, b, c) =>
+      `${a}\n${items.map((x) => `        { name: '${esc(x.name)}', url: '${esc(x.url)}' },`).join('\n')}${items.length ? '\n      ' : ''}${c}`,
+  );
+}
+function syncItems(src, ds, items, reason) {
+  const before = ds.items.length;
+  const next = replaceItems(src, ds, items);
+  if (next === src) {
+    log(`⚠️ 無法更新 DATA：${ds.name}`);
+    return { src, changed: false };
+  }
+  log(`💾 ${reason}：${before} → ${items.length}`);
+  return { src: next, changed: true };
+}
+function summary() {
+  log('\n================ SUMMARY ================');
+  log(`MATCH: ${stats.match}`);
+  log(`DIFFERENT: ${stats.different}`);
+  log(`CLEARED: ${stats.cleared}`);
+  log(`PENDING: ${stats.pending}`);
+  log(`NEW STORE: ${stats.newStore}`);
+  log(`SKIP: ${stats.skip}`);
+  log(`ERROR: ${stats.error}`);
+  if (pendingStores.length) {
+    log('\nPENDING/CLEARED STORES:');
+    for (const s of pendingStores) log(`- ${s}`);
+  }
+  log('=========================================');
+}
+(async () => {
+  if (!(await configureCutoff())) return;
+  let src = fs.readFileSync(DATA_FILE, 'utf8'),
+    data = parseData(src),
+    changed = 0;
+  log(`🧪 LINE VOOM Parser V2 ${SYNC ? 'SYNC' : 'AUDIT'} — ${STORES.length} 間`);
+  log(`📅 規則：只取 ${cutoffLabel} 00:00 之後最新一則相關文章；沒有商品則清空 DATA items`);
+  log(`📄 完整結果：${OUTPUT_FILE}`);
+  const profileDir = path.resolve(__dirname, '../.facebook-parser-profile');
+  const ctx = await chromium.launchPersistentContext(profileDir, {
+    headless: false,
+    locale: 'zh-TW',
+    timezoneId: 'Asia/Taipei',
+  });
+  const page = await ctx.newPage();
+  await page.goto('https://www.facebook.com/', { waitUntil: 'domcontentloaded' });
+  const loginPrompt = readline.createInterface({ input: process.stdin, output: process.stdout });
+  try {
+    await loginPrompt.question('請先在瀏覽器完成 Facebook 登入，確認可閱讀粉專文章後，回這裡按 Enter 開始抓取：');
+  } finally {
+    loginPrompt.close();
+  }
+  for (let i = 0; i < STORES.length; i++) {
+    const s = STORES[i];
+    const mode = s.url.includes(XIZHI_ID) ? 'xizhi' : 'normal';
+    log(`\n[${i + 1}/${STORES.length}] ${s.region} / ${s.name}`);
+    log(`MODE: ${mode}`);
+    try {
+      await page.goto(s.url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      await page.waitForTimeout(2200);
+      await expand(page);
+      const ds = findStore(s, data);
+      const v = await latest(page, mode);
+      if (!v) {
+        stats.skip++;
+        log(`⏭️ ${cutoffLabel} 後沒有相關文章`);
+        if (SYNC && ds && ds.items.length) {
+          const r = syncItems(src, ds, [], `CLEARED（${cutoffLabel} 後沒有相關文章）`);
+          src = r.src;
+          if (r.changed) {
+            changed++;
+            stats.cleared++;
+            data = parseData(src);
+          }
+        }
+        continue;
+      }
+      log(`🕐 最新相關文章：${v.label}`);
+      if (v.pending) {
+        stats.pending++;
+        pendingStores.push(`${s.region} / ${s.name}`);
+        log('🕒 最新文章沒有解析到商品');
+        try {
+          const d = await pendingDiagnostic(page, v);
+          log('🔬 PENDING DIAGNOSTIC');
+          log(`ARTICLE:\n${d.text}`);
+          for (const [j, a] of d.anchors.entries()) log(`ANCHOR ${j + 1}: ${JSON.stringify(a)}`);
+        } catch (e) {
+          log(`🔬 diagnostic error: ${e.message}`);
+        }
+        if (SYNC && ds && ds.items.length) {
+          const r = syncItems(src, ds, [], 'CLEARED（最新文章沒有商品）');
+          src = r.src;
+          if (r.changed) {
+            changed++;
+            stats.cleared++;
+            data = parseData(src);
+          }
+        }
+        continue;
+      }
+      log(`📦 VOOM ${v.items.length} / DATA ${ds?.items.length ?? 0}`);
+      for (const x of v.items) log(`  ${x.name} -> ${x.url}`);
+      if (!ds) {
+        stats.newStore++;
+        log('🆕 NEW STORE（交由 new-store sync 新增）');
+        continue;
+      }
+      const diff = compare(ds.items, v.items);
+      if (!diff.length) {
+        stats.match++;
+        log('✅ MATCH（已是最新文章商品）');
+        continue;
+      }
+      stats.different++;
+      log('⚠️ DIFFERENT → 最新文章將取代舊 DATA');
+      for (const d of diff) log(`  ${d}`);
+      if (SYNC) {
+        const r = syncItems(src, ds, v.items, 'SYNCED（只保留最新文章商品）');
+        src = r.src;
+        if (r.changed) {
+          changed++;
+          data = parseData(src);
+        }
+      }
+    } catch (e) {
+      stats.error++;
+      log(`❌ ERROR: ${e.message}`);
+    }
+  }
+  await ctx.close();
+  if (SYNC && changed) fs.writeFileSync(DATA_FILE, src, 'utf8');
+  if (SYNC) log(`\n💾 已更新/清空 ${changed} 間店家`);
+  summary();
+  saveOutput();
+  log('\n✅ V2 完成');
+  saveOutput();
+})().catch((e) => {
+  log(`\n💥 FATAL: ${e.stack || e.message}`);
+  saveOutput();
+  process.exit(1);
+});
