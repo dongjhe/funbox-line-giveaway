@@ -38,9 +38,9 @@ export const REGIONS: Region[] = [
 export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   台北市: [
     {
-      store: 'Funbox 新光三越站前店',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      store: 'Funbox-新光三越站前店',
+      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/XYb3WDA' }],
     },
     {
       store: 'Funbox-台北大巨蛋',
@@ -78,7 +78,8 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/zFsHsNC' }],
     },
     {
-      store: 'Funbox 天母三越店',
+      store: 'Funbox-天母三越店',
+      startTime: '抽選開始：2026/11/06 11:00 ｜ 抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/VmSR2SW' }],
     },
     {
@@ -87,7 +88,8 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'Fun box-美麗華',
+      store: 'Funbox-美麗華',
+      startTime: '抽選開始：2026/11/06 11:00 ｜ 抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/Zkgl6KR' }],
     },
     {
@@ -96,10 +98,10 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'Funbox 大葉高島屋店',
+      store: 'Funbox-大葉高島屋店',
       startTime:
         '抽選開始：2026/11/06 11:00 ｜ 購買資格券有效期間：2026/11/06 11:00~22:00、2026/11/07 11:00~21:00',
-      items: [{ name: 'CX-53 極限衝擊對戰組', url: 'https://lin.ee/vvvRyVH' }],
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/vvvRyVH' }],
     },
   ],
   新北市: [
@@ -109,12 +111,12 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'Funbox 板橋大遠百店',
-      startTime: '抽選/購買時間：2026/10/08 11:00 ~ 2026/10/09 21:00 止',
-      items: [],
+      store: 'Funbox-板橋大遠百',
+      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/pdG2WRf' }],
     },
     {
-      store: 'Funbox 中和環球店',
+      store: 'Funbox-中和環球店',
       startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/6t8OV07' }],
     },
@@ -134,12 +136,12 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/6Zz23bD' }],
     },
     {
-      store: 'Fun box & 星奇市 汐科遠雄店',
+      store: 'Funbox-汐科遠雄店',
       startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/sMjqSbg' }],
     },
     {
-      store: 'Funbox 板橋遠百中山店',
+      store: 'Funbox-板橋遠百中山店',
       startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/XnFY0wC' }],
     },
@@ -161,10 +163,15 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         { name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/XnFY0wC' },
       ],
     },
+    {
+      store: 'Funbox-宏匯廣場',
+      startTime: '抽選/購買時間：2026/11/06 11:00~22:00、2026/11/07 11:00~22:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/9sKv9Ek' }],
+    },
   ],
   宜蘭縣: [
     {
-      store: 'Funbox 宜蘭新月廣場店',
+      store: 'Funbox-宜蘭新月廣場店',
       startTime:
         '抽選開始：2026/11/06 11:00 ｜ 購買資格券有效期間：2026/11/06 11:00~22:00、2026/11/07 11:00~21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/wYBwDB7' }],
@@ -172,7 +179,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   桃園市: [
     {
-      store: 'Funbox 桃園新光站前店',
+      store: 'Funbox-桃園新光站前店',
       startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/WEWWtTB' }],
     },
@@ -204,24 +211,20 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   新竹市: [
     {
-      store: 'Funbox 新竹遠東店',
+      store: 'Funbox-新竹遠東店',
       startTime: '抽選/購買時間：2026/11/06～2026/11/07 ｜ 櫃台結帳時間：每日 11:00~21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/XGDunvA' }],
     },
     {
-      store: 'Fun Box 新竹巨城',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      store: 'Funbox-新竹巨城',
+      startTime:
+        '抽選/購買時間（依門市營業時間推估）：2026/11/06 11:00~22:00、2026/11/07 11:00~22:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/UwJ5crG' }],
     },
     {
-      store: 'Funbox 新竹遠雄湳雅店',
-      startTime: '抽選日期：2026/11/06~2026/11/07（原文結帳截止日期有矛盾，時間請向店家確認）',
-      items: [
-        {
-          name: 'BX-53 極限衝擊對戰組',
-          url: 'https://liff.line.me/1654883387-DxN9w07M/c/01M6JQJQ32WZ92WQXT0YVK254B',
-        },
-      ],
+      store: 'Funbox-新竹遠雄',
+      startTime: '抽選/購買時間：2026/11/06 11:00～2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/oAWkyiI' }],
     },
   ],
   新竹縣: [
@@ -240,17 +243,17 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   台中市: [
     {
-      store: 'Funbox 台中港三井',
+      store: 'Funbox-台中港三井',
       startTime: '抽籤時間/使用期限：2026/11/06 11:00~2026/11/07 20:30',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/ORS4uRs' }],
     },
     {
-      store: 'Funbox 廣三SOGO店',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      store: 'Funbox-廣三SOGO',
+      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/ucNt4EJ' }],
     },
     {
-      store: 'Funbox 台中中友',
+      store: 'Funbox-台中中友',
       startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/Xls9IhsE' }],
     },
@@ -304,6 +307,11 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       startTime: '抽選/購買時間：2026/10/08 10:00~2026/10/09 21:00',
       items: [],
     },
+    {
+      store: 'Funbox-斗六家樂福',
+      startTime: '抽選/購買時間：2026/11/06 10:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/9SCnRAA' }],
+    },
   ],
   嘉義市: [
     {
@@ -326,22 +334,22 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   ],
   台南市: [
     {
-      store: 'Funbox 台南三井',
+      store: 'Funbox-台南三井',
       startTime: '抽選/購買資格時間：2026/11/06 11:00~2026/11/07 20:30',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/OcLE0No' }],
     },
     {
-      store: 'Funbox 台南遠百店',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      store: 'Funbox-台南遠百店',
+      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/uTNylL8' }],
     },
     {
-      store: 'Funbox 南紡購物中心',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      store: 'Funbox-南紡購物中心',
+      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/6DjeVDP' }],
     },
     {
-      store: 'FunBox Toys-新光三越南西店',
+      store: 'Funbox-新光三越南西店',
       startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/6RUJsXy' }],
     },
@@ -349,6 +357,16 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: '來玩聚-新仁店',
       startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 20:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/8J8uWXa' }],
+    },
+    {
+      store: 'Funbox-新仁店',
+      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 20:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/8J8uWXa' }],
+    },
+    {
+      store: 'Funbox-台南新天地',
+      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/9iwDfob' }],
     },
   ],
   高雄市: [
@@ -358,9 +376,9 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/PsIA9y7Q' }],
     },
     {
-      store: 'Funbox 漢神巨蛋店',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      store: 'Funbox-漢神巨蛋店',
+      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/7YXUCTu' }],
     },
     {
       store: 'Funbox 高雄大立店',
@@ -373,17 +391,17 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/6cABqwU' }],
     },
     {
-      store: 'Funbox 大魯閣新光',
+      store: 'Funbox-大魯閣新光',
       startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/qp5A2CG' }],
     },
     {
-      store: 'Funbox 崇光高雄店',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      store: 'Funbox-高雄SOGO店',
+      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/P72hRM3' }],
     },
     {
-      store: 'Funbox 高雄大遠百',
+      store: 'Funbox-高雄大遠百',
       startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/yNKVKHo' }],
     },
@@ -393,7 +411,7 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: '來玩聚-楠梓店',
+      store: 'Funbox-楠梓店',
       startTime: '抽選/購買時間：2026/11/06 10:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/PpVQMlN' }],
     },
@@ -413,12 +431,17 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: '鳳山來玩聚',
+      store: 'Funbox-鳳山來玩聚',
       startTime: '抽選/販售時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/XnU9eyl' }],
     },
     {
       store: '來玩聚-新楠店',
+      startTime: '抽選/購買時間：2026/11/06 10:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/ObOlKaZ' }],
+    },
+    {
+      store: 'Funbox-新楠店',
       startTime: '抽選/購買時間：2026/11/06 10:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/ObOlKaZ' }],
     },
@@ -435,14 +458,15 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/pE1w1ZJ' }],
     },
     {
-      store: 'Funbox 屏東環球',
+      store: 'Funbox-屏東環球',
       startTime: '抽選/購買資格時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/TGlOKTH' }],
     },
   ],
   花蓮縣: [
     {
-      store: 'FUNBOX 花蓮店',
+      store: 'Funbox-花蓮店',
+      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/5nondXS' }],
     },
   ],
@@ -453,9 +477,9 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [],
     },
     {
-      store: 'Funbox 台東秀泰店',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      store: 'Funbox-台東秀泰店',
+      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/vm13nnh' }],
     },
   ],
   澎湖縣: [
