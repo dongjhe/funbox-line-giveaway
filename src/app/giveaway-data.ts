@@ -103,6 +103,11 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
         '抽選開始：2026/11/06 11:00 ｜ 購買資格券有效期間：2026/11/06 11:00~22:00、2026/11/07 11:00~21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/vvvRyVH' }],
     },
+    {
+      store: 'Funbox-忠孝SOGO店',
+      startTime: '抽選開始：2026/11/06 11:00 ｜ 抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/zUOYgbu' }],
+    },
   ],
   新北市: [
     {
@@ -299,6 +304,16 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       store: '來玩聚-彰化家樂福',
       startTime: '抽選/購買時間：2026/10/08 10:00~2026/10/09 21:00',
       items: [],
+    },
+    {
+      store: 'Funbox-員林大潤發',
+      startTime: '抽選/購買時間：2026/11/06 10:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/xL2EDyF' }],
+    },
+    {
+      store: 'Funbox-彰化萬家福店',
+      startTime: '抽選/購買時間：2026/11/06 10:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/tPLQUjp' }],
     },
   ],
   雲林縣: [
