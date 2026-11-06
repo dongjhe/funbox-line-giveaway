@@ -245,6 +245,11 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       startTime: '抽選/兌獎/購買時間：2026/11/06 11:00~2026/11/07 21:00',
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/nh8N2rC' }],
     },
+    {
+      store: 'Funbox-新竹享平方',
+      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/uE0o6oA' }],
+    },
   ],
   苗栗縣: [
     {
