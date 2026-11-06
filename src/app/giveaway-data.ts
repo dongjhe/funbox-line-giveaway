@@ -84,8 +84,8 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox 台北忠孝遠東SOGO店',
-      startTime: '抽選/購買時間：2026/10/08 11:00~2026/10/09 21:00',
-      items: [],
+      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
+      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/zUOYgbu' }],
     },
     {
       store: 'Funbox-美麗華',
