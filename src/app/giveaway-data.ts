@@ -66,8 +66,12 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox-天母SOGO店',
-      startTime: '抽選開始：2026/11/06 11:00 ｜ 抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
-      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/Tvg4gmQ' }],
+      startTime: '抽選/購買時間：2026/11/13 11:00～2026/11/14 21:00',
+      items: [
+        { name: 'BX-09 戰鬥陀螺X通行證', url: 'https://lin.ee/8JIb8g5P' },
+        { name: 'BX-52 輝耀龍騎士 6-60LC', url: 'https://lin.ee/RJhrpSD' },
+        { name: 'BX-56 左旋風發射器 白紫', url: 'https://lin.ee/YkkWWEx' },
+      ],
     },
     {
       store: 'Funbox 高島屋百貨店',
@@ -86,13 +90,22 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox-信義A8',
-      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
-      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/zFsHsNC' }],
+      startTime: '抽選/購買時間：2026/11/13 11:00～2026/11/14 21:00',
+      items: [
+        { name: 'BX-09 戰鬥陀螺X通行證', url: 'https://lin.ee/rOMMoA5' },
+        { name: 'BX-52 輝耀龍騎士 6-60LC', url: 'https://lin.ee/tyBPJuM' },
+        { name: 'BX-56 左迴旋風發射器 白紫', url: 'https://lin.ee/qL30b7q' },
+      ],
     },
     {
-      store: 'Funbox-天母三越店',
-      startTime: '抽選開始：2026/11/06 11:00 ｜ 抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
-      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/VmSR2SW' }],
+      store: 'Funbox 天母三越店',
+      startTime: '抽選/購買時間：2026/11/13 11:00～2026/11/14 21:00',
+      items: [
+        { name: 'BX-09 戰鬥陀螺X通行證', url: 'https://lin.ee/7EPet04' },
+        { name: 'BX-52 輝耀龍騎士', url: 'https://lin.ee/9WYgV1t' },
+        { name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/79zPKAV' },
+        { name: 'BX-56 左旋發射器', url: 'https://lin.ee/qnxdoD5' },
+      ],
     },
     {
       store: 'Funbox 台北忠孝遠東SOGO店',
@@ -170,8 +183,11 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox-板橋遠百中山店',
-      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
-      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/XnFY0wC' }],
+      startTime: '抽選/購買時間：2026/11/13 11:00～2026/11/14 21:00',
+      items: [
+        { name: 'BX-52 輝耀龍騎士 6-60LC', url: 'https://lin.ee/SHtPtuE' },
+        { name: 'BX-56 左迴旋風發射器 白紫', url: 'https://lin.ee/ZcBileI' },
+      ],
     },
     {
       store: 'Funbox-比漾廣場',
@@ -275,10 +291,14 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       ],
     },
     {
-      store: 'Funbox-新竹巨城',
-      startTime:
-        '抽選/購買時間（依門市營業時間推估）：2026/11/06 11:00~22:00、2026/11/07 11:00~22:00',
-      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/UwJ5crG' }],
+      store: 'Fun Box 新竹巨城',
+      startTime: '抽選/販售時間：2026/11/13 11:00開始～2026/11/14（截止時間未公告）',
+      items: [
+        { name: 'BX-09 戰鬥陀螺X戰鬥通行證 $995', url: 'https://lin.ee/SryGWrs' },
+        { name: 'BX-52 輝耀龍騎士 $495', url: 'https://lin.ee/PVw2ZYf' },
+        { name: 'BX-53 極限衝擊對戰組 $1995', url: 'https://lin.ee/oHDQ5BU' },
+        { name: 'BX-56 左迴旋旋風發射器 白紫 $250', url: 'https://lin.ee/pdc9NOT' },
+      ],
     },
     {
       store: 'Funbox-新竹遠雄',
@@ -408,8 +428,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   雲林縣: [
     {
       store: '來玩聚-斗六店',
-      startTime: '抽選/購買時間：2026/11/06 10:00~2026/11/07 21:00',
-      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/9SCnRAA' }],
+      startTime: '抽選/購買時間：2026/11/13 10:00～2026/11/14 21:00',
+      items: [
+        { name: 'BX-09 戰鬥陀螺X通行證', url: 'https://lin.ee/XjdKKgK' },
+        { name: 'BX-52 輝耀龍騎士 6-60LC', url: 'https://lin.ee/SY0koV7' },
+        { name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/tE9mOIF' },
+        { name: 'BX-56 左迴旋風發射器 白紫', url: 'https://lin.ee/xWxnryM' },
+      ],
     },
     {
       store: 'Funbox-斗六家樂福',
@@ -503,8 +528,12 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox-夢時代店',
-      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
-      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/6cABqwU' }],
+      startTime: '抽選/購買時間：2026/11/13 11:00～2026/11/14 21:00',
+      items: [
+        { name: 'BX-09 戰鬥陀螺X通行證', url: 'https://lin.ee/51dzcwO' },
+        { name: 'BX-52 輝耀龍騎士 6-60LC', url: 'https://lin.ee/Ur9k6Fy' },
+        { name: 'BX-56 左迴旋風發射器 白紫', url: 'https://lin.ee/Yaxo90T' },
+      ],
     },
     {
       store: 'Funbox-大魯閣新光',
