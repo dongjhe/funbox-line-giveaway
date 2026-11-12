@@ -37,9 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   readonly giveaways = Object.fromEntries(
     Object.entries(GIVEAWAYS).map(([region, stores]) => [
       region,
-      stores.filter(
-        (store) => store.startTime?.match(/\d{4}\/\d{2}\/\d{2}/)?.[0] === '2026/11/13',
-      ),
+      stores.filter((store) => store.startTime?.match(/\d{4}\/\d{2}\/\d{2}/)?.[0] === '2026/11/13'),
     ]),
   ) as typeof GIVEAWAYS;
   clickedGiveaways = new Set<string>();
