@@ -32,7 +32,16 @@ export class AppComponent implements OnInit, OnDestroy {
   private continuousNextTimer: number | null = null;
   private continuousCountdownTimer: number | null = null;
   readonly regions = REGIONS;
-  readonly giveaways = GIVEAWAYS;
+  // Only show giveaways from the current 2026/11/13 round.
+  // Keep the source records intact so online sync cannot restore older rounds to the UI.
+  readonly giveaways = Object.fromEntries(
+    Object.entries(GIVEAWAYS).map(([region, stores]) => [
+      region,
+      stores.filter(
+        (store) => store.startTime?.match(/\d{4}\/\d{2}\/\d{2}/)?.[0] === '2026/11/13',
+      ),
+    ]),
+  ) as typeof GIVEAWAYS;
   clickedGiveaways = new Set<string>();
   selectedRegions = new Set<string>();
   selectedProducts = new Set<string>();
