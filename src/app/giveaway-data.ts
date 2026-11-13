@@ -340,9 +340,13 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       ],
     },
     {
-      store: 'Funbox-新竹享平方',
-      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
-      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/uE0o6oA' }],
+      store: 'FunBox享平方店',
+      startTime: '抽選/購買時間：2026/11/13 11:00～2026/11/14 21:00',
+      items: [
+        { name: 'BX-09 戰鬥陀螺X通行證', url: 'https://lin.ee/OmWkBd3' },
+        { name: 'BX-52 輝耀龍騎士', url: 'https://lin.ee/z0jgrLr' },
+        { name: 'BX-56 左迴旋旋風發射器 白紫', url: 'https://lin.ee/uguua6H' },
+      ],
     },
   ],
   苗栗縣: [
