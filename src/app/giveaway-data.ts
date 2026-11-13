@@ -281,8 +281,11 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: 'Funbox-桃園環球A19',
-      startTime: '抽選/購買時間：2026/11/06 11:00~2026/11/07 21:00',
-      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/8qlf64g' }],
+      startTime: '抽選/購買時間：2026/11/13 11:00~2026/11/14 21:00',
+      items: [
+        { name: 'BX-52 輝耀龍騎士 6-60LC', url: 'https://lin.ee/Wf5dkNw' },
+        { name: 'BX-56 左迴旋風發射器 白紫', url: 'https://lin.ee/u9lfZtI' },
+      ],
     },
     {
       store: 'Funbox-中壢SOGO',
