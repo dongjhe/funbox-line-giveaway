@@ -266,8 +266,8 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     {
       store: 'Funbox-桃園環球A8',
       startTime:
-        '抽選時間：2026/11/06 11:00~2026/11/07 21:00（抽完為止） ｜ 購買資格時間：2026/11/06 11:00~21:00、2026/11/07 11:00~21:00',
-      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/qHsTQcR' }],
+        '抽選時間：2026/11/13 11:00～2026/11/14 21:00（抽完為止）購買資格時間：11/13 11:00～21:00、11/14 11:00～21:00',
+      items: [{ name: 'BX-52 輝耀龍騎士 6-60LC', url: 'https://lin.ee/6MMHJPr' }],
     },
     {
       store: 'Funbox-桃園遠東店',
