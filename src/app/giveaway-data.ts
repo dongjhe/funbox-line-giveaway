@@ -429,8 +429,11 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
   彰化縣: [
     {
       store: '來玩聚-員林店',
-      startTime: '抽選/購買時間：2026/11/06 10:00~2026/11/07 21:00',
-      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/xL2EDyF' }],
+      startTime: '抽選/購買時間：2026/11/13 10:00～2026/11/14 21:00',
+      items: [
+        { name: 'BX-52 輝耀龍騎士 6-60LC', url: 'https://lin.ee/P7GvuXR' },
+        { name: 'BX-56 左迴旋風發射器 白紫', url: 'https://lin.ee/oq8Xenh' },
+      ],
     },
     {
       store: '來玩聚-彰化家樂福',
@@ -449,8 +452,12 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
     },
     {
       store: '來玩聚-彰化店',
-      startTime: '抽選/購買時間：2026/11/06 10:00~2026/11/07 21:00',
-      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/tPLQUjp' }],
+      startTime: '抽選/購買時間：2026/11/13 10:00～2026/11/14 21:00',
+      items: [
+        { name: 'BX-52 輝耀龍騎士 6-60LC', url: 'https://lin.ee/UUhgKLU' },
+        { name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/8kauGy9' },
+        { name: 'BX-56 左迴旋風發射器 白紫', url: 'https://lin.ee/sRFR1lj' },
+      ],
     },
   ],
   雲林縣: [
