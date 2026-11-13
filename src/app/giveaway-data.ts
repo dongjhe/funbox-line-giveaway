@@ -118,9 +118,12 @@ export const GIVEAWAYS: Record<string, StoreGiveaway[]> = {
       items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/zUOYgbu' }],
     },
     {
-      store: 'Funbox-美麗華',
-      startTime: '抽選開始：2026/11/06 11:11 ｜ 抽選/購買時間：2026/11/06 11:11~2026/11/07 21:00',
-      items: [{ name: 'BX-53 極限衝擊對戰組', url: 'https://lin.ee/Zkgl6KR' }],
+      store: 'Fun box-美麗華',
+      startTime: '抽選/購買時間：2026/11/13 11:00～2026/11/14 21:00',
+      items: [
+        { name: 'BX-09 戰鬥陀螺X通行證', url: 'https://lin.ee/RH0ghdl' },
+        { name: 'BX-52 輝耀龍騎士', url: 'https://lin.ee/yeK2syD' },
+      ],
     },
     {
       store: 'Funbox-南港LaLaport',
